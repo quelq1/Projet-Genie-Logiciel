@@ -8,5 +8,5 @@
  * @author GOBIN
  */
 public class Main {
-
+String s;
 }
