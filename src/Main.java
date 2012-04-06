@@ -10,7 +10,7 @@
 public class Main {
  public static void main(String[] args) throws Exception {
      
-     
+     String s; 
  Lecture l=new Lecture();
  }
 }
