@@ -9,7 +9,7 @@
  */
 public class Main {
  public static void main(String[] args) throws Exception {
-     
+     int i;
      String s; 
  Lecture l=new Lecture();
  }
