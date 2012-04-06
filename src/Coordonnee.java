@@ -12,7 +12,6 @@ public class Coordonnee {
     public double getX() {
         return x;
     }
-
     public double getY() {
         return y;
     }
