@@ -7,43 +7,38 @@
 public class Fragment {
 
     private int tempsParcours;
-    private Incident i;
+    private Incident incident;
     private Station depart, arrivee;
-    private String ligne;
-
-    public Station getArrivee() {
-        return arrivee;
+    
+    public Fragment(Station sd, Station sa, int tp) {
+        tempsParcours = tp;
+        incident = null;
+        depart = sd;
+        arrivee = sa;
     }
 
-    public Station getDepart() {
+    public Station getStationDepart() {
         return depart;
     }
-
-    public Incident getI() {
-        return i;
+    
+    public Station getStationArrivee() {
+        return arrivee;
+    }
+    
+    public Incident getIncident() {
+        return incident;
     }
 
-    public String getLigne() {
-        return ligne;
-    }
+    public void setIncident(Incident incident) {
+        this.incident = incident;
+    }    
 
     public int getTempsParcours() {
         return tempsParcours;
     }
 
-    public Fragment() {
-    }
-
-    public Fragment(Station sd, Station sa, int tp, String l) {
-        tempsParcours = tp;
-        i = null;
-        depart = sd;
-        arrivee = sa;
-        ligne = l;
-    }
-
     @Override
     public String toString() {
-        return "tempsParcours=" + tempsParcours + ", depart=" + depart + ", arrivee=" + arrivee + ", ligne=" + ligne;
+        return "tempsParcours=" + tempsParcours + ", depart=" + depart + ", arrivee=" + arrivee;
     }
 }

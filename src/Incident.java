@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 
 /**
@@ -10,13 +6,16 @@
  */
 public class Incident {
 
-    private int code;
     private int duree;
     private String commentaire;
 
-    public Incident(int c, int d) {
-        code = c;
+    public Incident(int d) {
         duree = d;
         commentaire = null;
+    }
+    
+    public Incident(int d, String c) {
+        duree = d;
+        commentaire = c;
     }
 }
