@@ -71,11 +71,11 @@ public class testChargementPlan extends TestCase {
         
         assertEquals(res.getStations(), p.getStations());
         
-        Fragment f1 = new Fragment(sauge, capucine, 2, "B");
-        Fragment f2 = new Fragment(sauge, myosotis, 2, "B");
+        Fragment f1 = new Fragment(sauge, capucine, 2);
+        Fragment f2 = new Fragment(sauge, myosotis, 2);
         Ligne b = new Ligne("B");
-        b.getL().add(f1);
-        b.getL().add(f2);
+        b.getListeFragments().add(f1);
+        b.getListeFragments().add(f2);
         res.getLignes().add(b);
         
         assertEquals(res.getLignes(), p.getLignes());
