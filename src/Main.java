@@ -13,7 +13,5 @@ public class Main {
         
         Fragment frag = new Fragment(station,station2,20,inci);
         Fragment frag2 = new Fragment(station,station3,20,inci2);
-        
-        
     }
 }

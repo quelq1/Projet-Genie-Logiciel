@@ -30,5 +30,4 @@ public class Incident {
     public void setCommentaire(String newcom){
         commentaire=newcom;
     }    
-    
 }

@@ -20,19 +20,19 @@ public class Plan {
         stations = new HashSet<>();
         lignes = new HashSet<>();
     }
-        
+
     public Set<Ligne> getLignes() {
         return lignes;
     }
 
     public boolean addLignes(Ligne l) {
         return lignes.add(l);
-    }    
+    }
 
     public Set<Station> getStations() {
         return stations;
     }
-    
+
     public boolean setStations(Station s) {
         return this.stations.add(s);
     }
@@ -55,43 +55,48 @@ public class Plan {
     }
 
     public void traitementLigne(String chaine) {
-        String[] ligne = chaine.split("\t");
+        if (chaine != null) {
+            String[] ligne = chaine.split("\t");
 
-        //Station de départ
-        String[] coord = ligne[1].split(":");
-        Coordonnee cd = new Coordonnee(Double.parseDouble(coord[0]), Double.parseDouble(coord[1]));
-        Station sd = new Station(ligne[0], cd);
+            //Station de départ
+            String[] coord = ligne[1].split(":");
+            Coordonnee cd = new Coordonnee(Double.parseDouble(coord[0]), Double.parseDouble(coord[1]));
+            Station sd = new Station(ligne[0], cd);
 
-        //Station d'arrivée
-        coord = ligne[3].split(":");
-        Coordonnee ca = new Coordonnee(Double.parseDouble(coord[0]), Double.parseDouble(coord[1]));
-        Station sa = new Station(ligne[2], ca);
+            //Station d'arrivée
+            coord = ligne[3].split(":");
+            Coordonnee ca = new Coordonnee(Double.parseDouble(coord[0]), Double.parseDouble(coord[1]));
+            Station sa = new Station(ligne[2], ca);
 
-        //Ajout des stations de depart et d'arrivée si elle n'existe pas
-        stations.add(sd);
-        stations.add(sa);
+            if (!sd.equals(sa)) {
 
-        // creation du fragment 
-        Fragment d = new Fragment(sd, sa, Integer.parseInt(ligne[4]));
+                //Ajout des stations de depart et d'arrivée si elle n'existe pas
+                stations.add(sd);
+                stations.add(sa);
 
-        //creation d'une ligne 
-        Ligne li = new Ligne(ligne[5]);
+                // creation du fragment 
+                Fragment d = new Fragment(sd, sa, Integer.parseInt(ligne[4]));
 
-        //verification de l'existence de la ligne 
-        if (lignes.contains(li)) {
-            Iterator<Ligne> it = lignes.iterator();
-            Ligne l;
-            while (it.hasNext()) {
-                l = it.next();
+                //creation d'une ligne 
+                Ligne li = new Ligne(ligne[5]);
 
-                if (l.equals(li)) {
-                    l.getListeFragments().add(d);
+                //verification de l'existence de la ligne 
+                if (lignes.contains(li)) {
+                    Iterator<Ligne> it = lignes.iterator();
+                    Ligne l;
+                    while (it.hasNext()) {
+                        l = it.next();
+
+                        if (l.equals(li)) {
+                            l.getListeFragments().add(d);
+                        }
+                    }
+                } //si la ligne n'existe pas on l'ajoute
+                else {
+                    li.getListeFragments().add(d);
+                    lignes.add(li);
                 }
             }
-        } //si la ligne n'existe pas on l'ajoute
-        else {
-            li.getListeFragments().add(d);
-            lignes.add(li);
         }
     }
 }
