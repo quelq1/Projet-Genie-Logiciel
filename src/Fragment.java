@@ -1,14 +1,9 @@
 
-
-/**
- *
- * @author Mami Sall
- */
 public class Fragment {
 
+    private Station depart, arrivee;
     private int tempsParcours;
     private Incident incident;
-    private Station depart, arrivee;
     
     public Fragment(Station sd, Station sa, int tp) {
         tempsParcours = tp;
@@ -16,25 +11,48 @@ public class Fragment {
         depart = sd;
         arrivee = sa;
     }
+	
+	public Fragment(Station dep, Station arr, int tpsparc, Incident inci) {
+        depart=dep;
+        arrivee=arr;
+        tempsParcours=tpsparc;
+        incident=inci;
+    }
 
-    public Station getStationDepart() {
+	//depart
+    public Station getStationDep() {
         return depart;
     }
     
-    public Station getStationArrivee() {
+    public void setStationDep(Station newdep) {
+        depart=newdep;
+    }
+  
+	//arrivee
+    public Station getStationArr() {
         return arrivee;
     }
     
-    public Incident getIncident() {
+    public void setStationArr(Station newarr){
+        arrivee=newarr;
+    }
+	
+	//temps de parcours 
+    public int getTempsDeParcours(){
+        return tempsParcours;
+    }
+    
+    public void setTempsDeParcours(int newtpsparc){
+        tempsParcours=newtpsparc;
+    }
+    
+    //incident
+    public Incident getIncident(){
         return incident;
     }
-
-    public void setIncident(Incident incident) {
-        this.incident = incident;
-    }    
-
-    public int getTempsParcours() {
-        return tempsParcours;
+    
+    public void setIncident(Incident newinci) {
+        incident=newinci;
     }
 
     @Override

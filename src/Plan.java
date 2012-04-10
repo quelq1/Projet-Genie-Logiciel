@@ -72,7 +72,7 @@ public class Plan {
         stations.add(sa);
 
         // creation du fragment 
-        Fragment d = new Fragment(sd, sa, Integer.parseInt(ligne[4]), ligne[5]);
+        Fragment d = new Fragment(sd, sa, Integer.parseInt(ligne[4]));
 
         //creation d'une ligne 
         Ligne li = new Ligne(ligne[5]);
@@ -85,12 +85,12 @@ public class Plan {
                 l = it.next();
 
                 if (l.equals(li)) {
-                    l.getL().add(d);
+                    l.getListeFragments().add(d);
                 }
             }
         } //si la ligne n'existe pas on l'ajoute
         else {
-            li.getL().add(d);
+            li.getListeFragments().add(d);
             lignes.add(li);
         }
     }

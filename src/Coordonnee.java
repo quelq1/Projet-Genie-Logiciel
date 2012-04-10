@@ -1,23 +1,29 @@
 
-
-/**
- *
- * @author Mami Sall
- */
 public class Coordonnee {
-
-    private double x;
-    private double y;
+    private double longitude;
+    private double latitude;
     
-    public Coordonnee(double a, double b) {
-        x = a;
-        y = b;
+    public Coordonnee(double longi, double lat) {
+        longitude=longi;
+        latitude=lat;
+    }
+    
+    //longitude
+    public double getLongitude(){
+        return longitude;
     }
 
-    public double getX() {
-        return x;
+    public void setLongitude(double nouveaulong) {
+        longitude=nouveaulong;
     }
-    public double getY() {
-        return y;
+    
+    //latitude
+    public double getLatitude(){
+        return latitude;
     }
+
+    public void setLatitude(double nouvellelat) {
+        latitude=nouvellelat;
+    }
+    
 }

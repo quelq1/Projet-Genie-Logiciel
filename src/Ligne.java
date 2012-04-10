@@ -1,16 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- *
- * @author Mami Sall
- */
 public class Ligne {
  
     private String nom;
@@ -21,12 +12,22 @@ public class Ligne {
         lFragment = new LinkedList<>();
     }
 
-    public String getNom() {
+    //nom
+    public String getNom(){
         return nom;
     }
 
+    public void setNom(String newname) {
+        nom=newname;
+    }
+
+	//Fragment
     public List<Fragment> getListeFragments() {
         return lFragment;
+    }
+	
+	public void setListeFragment(LinkedList newfrag){
+        lFragment=newfrag;
     }
     
     public boolean addFragment(Fragment f) {
@@ -58,7 +59,5 @@ public class Ligne {
     @Override
     public String toString() {
         return "Ligne{" + "nom=" + nom + ", lFragment=" + lFragment + '}';
-    }
-
-   
+    }   
 }
