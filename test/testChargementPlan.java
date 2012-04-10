@@ -41,4 +41,12 @@ public class testChargementPlan {
         assertTrue(new Station("rose", new Coordonnee(1.1, 2.1)).equals(new Station("rose")));
         assertFalse(new Station("rose", new Coordonnee(1.1, 2.1)).equals(new Station("tulipe")));
     }
+    
+    @Test
+    public void testEqualsLigne() {
+        assertFalse(new Ligne("A").equals(null));
+        
+        assertTrue(new Ligne("A").equals(new Ligne("A")));
+        assertFalse(new Ligne("A").equals(new Ligne("B")));
+    }
 }
