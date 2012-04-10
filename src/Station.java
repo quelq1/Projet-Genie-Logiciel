@@ -8,7 +8,7 @@ public class Station {
 
     private String nom;
     private int TempsArret;
-    private Incident i;
+    private Incident incident;
     private Coordonnee coord;
 
     public Station(String name) {
@@ -23,8 +23,12 @@ public class Station {
         return coord;
     }
 
-    public Incident getI() {
-        return i;
+    public Incident getIncident() {
+        return incident;
+    }
+
+    public void setIncident(Incident incident) {
+        this.incident = incident;
     }
 
     public String getNom() {
@@ -33,7 +37,7 @@ public class Station {
 
     public Station(String name, Coordonnee c) {
         nom = name;
-        i = null;
+        incident = null;
         coord = c;
 
     }

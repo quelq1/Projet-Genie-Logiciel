@@ -12,21 +12,25 @@ import java.util.List;
  * @author Mami Sall
  */
 public class Ligne {
-
+ 
     private String nom;
-    private List<Fragment> l;
+    private List<Fragment> lFragment;
+    
+    public Ligne(String n) {
+        nom = n;
+        lFragment = new LinkedList<>();
+    }
 
     public String getNom() {
         return nom;
     }
 
-    public List<Fragment> getL() {
-        return l;
+    public List<Fragment> getListeFragments() {
+        return lFragment;
     }
-
-    public Ligne(String n) {
-        nom = n;
-        l = new LinkedList<Fragment>();
+    
+    public boolean addFragment(Fragment f) {
+        return lFragment.add(f);
     }
 
     @Override
@@ -34,10 +38,10 @@ public class Ligne {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (this.getClass() != obj.getClass()) {
             return false;
         }
-        final Ligne other = (Ligne) obj;
+        Ligne other = (Ligne) obj;
         if ((this.nom == null) ? (other.nom != null) : !this.nom.equals(other.nom)) {
             return false;
         }
@@ -53,6 +57,8 @@ public class Ligne {
 
     @Override
     public String toString() {
-        return nom;
+        return "Ligne{" + "nom=" + nom + ", lFragment=" + lFragment + '}';
     }
+
+   
 }
