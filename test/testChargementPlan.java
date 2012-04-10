@@ -20,6 +20,9 @@ public class testChargementPlan extends TestCase {
         assertTrue(new Station("rose").equals(new Station("rose")));
         assertFalse(new Station("rose").equals(new Station("tulipe")));
         
+        assertTrue(new Station("rose").equals(new Station("Rose")));
+        assertFalse(new Station("rose").equals(new Station("Tulipe")));
+        
         assertTrue(new Station("rose", new Coordonnee(1.1, 2.1)).equals(new Station("rose")));
         assertFalse(new Station("rose", new Coordonnee(1.1, 2.1)).equals(new Station("tulipe")));
     }
@@ -32,6 +35,9 @@ public class testChargementPlan extends TestCase {
         
         assertTrue(new Ligne("A").equals(new Ligne("A")));
         assertFalse(new Ligne("A").equals(new Ligne("B")));
+        
+        assertTrue(new Ligne("A").equals(new Ligne("a")));
+        assertFalse(new Ligne("A").equals(new Ligne("b")));
     }
     
     /*
@@ -54,8 +60,8 @@ public class testChargementPlan extends TestCase {
         chaine = "Sauge	48.91:2.30	Capucine	48.89:2.35	2	B";
         p.traitementLigne(chaine);
         
-        //Crée la station Myosotis et ajoute le fragment à la ligne B
-        chaine = "Sauge	48.91:2.30	Myosotis	48.87:2.32	3	B";
+        //Crée la station Myosotis et ajoute le fragment à la ligne B (attention à la casse)
+        chaine = "Sauge	48.91:2.30	Myosotis	48.87:2.32	3	b";
         p.traitementLigne(chaine);
         
         //On crée le résultat attendu

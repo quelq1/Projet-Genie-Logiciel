@@ -83,7 +83,7 @@ public class Plan {
                 Fragment d = new Fragment(sd, sa, Integer.parseInt(ligne[4]));
 
                 //creation d'une ligne 
-                Ligne li = new Ligne(ligne[5]);
+                Ligne li = new Ligne(ligne[5].toUpperCase());
 
                 //verification de l'existence de la ligne 
                 if (lignes.contains(li)) {

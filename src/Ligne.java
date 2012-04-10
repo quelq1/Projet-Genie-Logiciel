@@ -43,7 +43,7 @@ public class Ligne {
             return false;
         }
         Ligne other = (Ligne) obj;
-        if ((this.nom == null) ? (other.nom != null) : !this.nom.equals(other.nom)) {
+        if ((this.nom == null) ? (other.nom != null) : !this.nom.toUpperCase().equals(other.nom.toUpperCase())) {
             return false;
         }
         return true;
