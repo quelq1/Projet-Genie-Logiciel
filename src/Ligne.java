@@ -1,31 +1,30 @@
-package essaigit;
 
 import java.util.LinkedList;
 
 public class Ligne {
-    LinkedList fragment=new LinkedList();
-    public String nom;
+    private String nom;
+    private LinkedList<Fragment> fragment;
     
-    public Ligne(LinkedList frag, String n){
-        fragment=frag;
+    public Ligne(String n){
         nom=n;
+        fragment=new LinkedList();
     }
     
     //Fragment
-    public LinkedList getfrag(){
+    public LinkedList getListeFragment(){
         return fragment;
     }
     
-    public void setfrag(LinkedList newfrag){
+    public void setListeFragment(LinkedList newfrag){
         fragment=newfrag;
     }
     
     //nom
-    public String getnom(){
+    public String getNom(){
         return nom;
     }
 
-    public void setnom(String newname) {
+    public void setNom(String newname) {
         nom=newname;
     }
             

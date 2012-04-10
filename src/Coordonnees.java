@@ -1,8 +1,7 @@
-package essaigit;
 
 public class Coordonnees {
-    public double longitude;
-    public double latitude;
+    private double longitude;
+    private double latitude;
     
     public Coordonnees(int longi, int lat) {
         longitude=longi;
@@ -10,20 +9,20 @@ public class Coordonnees {
     }
     
     //longitude
-    public double getlong(){
+    public double getLongitude(){
         return longitude;
     }
 
-    public void setlong(double nouveaulong) {
+    public void setLongitude(double nouveaulong) {
         longitude=nouveaulong;
     }
     
     //latitude
-    public double getlati(){
+    public double getLatitude(){
         return latitude;
     }
 
-    public void setlati(double nouvellelat) {
+    public void setLatitude(double nouvellelat) {
         latitude=nouvellelat;
     }
     

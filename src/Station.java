@@ -1,52 +1,45 @@
-package essaigit;
 
 public class Station {
-    public String nom;
-    public Coordonnees coordonnee;
-    public int tps_darret=2;
-    public Incidents incident;
+    private String nom;
+    private Coordonnees coordonnee;
+    private static int tps_darret=2;
+    private Incident incident;
     
-    public Station(String n, Coordonnees coord, int tpsarr, Incidents inci) {
+    public Station(String n, Coordonnees coord, Incident inci) {
         nom=n;
         coordonnee=coord;
-        tps_darret=tpsarr;
         incident=inci;
     }
     
     //nom
-    public String getnom(){
+    public String getNom(){
         return nom;
     }
 
-    public void setnom(String newname) {
+    public void setNom(String newname) {
         nom=newname;
     }
     
     //coordonnee
-    public Coordonnees getcoord(){
+    public Coordonnees getCoord(){
         return coordonnee;
     }
 
-    public void setcoord(Coordonnees newcoor) {
+    public void setCoord(Coordonnees newcoor) {
         coordonnee=newcoor;
     }
     
     //tps darret
-    public int gettpsarr(){
+    public int getTempsArret(){
         return tps_darret;
-    }
-
-    public void settpsarr(int newtpsarr) {
-        tps_darret=newtpsarr;
     }
     
     //incident
-    public Incidents getinci(){
+    public Incident getIncident(){
         return incident;
     }
     
-    public void setinci(Incidents newinci) {
+    public void setIncident(Incident newinci) {
         incident=newinci;
-    }
-    
+    }    
 }
