@@ -20,6 +20,12 @@ public class Plan {
         stations = new HashSet<>();
         lignes = new HashSet<>();
     }
+        
+    public Plan(String fichier) {
+        stations = new HashSet<>();
+        lignes = new HashSet<>();
+        chargementPlan(fichier);
+    }
 
     public Set<Ligne> getLignes() {
         return lignes;
@@ -37,7 +43,7 @@ public class Plan {
         return stations.add(s);
     }
 
-    public void chargementPlan(String fichier) {
+    private void chargementPlan(String fichier) {
         //lecture du fichier texte	
         try {
             InputStream ips = new FileInputStream(fichier);
@@ -97,5 +103,25 @@ public class Plan {
                 }
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        String s = "* Plan :";
+        s += "\n\t- Nombre de stations : " + stations.size();
+        s += "\n\t- Nombre de lignes : " + lignes.size();
+        s += "\n";
+        s += "* Stations :";
+        Iterator<Station> is = stations.iterator();
+        while (is.hasNext()) {
+            s += "\n\t- " + is.next();
+        }
+        s += "\n";
+        s += "* Lignes :";
+        Iterator<Ligne> il = lignes.iterator();
+        while (il.hasNext()) {
+            s += "\n\t- " + il.next();
+        }
+        return s;
     }
 }

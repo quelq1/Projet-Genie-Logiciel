@@ -58,6 +58,6 @@ public class Ligne {
 
     @Override
     public String toString() {
-        return "Ligne{" + "nom=" + nom + ", lFragment=" + lFragment + '}';
+        return nom;
     }
 }

@@ -25,5 +25,9 @@ public class Coordonnee {
     public void setLatitude(double nouvellelat) {
         latitude=nouvellelat;
     }
-    
+
+    @Override
+    public String toString() {
+        return longitude + ":" + latitude;
+    }
 }
