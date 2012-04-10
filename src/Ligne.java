@@ -3,33 +3,33 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Ligne {
- 
+
     private String nom;
     private List<Fragment> lFragment;
-    
+
     public Ligne(String n) {
         nom = n;
         lFragment = new LinkedList<>();
     }
 
     //nom
-    public String getNom(){
+    public String getNom() {
         return nom;
     }
 
     public void setNom(String newname) {
-        nom=newname;
+        nom = newname;
     }
 
-	//Fragment
+    //Fragment
     public List<Fragment> getListeFragments() {
         return lFragment;
     }
-	
-	public void setListeFragment(LinkedList newfrag){
-        lFragment=newfrag;
+
+    public void setListeFragment(LinkedList newfrag) {
+        lFragment = newfrag;
     }
-    
+
     public boolean addFragment(Fragment f) {
         return lFragment.add(f);
     }
@@ -59,5 +59,5 @@ public class Ligne {
     @Override
     public String toString() {
         return "Ligne{" + "nom=" + nom + ", lFragment=" + lFragment + '}';
-    }   
+    }
 }

@@ -33,12 +33,11 @@ public class Plan {
         return stations;
     }
 
-    public boolean setStations(Station s) {
-        return this.stations.add(s);
+    public boolean addStation(Station s) {
+        return stations.add(s);
     }
 
-    public void chargementPlan() {
-        String fichier = "C:/Users/Mami Sall/Desktop/plan.txt";
+    public void chargementPlan(String fichier) {
         //lecture du fichier texte	
         try {
             InputStream ips = new FileInputStream(fichier);
@@ -88,12 +87,12 @@ public class Plan {
                         l = it.next();
 
                         if (l.equals(li)) {
-                            l.getListeFragments().add(d);
+                            l.addFragment(d);
                         }
                     }
                 } //si la ligne n'existe pas on l'ajoute
                 else {
-                    li.getListeFragments().add(d);
+                    li.addFragment(d);
                     lignes.add(li);
                 }
             }

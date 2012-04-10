@@ -65,18 +65,18 @@ public class testChargementPlan extends TestCase {
         Station capucine = new Station("Capucine", new Coordonnee(48.89, 2.35));
         Station myosotis = new Station("Myosotis", new Coordonnee(48.87, 2.32));
         
-        res.getStations().add(sauge);
-        res.getStations().add(capucine);
-        res.getStations().add(myosotis);
+        res.addStation(sauge);
+        res.addStation(capucine);
+        res.addStation(myosotis);
         
         assertEquals(res.getStations(), p.getStations());
         
         Fragment f1 = new Fragment(sauge, capucine, 2);
         Fragment f2 = new Fragment(sauge, myosotis, 2);
         Ligne b = new Ligne("B");
-        b.getListeFragments().add(f1);
-        b.getListeFragments().add(f2);
-        res.getLignes().add(b);
+        b.addFragment(f1);
+        b.addFragment(f2);
+        res.addLignes(b);
         
         assertEquals(res.getLignes(), p.getLignes());
     }
