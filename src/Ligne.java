@@ -58,6 +58,6 @@ public class Ligne {
 
     @Override
     public String toString() {
-        return nom;
+        return nom + " : " + (lFragment.size()+1) + " stations.";
     }
 }
