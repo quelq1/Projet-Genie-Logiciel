@@ -53,12 +53,14 @@ public class Main {
                 while (is.hasNext() && i <= nStation) {
                     if (i == nStation) {
                         util = is.next();
+                    } else {
+                        i++;
+                        is.next();
                     }
-                    i++;
-                    is.next();
                 }
-                
+
                 System.out.println("Vous vous trouvez à " + util + ".");
+                plan.setStationUtil(util);
             } else if (rep.toUpperCase().compareTo("N") == 0) {
                 choixOk = true;
                 double lat = 0, lon = 0;
@@ -72,7 +74,7 @@ public class Main {
                         System.out.println("\nChoix incorrect.");
                     }
                 } while (!saisieOk);
-                
+
                 do {
                     System.out.println("A quelle longitude vous trouvez-vous ?");
                     try {
@@ -81,9 +83,10 @@ public class Main {
                     } catch (NumberFormatException e) {
                         System.out.println("\nChoix incorrect.");
                     }
-                } while (!saisieOk);               
-                
+                } while (!saisieOk);
+
                 util = plan.getStationProche(new Coordonnee(lat, lon));
+                plan.setStationUtil(util);
                 System.out.println("La station la plus proche est " + util + ".");
             } else {
                 System.out.println("Merci de respecter le format d'ecriture.");

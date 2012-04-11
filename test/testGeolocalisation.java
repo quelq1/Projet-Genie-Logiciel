@@ -48,10 +48,10 @@ public class testGeolocalisation extends TestCase {
          * Scénario 1
          */
 
-        String data = "A\r\nO\r\np\r\n-1\r\n50\r\n1\r\n";
+        String data = "A\r\nO\r\np\r\n-1\r\n2\r\n1\r\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Main.geolocalisation(p);
-        assertEquals(sauge, p.getStationUtil());
+        assertEquals(capucine, p.getStationUtil());
 
         /*
          * Scénario 2
