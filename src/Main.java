@@ -1,5 +1,4 @@
 
-import java.io.*;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -8,62 +7,87 @@ public class Main {
     private static String fichier = "plan.txt";
 
     public static void main(String[] args) {
-//        Plan plan = new Plan(fichier);
-//        System.out.println(plan);
-//
-//        System.out.println("");
-//
-//        plan.setStationUtil(geolocalisation(plan));
-//        
-//        System.out.println("Vous vous trouvez à " + plan.getStationUtil() + ".");
-        
-        String data = "Hello, World!\r\n";
-  System.setIn(new ByteArrayInputStream(data.getBytes()));
-  Scanner scanner = new Scanner(System.in);
-  System.out.println(scanner.nextLine());
+        Plan plan = new Plan(fichier);
+        System.out.println(plan);
 
+        System.out.println("");
 
+        geolocalisation(plan);
     }
 
-    public static Station geolocalisation(Plan plan) {
+    public static void geolocalisation(Plan plan) {
         Scanner sc = new Scanner(System.in);
         Station util = null;
+        boolean saisieOk = false, choixOk = false;
+        do {
+            System.out.print("Vous trouvez-vous dans une station (O : oui/N : non) ? ");
+            String rep = sc.next();
 
-        System.out.print("Vous trouvez-vous dans une station (O : oui/N : non) ? ");
-        String rep = sc.next();
-
-        if (rep.toUpperCase().compareTo("O") == 0) {
-            //On affiche les stations dispo
-            Iterator<Station> is = plan.getStations().iterator();
-            int i = 1;
-            while (is.hasNext()) {
-                System.out.println(i + " - " + is.next());
-                i++;
-            }
-            System.out.print("Quel est son nom (tapez le numero correspondant à votre station) ? ");
-            rep = sc.next();
-            
-            is = plan.getStations().iterator();
-            i = 1;
-            while (is.hasNext() && i <= Integer.valueOf(rep)) {
-                if (i == Integer.valueOf(rep)) {
-                    util = is.next();
+            if (rep.toUpperCase().compareTo("O") == 0) {
+                choixOk = true;
+                //On affiche les stations dispo
+                Iterator<Station> is = plan.getStations().iterator();
+                int i = 1;
+                while (is.hasNext()) {
+                    System.out.println(i + " - " + is.next());
+                    i++;
                 }
-                i++;
-                is.next();
-            }
-        }
-        else {
-            double lat, lon;
-            System.out.println("A quelle latitude vous trouvez-vous ?");
-            lat = Double.valueOf(sc.next());
-            
-            System.out.println("A quelle longitude vous trouvez-vous ?");
-            lon = Double.valueOf(sc.next());
-            
-            util = plan.getStationProche(new Coordonnee(lat, lon));            
-        }
 
-        return util;
+                int nStation = 0;
+                do {
+                    System.out.print("Quel est son nom (tapez le numero correspondant à votre station) ? ");
+                    try {
+                        nStation = Integer.parseInt(sc.next());
+
+                        if (nStation < 0 || nStation > plan.getStations().size()) {
+                            throw new NumberFormatException();
+                        }
+                        saisieOk = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("\nChoix incorrect.");
+                    }
+                } while (!saisieOk);
+
+                is = plan.getStations().iterator();
+                i = 1;
+                while (is.hasNext() && i <= nStation) {
+                    if (i == nStation) {
+                        util = is.next();
+                    }
+                    i++;
+                    is.next();
+                }
+                
+                System.out.println("Vous vous trouvez à " + util + ".");
+            } else if (rep.toUpperCase().compareTo("N") == 0) {
+                choixOk = true;
+                double lat = 0, lon = 0;
+
+                do {
+                    System.out.println("A quelle latitude vous trouvez-vous ?");
+                    try {
+                        lat = Double.parseDouble(sc.next());
+                        saisieOk = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("\nChoix incorrect.");
+                    }
+                } while (!saisieOk);
+                
+                do {
+                    System.out.println("A quelle longitude vous trouvez-vous ?");
+                    try {
+                        lon = Double.parseDouble(sc.next());
+                        saisieOk = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("\nChoix incorrect.");
+                    }
+                } while (!saisieOk);               
+                
+                util = plan.getStationProche(new Coordonnee(lat, lon));
+                System.out.println("La station la plus proche est " + util + ".");
+            } else {
+                System.out.println("Merci de respecter le format d'ecriture.");
+            }
+        } while (!choixOk);
     }
 }

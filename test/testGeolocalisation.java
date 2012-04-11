@@ -1,7 +1,7 @@
 
 import java.io.ByteArrayInputStream;
 import java.text.DecimalFormat;
-import java.util.Scanner;
+import java.util.InputMismatchException;
 import junit.framework.TestCase;
 
 /**
@@ -18,8 +18,6 @@ public class testGeolocalisation extends TestCase {
         DecimalFormat f;
 
         Coordonnee c1 = new Coordonnee(1., 1.);
-        distance = c1.distance(null);
-
         distance = c1.distance(c1);
         assertEquals(0., distance);
 
@@ -39,10 +37,6 @@ public class testGeolocalisation extends TestCase {
      * Test de la méthode geolocalisation de Main
      */
     public void testGeolocalisation() {
-        Station res;
-        res = Main.geolocalisation(null);
-        assertEquals(null, res);
-
         //On crée le plan initial
         Plan p = new Plan();
         Station sauge = new Station("Sauge", new Coordonnee(48.91, 2.30));
@@ -56,15 +50,15 @@ public class testGeolocalisation extends TestCase {
 
         String data = "A\r\nO\r\np\r\n-1\r\n50\r\n1\r\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
-        res = Main.geolocalisation(p);
-        assertEquals(sauge, res);
+        Main.geolocalisation(p);
+        assertEquals(sauge, p.getStationUtil());
 
         /*
          * Scénario 2
          */
-        data = "N\np\n-5\n48.89\n2.35\r\n";
+        data = "N\r\np\r\n-5\r\n48.89\r\n2.35\r\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
-        res = Main.geolocalisation(p);
-        assertEquals(capucine, res);
+        Main.geolocalisation(p);
+        assertEquals(capucine, p.getStationUtil());
     }
 }
