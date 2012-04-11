@@ -27,7 +27,9 @@ public class Coordonnee {
     }
     
     public double distance(Coordonnee c) {
-        return Math.sqrt(((this.getLatitude()-c.getLatitude())*(this.getLatitude()-c.getLatitude())+(this.getLongitude()-c.getLongitude())*(this.getLongitude()-c.getLongitude())));
+        double lat = (this.getLatitude()-c.getLatitude())*(this.getLatitude()-c.getLatitude());
+        double lon = (this.getLongitude()-c.getLongitude())*(this.getLongitude()-c.getLongitude());
+        return Math.sqrt(lat + lon);
     }
 
     @Override
