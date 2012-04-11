@@ -25,6 +25,10 @@ public class Coordonnee {
     public void setLatitude(double nouvellelat) {
         latitude=nouvellelat;
     }
+    
+    public double distance(Coordonnee c) {
+        return Math.sqrt(((this.getLatitude()-c.getLatitude())*(this.getLatitude()-c.getLatitude())+(this.getLongitude()-c.getLongitude())*(this.getLongitude()-c.getLongitude())));
+    }
 
     @Override
     public String toString() {

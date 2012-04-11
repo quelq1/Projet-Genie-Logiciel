@@ -15,18 +15,22 @@ public class Plan {
 
     private Set<Station> stations;
     private Set<Ligne> lignes;
+    private Station util;
 
     public Plan() {
         stations = new HashSet<>();
         lignes = new HashSet<>();
+        util = null;
     }
-        
+
     public Plan(String fichier) {
         stations = new HashSet<>();
         lignes = new HashSet<>();
+        util = null;
         chargementPlan(fichier);
     }
 
+    //Lignes
     public Set<Ligne> getLignes() {
         return lignes;
     }
@@ -35,12 +39,22 @@ public class Plan {
         return lignes.add(l);
     }
 
+    //Stations
     public Set<Station> getStations() {
         return stations;
     }
 
     public boolean addStation(Station s) {
         return stations.add(s);
+    }
+
+    //Station utilisateur
+    public Station getStationUtil() {
+        return util;
+    }
+
+    public void setStationUtil(Station s) {
+        util = s;
     }
 
     private void chargementPlan(String fichier) {
@@ -123,5 +137,27 @@ public class Plan {
             s += "\n\t- " + il.next();
         }
         return s;
+    }
+
+    public Station getStationProche(Coordonnee coord) {
+        Station res = null, tmp;
+        double min, distance;
+        
+        Iterator<Station> is = stations.iterator();
+        if (is.hasNext()) {
+            tmp = is.next(); 
+            res = tmp;
+            min = coord.distance(tmp.getCoord());
+            while (is.hasNext()) {
+                tmp = is.next();
+                distance = coord.distance(tmp.getCoord());
+                if (distance < min) {
+                    res = tmp;
+                    min = distance;
+                }
+            }
+        }
+
+        return res;
     }
 }
