@@ -1,8 +1,5 @@
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -11,16 +8,24 @@ public class Main {
     private static String fichier = "plan.txt";
 
     public static void main(String[] args) {
-        Plan plan = new Plan(fichier);
-        System.out.println(plan);
+//        Plan plan = new Plan(fichier);
+//        System.out.println(plan);
+//
+//        System.out.println("");
+//
+//        plan.setStationUtil(geolocalisation(plan));
+//        
+//        System.out.println("Vous vous trouvez à " + plan.getStationUtil() + ".");
+        
+        String data = "Hello, World!\r\n";
+  System.setIn(new ByteArrayInputStream(data.getBytes()));
+  Scanner scanner = new Scanner(System.in);
+  System.out.println(scanner.nextLine());
 
-        System.out.println("");
 
-        geolocalisation(plan);
     }
 
-    public static void geolocalisation(Plan plan) {
-
+    public static Station geolocalisation(Plan plan) {
         Scanner sc = new Scanner(System.in);
         Station util = null;
 
@@ -59,7 +64,6 @@ public class Main {
             util = plan.getStationProche(new Coordonnee(lat, lon));            
         }
 
-        plan.setStationUtil(util);
-        System.out.println("Vous vous trouvez à " + util + ".");
+        return util;
     }
 }
