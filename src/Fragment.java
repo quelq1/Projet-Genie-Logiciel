@@ -1,52 +1,62 @@
-package essaigit;
 
 public class Fragment {
-    public Station depart;
-    public Station arrivee;
-    public int temps_de_parcours;
-    public Incidents incident;
+
+    private Station depart, arrivee;
+    private int tempsParcours;
+    private Incident incident;
     
-    public Fragment(Station dep, Station arr, int tpsparc, Incidents inci) {
+    public Fragment(Station sd, Station sa, int tp) {
+        tempsParcours = tp;
+        incident = null;
+        depart = sd;
+        arrivee = sa;
+    }
+	
+	public Fragment(Station dep, Station arr, int tpsparc, Incident inci) {
         depart=dep;
         arrivee=arr;
-        temps_de_parcours=tpsparc;
+        tempsParcours=tpsparc;
         incident=inci;
     }
-    
-    //depart
-    public Station getdep() {
+
+	//depart
+    public Station getStationDep() {
         return depart;
     }
     
-    public void setdep(Station newdep) {
+    public void setStationDep(Station newdep) {
         depart=newdep;
     }
-    
-    //arrivee
-    public Station getarr() {
+  
+	//arrivee
+    public Station getStationArr() {
         return arrivee;
     }
     
-    public void setarr(Station newarr){
+    public void setStationArr(Station newarr){
         arrivee=newarr;
     }
-    
-    //temps de parcours 
-    public int gettpsparc(){
-        return temps_de_parcours;
+	
+	//temps de parcours 
+    public int getTempsDeParcours(){
+        return tempsParcours;
     }
     
-    public void settpsparc(int newtpsparc){
-        temps_de_parcours=newtpsparc;
+    public void setTempsDeParcours(int newtpsparc){
+        tempsParcours=newtpsparc;
     }
     
     //incident
-    public Incidents getinci(){
+    public Incident getIncident(){
         return incident;
     }
     
-    public void setinci(Incidents newinci) {
+    public void setIncident(Incident newinci) {
         incident=newinci;
     }
-    
+
+    @Override
+    public String toString() {
+        return "tempsParcours=" + tempsParcours + ", depart=" + depart + ", arrivee=" + arrivee;
+    }
 }
