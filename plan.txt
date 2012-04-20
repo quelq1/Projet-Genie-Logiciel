@@ -1,5 +1,0 @@
-Sauge	48.91:2.30	Capucine	48.89:2.35	2	B
-Sauge	48.91:2.30	Myosotis	48.87:2.32	3	B
-Myosotis	48.87:2.32	Capucine	48.89:2.35	4	G
-Myosotis	48.87:2.32	Amaryllis	48.87:2.25	3	C
-Myosotis	48.87:2.32	Violette	48.84:2.33	3	c
