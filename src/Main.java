@@ -11,13 +11,16 @@
 
 
 import java.io.*;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Main {
 
     private static String fichier = "plan.txt";
-
+   
+    
     public static void main(String[] args) {
         Plan plan = new Plan(fichier);
         System.out.println(plan);
@@ -107,6 +110,11 @@ public class Main {
         } while (!choixOk);
     }
     public static void ajoutstation(Plan plan) {
+        String[] ligne = chaine.split("\t");
+        Set<Station> stations;
+        stations = new HashSet<>();
+        Station nvellestation = new Station(ligne[0].toUpperCase()) ;
+        
         Scanner sc = new Scanner(System.in);
         Station util = null;
         boolean saisieOk = false, choixOk = false;
@@ -119,7 +127,31 @@ public class Main {
             System.out.print("Quel est le nom de la station que vous souhaitez ajouter ?");
             String nomstation = sc.next();
             
-            if(nomstation.toUpperCase().compareTo(plan) == 0) {
+            Iterator<Station> is = stations.iterator();
+            while (is.hasNext()) {
+                
+            } 
+            
+            /*
+              Ligne li = new Ligne(ligne[5].toUpperCase());
+               if (lignes.contains(li)) {
+                    Iterator<Ligne> it = lignes.iterator();
+                    Ligne l;
+                    while (it.hasNext()) {
+                        l = it.next();
+
+                        if (l.equals(li)) {
+                            l.addFragment(d);
+                        }
+                    }
+                } //si la ligne n'existe pas on l'ajoute
+                else {
+                    li.addFragment(d);
+                    lignes.add(li);
+                } 
+            
+             */
+            if(nomstation.toUpperCase().contains(nvellestation)) {
                 System.out.print("La station que vous souhaitez ajouter existe déjà.");
             }
             else {
@@ -146,6 +178,10 @@ public class Main {
                 System.out.println("Sur quelle ligne se trouve-t-elle ? \n Tapez la lettre correspondant à la ligne, pour créer une nouvelle ligne, tapez son nom");
                 String str = sc.next().toUpperCase() ;
                 char nligne = str.charAt(0) ;
+                
+                // creation du fragment 
+                Fragment d = new Fragment(sd, sa, Integer.parseInt(ligne[4]));
+                
                 switch(nligne) {
                     case 'A' :
                         System.out.println("Vous souhaitez l'ajouter à la ligne A. Vous pouvez ajouter votre station avant la station Violette ou après la station Lavande. Quel est votre choix ?");
@@ -155,15 +191,17 @@ public class Main {
                         if (stationexistante.compareTo("Violette") == 0) {
                             // écriture dans le fichier texte = ajout
                             
-                            try {
+                           /* try {
                                 ecritfichier = new ObjectOutputStream(
                                                 new BufferedOutputStream(
                                                     new FileOutputStream(
                                                         new File(fichier))));
-                                ecritfichier.writeObject(new Fragment(nomstation,lati+":"+longi,"Violette","48.84:2.33",temps,"A"));    
+                                ecritfichier.write(new Fragment(nomstation,lati+":"+longi,"Violette","48.84:2.33",temps,"A"));    
                             } catch (Exception e) {
                                 System.out.println(e.toString());
-                            }
+                            }*/
+                           /* nvellestation.addFragment(d);
+                    lignes.add(li);*/
                         }
                         else {
                             try {
