@@ -59,4 +59,17 @@ public class Fragment {
     public String toString() {
         return "tempsParcours=" + tempsParcours + ", depart=" + depart + ", arrivee=" + arrivee;
     }
+    
+     boolean contientStation(Station s) {
+        return depart.equals(s) || arrivee.equals(s);
+    }
+
+    public Station getDestination(Station station) {
+        if (depart.equals(station)) {
+            return arrivee;
+        }
+        else {
+            return depart;
+        }
+    }
 }
