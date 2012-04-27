@@ -50,28 +50,32 @@ public class Plan {
         else
         {
         System.out.println("Entrer le nombre de stations à ajouter:");
-        Scanner sc = new Scanner(System.in);
+        Scanner sc1 = new Scanner(System.in);
+        Scanner sc2 = new Scanner(System.in);
  
-        int nbreStation=sc.nextInt();
+        int nbreStation=sc1.nextInt();
        
-      
+      String nomTmp;
         if(nbreStation>=2)
         { ArrayList<Station> ListStationTmp= new ArrayList();
+        while(nbreStation!=0)
+                {
               System.out.println("Entrer le nom de la station:");
-            String nomTmp=sc.nextLine();
-                Station stationTmp= new Station(nomTmp);
+                
+                Station stationTmp= new Station(sc2.nextLine());
                 if(!ListStationTmp.contains(stationTmp))
                 ListStationTmp.add(stationTmp);
                 else
                 System.out.println("Vous avez déja saisi cette station!");   
                 nbreStation --;
+                }
           
            
-           for(int i=0;i<=ListStationTmp.size()-1;i++)
+           for(int i=0;i<=ListStationTmp.size()-2;i++)
            {   
                Fragment f= new Fragment(ListStationTmp.get(i), ListStationTmp.get(i+1));
-               System.out.println("Entrer le temps de parcours:");
-               int tempsTmp=sc.nextInt();
+               System.out.println("Entrer le temps de parcours entre"+ListStationTmp.get(i)+"et "+ListStationTmp.get(i+1)+":");
+               int tempsTmp=sc1.nextInt();
                f.setTempsDeParcours(tempsTmp);
                l.addFragment(f);
            }
