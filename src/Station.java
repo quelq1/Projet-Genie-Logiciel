@@ -3,6 +3,7 @@ public class Station {
 
     private String nom;
     private Coordonnee coord;
+    private static int temps_depart = 0; 
     private static int tps_darret = 2;
     private Incident incident;
 
@@ -83,5 +84,10 @@ public class Station {
             s += " - " + incident;
         }
         return s;
+    }
+    
+    public static void augmenter(int tp_att){
+        temps_depart += 15;
+        System.out.println("A cause de l'incident votre temps d_attente est de "+temps_depart+" minutes");
     }
 }
