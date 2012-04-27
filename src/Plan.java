@@ -163,7 +163,8 @@ public class Plan {
 
         return res;
     }
-        
+    
+           
     public ArrayList<Station> getStationExtremite(Ligne lig) {
         Station stationtmp = null ;
         ArrayList<Station> stationtab = new ArrayList();
@@ -171,14 +172,12 @@ public class Plan {
         int compteur = 0 ;
         ArrayList<Station> stationextremite = new ArrayList() ;
         
-        // pour tous les fragments, on getStationDep qu'on stocke ds une variable de type station
-       
-        for (Fragment f:fragments) {
-            if (f.estDsLigne(lig) == true) {
+        
+        // pour tous les fragments, on getStationDep qu'on stocke ds une variable de type station 
+        for (Fragment f:lig.getListeFragments()) {
                 stationtmp = f.getStationDep() ;
                 stationtab.add(stationtmp) ;
                 i++ ;
-            }
         }
         
         //pour chaque station on compte le nombre d'occurences qu'elle y est

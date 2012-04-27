@@ -6,15 +6,12 @@
 
 /**
  *
- * @author GOBIN
+ * @author 
  */
 
 
 import java.io.*;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
 
@@ -111,15 +108,19 @@ public class Main {
     }
     public static void ajoutstation(Plan plan) {
         Set<Station> stations;
-        stations = new HashSet<>();        
+        stations = new HashSet<>();  
+        Set<Ligne> lignes ;
+        lignes = new HashSet<>();
         Scanner sc = new Scanner(System.in);
         boolean saisieOk = false, choixOk = false;
         double lati = 0 ;
         double longi = 0 ;
-        String stationexistante ;
         int temps ;
+        ArrayList<Station> stationterminus ; 
+        
         do {
             System.out.print("Quel est le nom de la station que vous souhaitez ajouter ? ");
+            String nomstation = sc.next() ;
             Station saisieParUtil = new Station(sc.next());
             
             if(stations.contains(saisieParUtil )) {
@@ -147,118 +148,36 @@ public class Main {
                 } while (!saisieOk);
                 
                 System.out.println("Sur quelle ligne se trouve-t-elle ? \n Tapez la lettre correspondant à la ligne, pour créer une nouvelle ligne, tapez son nom \n");
-                String str = sc.next().toUpperCase() ;
-                char nligne = str.charAt(0) ;
+                String str = sc.next() ;
                 
-                
-                switch(nligne) {
-                    case 'A' :
-                        System.out.println("Vous souhaitez l'ajouter à la ligne A. Vous pouvez ajouter votre station avant la station Violette ou après la station Lavande. Quel est votre choix ? (tapez le nom de la station) \n");
-                        stationexistante = sc.next().toUpperCase() ;
-                        System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
-                        temps = sc.nextInt() ;
-                        if (stationexistante.compareTo("Violette") == 0) {   
-                            // saisieParUtil + Violette
-                            stations.add(saisieParUtil) ;
-                        }
-                        else {
-                            // Lavande + saisieParUtil
-                            stations.add(saisieParUtil) ;
-                        }
-                    case 'B' :
-                        System.out.println("Vous souhaitez l'ajouter à la ligne B. Vous pouvez ajouter votre station avant la station Myosotis ou après la station Jonquille. Quel est votre choix ? (tapez le nom de la station) \n");
-                        stationexistante = sc.next().toUpperCase() ;
-                        System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
-                        temps = sc.nextInt() ;
-                        if (stationexistante.compareTo("Myosotis") == 0) {   
-                            // saisieParUtil + Myosotis
-                            stations.add(saisieParUtil) ;
-                        }
-                        else {
-                            // Jonquille + saisieParUtil
-                            stations.add(saisieParUtil) ;
-                        } 
-                    case 'C' :
-                        System.out.println("Vous souhaitez l'ajouter à la ligne C. Vous pouvez ajouter votre station avant la station Jonquille ou après la station Orchidée. Quel est votre choix ? (tapez le nom de la station) \n");
-                        stationexistante = sc.next().toUpperCase() ;
-                        System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
-                        temps = sc.nextInt() ;
-                        if (stationexistante.compareTo("Jonquille") == 0) {   
-                            // saisieParUtil + Jonquille
-                            stations.add(saisieParUtil) ;
-                        }
-                        else {
-                            // Orchidée + saisieParUtil
-                            stations.add(saisieParUtil) ;
-                        }
-                    case 'D' :
-                        System.out.println("Vous souhaitez l'ajouter à la ligne D. Vous pouvez ajouter votre station avant la station Jonquille ou après la station Bleuet. Quel est votre choix ? (tapez le nom de la station) \n");
-                        stationexistante = sc.next().toUpperCase() ;
-                        System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
-                        temps = sc.nextInt() ;
-                        if (stationexistante.compareTo("Jonquille") == 0) {   
-                            // saisieParUtil + Jonquille
-                            stations.add(saisieParUtil) ;
-                        }
-                        else {
-                            // Bleuet + saisieParUtil
-                            stations.add(saisieParUtil) ;
-                        }
-                    case 'E' :
-                        System.out.println("Vous souhaitez l'ajouter à la ligne E. Vous pouvez ajouter votre station avant la station Narcisse ou après la station Tulipe. Quel est votre choix ? (tapez le nom de la station) \n");
-                        stationexistante = sc.next().toUpperCase() ;
-                        System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
-                        temps = sc.nextInt() ;
-                        if (stationexistante.compareTo("Narcisse") == 0) {   
-                            // saisieParUtil + Narcisse
-                            stations.add(saisieParUtil) ;
-                        }
-                        else {
-                            // Tulipe + saisieParUtil
-                            stations.add(saisieParUtil) ;
-                        }
-                    case 'F' :
-                        System.out.println("Vous souhaitez l'ajouter à la ligne F. Vous pouvez ajouter votre station avant la station Amaryllis ou après la station Pissenlit. Quel est votre choix ? (tapez le nom de la station) \n");
-                        stationexistante = sc.next().toUpperCase() ;
-                        System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
-                        temps = sc.nextInt() ;
-                        if (stationexistante.compareTo("Amaryllis") == 0) {   
-                            // saisieParUtil + Amaryllis
-                            stations.add(saisieParUtil) ;
-                        }
-                        else {
-                            // Pissenlit + saisieParUtil
-                            stations.add(saisieParUtil) ;
-                        }
-                    case 'G' :
-                        System.out.println("Vous souhaitez l'ajouter à la ligne G. Vous pouvez ajouter votre station avant la station Violette ou après la station Lavande. Quel est votre choix ? (tapez le nom de la station) \n");
-                        stationexistante = sc.next().toUpperCase() ;
-                        System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
-                        temps = sc.nextInt() ;
-                        if (stationexistante.compareTo("Violette") == 0) {   
-                            // saisieParUtil + Violette
-                            stations.add(saisieParUtil) ;
-                        }
-                        else {
-                            // Lavande + saisieParUtil
-                            stations.add(saisieParUtil) ;
-                        }
-                    case 'H' :
-                        System.out.println("Vous souhaitez l'ajouter à la ligne H. Vous pouvez ajouter votre station avant la station Violette ou après la station Pissenlit. Quel est votre choix ? (tapez le nom de la station) \n");
-                        stationexistante = sc.next().toUpperCase() ;
-                        System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
-                        temps = sc.nextInt() ;
-                        if (stationexistante.compareTo("Violette") == 0) {   
-                            // saisieParUtil + Violette
-                            stations.add(saisieParUtil) ;
-                        }
-                        else {
-                            // Pissenlit + saisieParUtil
-                            stations.add(saisieParUtil) ;
-                        }
-                    default :
-                        // création de la ligne, appel à la méthode de ndeye
+                Ligne l = new Ligne(str) ;
+                if (!l.equals(lignes)) {
+                    // cf Ndeye
                 }
+                else { 
+                    // permet de mettre la ligne entree par l'utilisateur en objet Ligne
+                    boolean trouve = false ;
+                    Ligne ltmp = null ;
+                    Iterator<Ligne> is = plan.getLignes().iterator() ;
+                    while (!trouve && is.hasNext()) {
+                        ltmp = is.next() ;
+                        if (ltmp.getNom().compareTo(str) == 0) {
+                            trouve = true;
+                        }
+                    }
+
+                    stationterminus = plan.getStationExtremite(ltmp) ;
+                    System.out.println("Vous avez la possibilite d'ajouter votre station soit avant "+ stationterminus.get(0) +" ou après "+ stationterminus.get(1)+". Quel est votre choix ? \n");
+                    Station stationexistante = new Station(sc.next());
+
+                    System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
+                    temps = sc.nextInt() ; 
+
+                    // Ajouts possibles 
+                    Coordonnee coordo = new Coordonnee(longi, lati) ;
+                    Station nouvellestation = new Station(nomstation, coordo, null); // manque incident
+                    Fragment nouveaufragment = new Fragment(nouvellestation,stationexistante, temps) ;
+                }     
            }
         } while (!choixOk); 
     }
