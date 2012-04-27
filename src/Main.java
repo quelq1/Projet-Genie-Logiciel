@@ -169,7 +169,7 @@ public class Main {
                     stationterminus = plan.getStationExtremite(ltmp) ;
                     System.out.println("Vous avez la possibilite d'ajouter votre station soit avant "+ stationterminus.get(0) +" ou après "+ stationterminus.get(1)+". Quel est votre choix ? \n");
                     Station stationexistante = new Station(sc.next());
-
+                    
                     System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
                     temps = sc.nextInt() ; 
 
@@ -177,6 +177,20 @@ public class Main {
                     Coordonnee coordo = new Coordonnee(longi, lati) ;
                     Station nouvellestation = new Station(nomstation, coordo, null); // manque incident
                     Fragment nouveaufragment = new Fragment(nouvellestation,stationexistante, temps) ;
+                    
+                    // Ajout dans le fichier plan
+                    Coordonnee coordonnees = stationexistante.getCoord() ; 
+                    Double latitude = coordonnees.getLatitude();
+                    Double longitude = coordonnees.getLongitude() ;
+                    FileWriter aecrire = null ;
+                    String texte = nomstation+"\t"+lati+":"+longi+"\t"+stationexistante.getNom()+"\t"+latitude+":"+longitude+"\t"+temps+"\t"+str ;
+                    try{
+                        aecrire = new FileWriter("plan.txt", true);
+                        aecrire.write(texte);
+                    }catch(IOException ex){
+                        ex.printStackTrace();
+                    }
+                    System.out.println("Votre station a bien ete enregistree. ") ;
                 }     
            }
         } while (!choixOk); 

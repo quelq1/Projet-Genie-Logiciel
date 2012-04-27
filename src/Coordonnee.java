@@ -3,7 +3,7 @@ public class Coordonnee {
     private double longitude;
     private double latitude;
     
-    public Coordonnee(double longi, double lat) {
+    public Coordonnee(double lat, double longi) {
         longitude=longi;
         latitude=lat;
     }
