@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -15,7 +16,9 @@ public class Plan {
 
     private Set<Station> stations;
     private Set<Ligne> lignes;
+    private Set<Fragment> fragments ;
     private Station util;
+    
 
     public Plan() {
         stations = new HashSet<>();
@@ -159,5 +162,37 @@ public class Plan {
         }
 
         return res;
+    }
+        
+    public ArrayList<Station> getStationExtremite(Ligne lig) {
+        Station stationtmp = null ;
+        ArrayList<Station> stationtab = new ArrayList();
+        int i = 0 ;
+        int compteur = 0 ;
+        ArrayList<Station> stationextremite = new ArrayList() ;
+        
+        // pour tous les fragments, on getStationDep qu'on stocke ds une variable de type station
+       
+        for (Fragment f:fragments) {
+            if (f.estDsLigne(lig) == true) {
+                stationtmp = f.getStationDep() ;
+                stationtab.add(stationtmp) ;
+                i++ ;
+            }
+        }
+        
+        //pour chaque station on compte le nombre d'occurences qu'elle y est
+        while (!stationtab.isEmpty()) {
+            for (int j = i+1 ; j < stationtab.size() ; j++) {
+                if(stationtab.get(i).equals(stationtab.get(j))) {
+                   compteur ++ ;
+                }     
+            }
+            if (compteur%2 != 0) {
+                stationextremite = stationtab;
+            }
+            
+        }
+        return stationextremite ;
     }
 }
