@@ -12,14 +12,14 @@ public class Fragment {
         arrivee = sa;
     }
 	
-	public Fragment(Station dep, Station arr, int tpsparc, Incident inci) {
+    public Fragment(Station dep, Station arr, int tpsparc, Incident inci) {
         depart=dep;
         arrivee=arr;
         tempsParcours=tpsparc;
         incident=inci;
     }
 
-	//depart
+    //depart
     public Station getStationDep() {
         return depart;
     }
@@ -28,7 +28,7 @@ public class Fragment {
         depart=newdep;
     }
   
-	//arrivee
+    //arrivee
     public Station getStationArr() {
         return arrivee;
     }
@@ -37,7 +37,7 @@ public class Fragment {
         arrivee=newarr;
     }
 	
-	//temps de parcours 
+    //temps de parcours 
     public int getTempsDeParcours(){
         return tempsParcours;
     }

@@ -1,5 +1,4 @@
 
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
@@ -21,6 +20,7 @@ public class Main {
 		System.out.println("3 - Signaler un incident");
 		System.out.println("4 - Itineraire le plus rapide");
 		System.out.println("5 - Connaitre l_itineraire avec le moins de changement");
+                System.out.println("6 - Connaitre l_itineraire avec différentes etapes");
 		int reponse;
 		Scanner sc=new Scanner(System.in);
 		reponse=sc.nextInt();
@@ -30,10 +30,10 @@ public class Main {
                                 Geolocalisation.geoloca(plan);
 				break;
 			case 2 :
-				Incident.listeinci();
+				
 				break;
 			case 3:
-				Incident.incidentstat();
+				plan.ajoutincident();
 				break;
 			case 4:
 				
@@ -41,15 +41,18 @@ public class Main {
 			case 5:
 				
 				break;
+                        case 6 :
+                                
+                                break;
 			default:
 				Geolocalisation.geoloca(plan);
 				break;
 		}
-
-		System.out.println("\nAvez-vous quelque chose d'autre à faire ? ");
+       
+                System.out.println("\nAvez-vous quelque chose d'autre à faire ? (O : oui/N : non) ? ");
 		String Rep;
 		Rep=sc.next();
-		if (Rep.compareTo("oui")==0 || Rep.compareTo("Oui")==0 || Rep.compareTo("OUI")==0) {
+		if (Rep.compareTo("O")==0) {
 			ok=true;
 		}
 		else {

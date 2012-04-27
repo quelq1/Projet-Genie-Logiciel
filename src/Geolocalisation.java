@@ -1,11 +1,6 @@
-
 import java.util.Iterator;
 import java.util.Scanner;
 
-/**
- *
- * @author GOBIN
- */
 public class Geolocalisation {
         
     public static void geoloca(Plan plan) {

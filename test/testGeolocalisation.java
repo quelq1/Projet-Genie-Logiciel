@@ -50,7 +50,7 @@ public class testGeolocalisation extends TestCase {
 
         String data = "A\r\nO\r\np\r\n-1\r\n2\r\n1\r\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
-        Geolocalisation.geoloca(p);
+        Main.geolocalisation(p);
         assertEquals(capucine, p.getStationUtil());
 
         /*
@@ -58,7 +58,7 @@ public class testGeolocalisation extends TestCase {
          */
         data = "N\r\np\r\n-5\r\n48.89\r\n2.35\r\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
-        Geolocalisation.geoloca(p);
+        Main.geolocalisation(p);
         assertEquals(capucine, p.getStationUtil());
     }
 }
