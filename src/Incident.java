@@ -63,22 +63,9 @@ public class Incident {
 
 	if (Reponse.compareTo("oui")==0 || Reponse.compareTo("Oui")==0 || Reponse.compareTo("OUI")==0) {
             System.out.println("Sur quelle station cela a-t-il lieu ?\n");
-            System.out.println("1 - Sauge");
-            System.out.println("2 - Amaryllis");
-            System.out.println("3 - Myosotis");
-            System.out.println("4 - Violette");
-            System.out.println("5 - Capucine\n");
-            
-            int rep;
-            rep=sc.nextInt();
-            if ((rep==1) || (rep==2) || (rep==3) || (rep==4) || (rep==5)) {
-                int nombre = 0;
-                Station.augmenter(nombre);
-            }
-            else { 
-                System.out.println("Vous avez rentre une mauvaise reponse");
-            }
-	}
+            //boucler sur liste station
+            //reagrder si elle existe4 info incident ajout incident sur station
+        }
 	else {
             System.out.println("Est-ce que l_incident a-t-il lieu sur un rail ? ");
             String rep;
@@ -86,7 +73,7 @@ public class Incident {
 
             if (rep.compareTo("oui")==0 || rep.compareTo("Oui")==0 || rep.compareTo("OUI")==0) {
                 System.out.println("Sur quelle ligne se trouve cet incident ?\n");
-                
+                    
             }
 	}
     }
