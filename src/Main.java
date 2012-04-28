@@ -19,8 +19,8 @@ public class Main {
 		System.out.println("2 - Connaître les incidents");
 		System.out.println("3 - Signaler un incident");
 		System.out.println("4 - Itineraire le plus rapide");
-		System.out.println("5 - Connaitre l_itineraire avec le moins de changement");
-                System.out.println("6 - Connaitre l_itineraire avec différentes etapes");
+		System.out.println("5 - Connaitre l'itineraire avec le moins de changement");
+                System.out.println("6 - Connaitre l'itineraire avec différentes etapes");
 		int reponse;
 		Scanner sc=new Scanner(System.in);
 		reponse=sc.nextInt();
