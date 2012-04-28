@@ -3,25 +3,22 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Plan {
 
-    private Set<Station> stations;
+    private List<Station> stations;
     private Set<Ligne> lignes;
     private Station util;
 
     public Plan() {
-        stations = new HashSet<>();
+        stations = new ArrayList<>();
         lignes = new HashSet<>();
         util = null;
     }
 
     public Plan(String fichier) {
-        stations = new HashSet<>();
+        stations = new ArrayList<>();
         lignes = new HashSet<>();
         util = null;
         chargementPlan(fichier);
@@ -37,7 +34,7 @@ public class Plan {
     }
 
     //Stations
-    public Set<Station> getStations() {
+    public List<Station> getStations() {
         return stations;
     }
 
@@ -87,8 +84,12 @@ public class Plan {
             if (!sd.equals(sa)) {
 
                 //Ajout des stations de depart et d'arrivée si elle n'existe pas
-                stations.add(sd);
-                stations.add(sa);
+                if (!stations.contains(sd)) {
+                    stations.add(sd);
+                }
+                if (!stations.contains(sa)) {
+                    stations.add(sa);
+                }
 
                 // creation du fragment 
                 Fragment d = new Fragment(sd, sa, Integer.parseInt(ligne[4]));
