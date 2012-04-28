@@ -1,5 +1,6 @@
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Main {
@@ -95,6 +96,11 @@ public class Main {
             }
         } while (!choixOk);
     }
+    
+    /* FIXME : condition d'arrêt de la boucle générale (choixOk jamais à vrai)*/
+    /* FIXME : Variable "nouveaufragment" non utilisée */
+    
+    //TODO : Mettre l'écriture dans le fichier dans une fonction à part
     public static void ajoutstation(Plan plan) {
         Set<Station> stations;
         stations = new HashSet<>();  
@@ -112,7 +118,7 @@ public class Main {
             String nomstation = sc.next() ;
             Station saisieParUtil = new Station(sc.next());
             
-            if(stations.contains(saisieParUtil )) {
+            if(stations.contains(saisieParUtil)) {
                 System.out.print("La station que vous souhaitez ajouter existe déjà.");
             }
             else {
