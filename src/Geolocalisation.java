@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Geolocalisation {
         
-    public static void geoloca(Plan plan) {
+    public static void geolocalisation(Plan plan) {
         Scanner sc = new Scanner(System.in);
         Station util = null;
         boolean saisieOk = false, choixOk = false;

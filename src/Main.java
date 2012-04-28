@@ -27,7 +27,7 @@ public class Main {
 
 		switch(reponse){
 			case 1 :
-                                Geolocalisation.geoloca(plan);
+                                Geolocalisation.geolocalisation(plan);
 				break;
 			case 2 :
 				
@@ -45,7 +45,7 @@ public class Main {
                                 
                                 break;
 			default:
-				Geolocalisation.geoloca(plan);
+				Geolocalisation.geolocalisation(plan);
 				break;
 		}
        
