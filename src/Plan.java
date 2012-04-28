@@ -88,8 +88,12 @@ public class Plan {
             if (!sd.equals(sa)) {
 
                 //Ajout des stations de depart et d'arrivée si elle n'existe pas
-                stations.add(sd);
-                stations.add(sa);
+                if (!stations.contains(sd)) {
+                    stations.add(sd);
+                }
+                if (!stations.contains(sa)) {
+                    stations.add(sa);
+                }
 
                 // creation du fragment 
                 Fragment d = new Fragment(sd, sa, Integer.parseInt(ligne[4]));
