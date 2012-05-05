@@ -26,6 +26,7 @@ public class Main {
 
         geolocalisation(plan);
         ajoutstation(plan) ;
+        
     }
 
     public static void geolocalisation(Plan plan) {
