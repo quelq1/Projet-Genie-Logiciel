@@ -1,11 +1,8 @@
-Sauge	48.91:2.30	Capucine	48.89:2.35	2	B
-Sauge	48.91:2.30	Myosotis	48.87:2.32	3	B
+Sauge	48.91:2.3	Capucine	48.89:2.35	2	B
+Sauge	48.91:2.3	Myosotis	48.87:2.32	3	B
 Myosotis	48.87:2.32	Capucine	48.89:2.35	4	G
 Myosotis	48.87:2.32	Amaryllis	48.87:2.25	3	C
-Myosotis	48.87:2.32	Violette	48.84:2.33	3	c
-<<<<<<< HEAD
-Orange	23.0:12.0	Capucine	48.89:2.35	4	B
-=======
+Myosotis	48.87:2.32	Violette	48.84:2.33	3	C
 Myosotis	48.87:2.32	Jonquille	48.84:2.26	4	G
 Amaryllis	48.87:2.25	Hortensia	48.82:2.32	6	F
 Amaryllis	48.87:2.25	Jonquille	48.84:2.26	2	C
@@ -30,8 +27,7 @@ Hortensia	48.82:2.32	Geranium	48.82:2.26	5	H
 Hortensia	48.82:2.32	Orchidee	48.81:2.34	4	F
 Bleuet	48.83:2.35	Orchidee	48.81:2.34	4	C
 Bleuet	48.83:2.35	Iris	48.81:2.37	4	E
-Geranium	48.82:2.26	Pissenlit	48.80:2.27	3	H
-Pissenlit	48.80:2.27	Orchidee	48.81:2.34	6	F
+Geranium	48.82:2.26	Pissenlit	48.8:2.27	3	H
+Pissenlit	48.8:2.27	Orchidee	48.81:2.34	6	F
 Orchidee	48.81:2.34	Iris	48.81:2.37	4	A
 Iris	48.81:2.37	Tulipe	48.79:2.28	3	E
->>>>>>> master

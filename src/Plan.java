@@ -345,7 +345,6 @@ public class Plan {
        // on concatène nos deux listes temporaires en une liste propre
        lstationtmp.addAll(lstationtmp1) ; 
        lstationtmp.addAll(lstationtmp2) ;
-       
        //pour toutes les stations appartenant à la liste, on regarde s'il y a des doublons -> si oui impossible que ça soit une extremité
        for (int i = 0 ; i < lstationtmp.size() ; i++) {
            for (int j=i+1 ; j < lstationtmp.size() ; j++) {
@@ -356,33 +355,20 @@ public class Plan {
            }
        }
       
+      lstationtmp.removeAll(stationimpossible); 
       // on compare notre liste impossible avec notre liste normale et la difference donne les extremités 
-      for (int k = 0 ; k < lstationtmp.size() ; k++) { 
+      /*for (int k = 0 ; k < lstationtmp.size() ; k++) { 
         for (int l = 0 ; l < stationimpossible.size() ; l++) {
             if (!(lstationtmp.get(k).equals(stationimpossible.get(l)))) {
+                
                 stationtmp2 = lstationtmp.get(k) ;
                 stationextremite.add(stationtmp2);
             }
         }
-      } 
+      } */
+      stationextremite = lstationtmp ;
         return stationextremite ;
-    }
-    
-   /* public Plan ajoutPlan() {
-         // Ajout dans le fichier plan
-        Coordonnee coordonnees = stationexistante.getCoord() ; 
-        Double latitude = coordonnees.getLatitude();
-        Double longitude = coordonnees.getLongitude() ;
-        FileWriter aecrire = null ;
-        String texte = nomstation+"\t"+lati+":"+longi+"\t"+stationexistante.getNom()+"\t"+latitude+":"+longitude+"\t"+temps+"\t"+str ;
-        try{
-            aecrire = new FileWriter("plan.txt", true);
-            aecrire.write(texte);
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
-        System.out.println("Votre station a bien ete enregistree. ") ;
-        return plan ;
-    }*/
+        
+    }    
 }
 

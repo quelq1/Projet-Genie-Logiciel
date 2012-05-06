@@ -1,20 +1,11 @@
 
 public class Coordonnee {
-    private double longitude;
     private double latitude;
+    private double longitude;
     
     public Coordonnee(double lat, double longi) {
-        longitude=longi;
         latitude=lat;
-    }
-    
-    //longitude
-    public double getLongitude(){
-        return longitude;
-    }
-
-    public void setLongitude(double nouveaulong) {
-        longitude=nouveaulong;
+        longitude=longi;
     }
     
     //latitude
@@ -24,6 +15,16 @@ public class Coordonnee {
 
     public void setLatitude(double nouvellelat) {
         latitude=nouvellelat;
+    }
+    
+    
+    //longitude
+    public double getLongitude(){
+        return longitude;
+    }
+
+    public void setLongitude(double nouveaulong) {
+        longitude=nouveaulong;
     }
     
     public double distance(Coordonnee c) {
