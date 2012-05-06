@@ -40,6 +40,10 @@ public class Plan {
         return lignes.add(l);
     }
 
+    public void rmLignes(Ligne l) {
+        this.lignes.remove(l);
+    }
+
     //Stations
     public Set<Station> getStations() {
         return stations;
@@ -143,10 +147,10 @@ public class Plan {
     public Station getStationProche(Coordonnee coord) {
         Station res = null, tmp;
         double min, distance;
-        
+
         Iterator<Station> is = stations.iterator();
         if (is.hasNext()) {
-            tmp = is.next(); 
+            tmp = is.next();
             res = tmp;
             min = coord.distance(tmp.getCoord());
             while (is.hasNext()) {
@@ -161,7 +165,7 @@ public class Plan {
 
         return res;
     }
-    
+
     public ArrayList<Fragment> getDirections(Station s) {
         ArrayList<Fragment> res = new ArrayList<>();
         Fragment f;
@@ -192,7 +196,7 @@ public class Plan {
         }
         return res;
     }
-    
+
     public void rechercheItineraires(Itineraire itineraire, Station s, ArrayList<Itineraire> sol) {
         if (itineraire.getArrivee().equals(s)) {
             //On fait une copie pour éviter les effets de bords
@@ -201,6 +205,7 @@ public class Plan {
             tmp.rmDuree(s.getTempsArret());
             //ajoute l'itinéraire à la liste des solutions
             sol.add(tmp);
+            System.out.println("Arrivé destination ! Itinéraire "+sol.size()+" : " + tmp);
         } else {
             //On récupère les directions possibles
             ArrayList<Fragment> directions = this.getDirections(s);
@@ -218,22 +223,24 @@ public class Plan {
                     itineraire.addStation(dest);
                     //ajout du temps de trajet
                     itineraire.addDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
-                    
+
                     if (this.aChangement(fragPossible, prec)) {
                         //incrémente le nombre de changement
-                        itineraire.incrChangement();                        
-                    }    
-                    
+                        itineraire.incrChangement();
+                    }
+
                     //appel récursif
                     this.rechercheItineraires(itineraire, dest, sol);
-                    
+
                     //mise à jour des stations possibles
                     directions = this.getDirections(dest);
 
                     //décrémente le temps de parcours
                     itineraire.rmDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
-                    //décrément le nombre de changement
-                    itineraire.decrChangement();
+                    if (this.aChangement(fragPossible, prec)) {
+                        //décrément le nombre de changement
+                        itineraire.decrChangement();
+                    }
                     //suppression de la direction
                     itineraire.rmLastStation();
                 }
@@ -258,5 +265,18 @@ public class Plan {
             }
         }
         return res;
+    }
+
+    public boolean aChangement(Fragment fragPossible, Fragment prec) {
+        if (prec == null || fragPossible == null) {
+            return false;
+        }
+
+        for (Ligne l : lignes) {
+            if (l.getListeFragments().contains(prec) && l.getListeFragments().contains(fragPossible)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
