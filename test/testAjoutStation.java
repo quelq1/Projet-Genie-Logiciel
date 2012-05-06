@@ -28,7 +28,7 @@ public class testAjoutStation extends TestCase {
         /*
          * Scénario 2
         */ 
-        String data = "A\r\n0.00\r\n1\r\nA\r\n1\r\n" ; //latitude en double
+        data = "A\r\n0.00\r\n1\r\nA\r\n1\r\n" ; //latitude en double
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Main.ajoutstation(p) ;
         assertEquals(s, p.getStationUtil());
@@ -36,7 +36,7 @@ public class testAjoutStation extends TestCase {
         /*
          * Scénario 3
         */ 
-        String data = "A\r\n0\r\n1.00\r\nA\r\n1\r\n" ; //longitude en double
+        data = "A\r\n0\r\n1.00\r\nA\r\n1\r\n" ; //longitude en double
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Main.ajoutstation(p) ;
         assertEquals(s, p.getStationUtil());
