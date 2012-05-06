@@ -170,7 +170,7 @@ public class Plan {
                     }
                     //appel récursif
                     this.rechercheItineraires(itineraire, dest, fragPossible, sol);
-                    
+
                     //mise à jour des stations possibles
                     directions = this.getDirections(dest);
 
@@ -219,16 +219,15 @@ public class Plan {
     }
 
     //Ajout ligne
-     public void ajoutLigne() {
-        
+    public void ajoutLigne() {
+
         Scanner sc1 = new Scanner(System.in);
-       
+
         System.out.println("Entrez le nom de la ligne à creer:");
-        Ligne l= new Ligne(sc1.next());
+        Ligne l = new Ligne(sc1.next());
         if (lignes.contains(l)) {
             System.out.println("la ligne existe déjà!!");
-        } else 
-            {
+        } else {
             System.out.println("Entrer le nombre de stations à ajouter:");
             int nbreStation = sc1.nextInt();
             if (nbreStation >= 2) {
@@ -252,7 +251,7 @@ public class Plan {
 
 
                 for (int i = 0; i <= ListStationTmp.size() - 2; i++) {
-                    
+
                     System.out.println("Entrer le temps de parcours entre " + ListStationTmp.get(i) + "et " + ListStationTmp.get(i + 1) + ":");
                     int tempsTmp = sc1.nextInt();
                     Fragment f = new Fragment(ListStationTmp.get(i), ListStationTmp.get(i + 1), tempsTmp);
@@ -275,9 +274,6 @@ public class Plan {
     public boolean addStation(Station s) {
         return stations.add(s);
     }
-
-
-   
 
     public void traitementLigne(String chaine) {
         if (chaine != null) {
@@ -327,59 +323,58 @@ public class Plan {
                 }
             }
         }
-    }    
-    
+    }
+
     public void ajoutincident() {
-        
+
         System.out.println("Est-ce que l'incident a lieu sur une station ? (O : oui/N : non) ");
         String reponse;
         Scanner sc = new Scanner(System.in);
-	reponse=sc.next();
-        
+        reponse = sc.next();
+
         if (reponse.compareTo("O") != 0) {
-            int cpt=1;
+            int cpt = 1;
             Station tmp = null;
             Iterator<Station> is = stations.iterator();
-            if (stations.size()>0) {
+            if (stations.size() > 0) {
                 while (is.hasNext()) {
                     tmp = is.next();
-                    System.out.println(cpt+" "+tmp.getNom()); 
+                    System.out.println(cpt + " " + tmp.getNom());
                 }
                 int numstation;
                 System.out.println("Quelle station ?");
-                numstation=sc.nextInt();
-                
+                numstation = sc.nextInt();
+
                 System.out.println("Quel est la durée de ce nouvel incident ?\n");
                 int duree;
-                duree=sc.nextInt();
-                
+                duree = sc.nextInt();
+
                 System.out.println("Ajoutez un commentaire : \n");
                 String commentaire;
-                commentaire=sc.next();
+                commentaire = sc.next();
 
-                Incident inc = new Incident(duree,commentaire);
+                Incident inc = new Incident(duree, commentaire);
                 stations.get(numstation).setIncident(inc);
             }
-        }
-        else {
-            int cpt=1;
+        } else {
+            int cpt = 1;
             Station tmp = null;
             if (reponse.compareTo("O") != 0) {
-            Iterator<Station> is = stations.iterator();
-            if (stations.size()>0) {
-                while (is.hasNext()) {
-                    tmp = is.next();
-                    System.out.println(cpt+" "+tmp.getNom()); 
+                Iterator<Station> is = stations.iterator();
+                if (stations.size() > 0) {
+                    while (is.hasNext()) {
+                        tmp = is.next();
+                        System.out.println(cpt + " " + tmp.getNom());
+                    }
+                    int numstation;
+                    System.out.println("Quelles sont les stations ?");
+                    numstation = sc.nextInt();
+                    numstation = sc.nextInt();
+                    System.out.println(numstation);
                 }
-                int numstation;
-                System.out.println("Quelles sont les stations ?");
-                numstation=sc.nextInt();
-                numstation=sc.nextInt();
-                System.out.println(numstation);
+
             }
-                  
-    }
-            
+
         }
     }
 }
