@@ -36,7 +36,7 @@ public class Main {
 				
 				break;
 			case 4:
-				plan.ajoutincident();
+				plan.ajoutIncident();
 				break;
                         case 5:
                                 
