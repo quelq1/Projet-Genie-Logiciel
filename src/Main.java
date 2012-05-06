@@ -107,8 +107,8 @@ public class Main {
         lignes = new HashSet<>();
         Scanner sc = new Scanner(System.in);
         boolean saisieOk = false ;
-        double lati = 0 ;
-        double longi = 0 ;
+        double lati = -4 ;
+        double longi = -4 ;
         int temps ;
         List<Station> stationterminus ; 
 
@@ -120,21 +120,27 @@ public class Main {
         }
         else {
            do {
-                System.out.println("A quelle latitude se trouve-t-elle ? ");
-                try {
-                    lati = Double.parseDouble(sc.next());
-                    saisieOk = true;
-                } catch (NumberFormatException e) {
-                    System.out.println("\nChoix incorrect.");
-                }
-            
-                System.out.println("A quelle longitude se trouve-t-elle ? ");
-                try {
-                    longi = Double.parseDouble(sc.next());
-                    saisieOk = true;
-                } catch (NumberFormatException e) {
-                    System.out.println("\nChoix incorrect.");
-                }
+               while(lati > 90 || lati < 0) {
+                   System.out.println("A quelle latitude se trouve-t-elle ? ");
+                   try {
+                        lati = Double.parseDouble(sc.next());
+                        saisieOk = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("\nChoix incorrect.");
+                    }
+               }
+           } while (!saisieOk) ;
+           
+           do {
+               while (longi > 90 || longi < 0) {
+                    System.out.println("A quelle longitude se trouve-t-elle ? ");
+                    try {
+                        longi = Double.parseDouble(sc.next());
+                        saisieOk = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("\nChoix incorrect.");
+                    }
+               }
             } while (!saisieOk);
 
             System.out.println("Sur quelle ligne se trouve-t-elle ? (Tapez la lettre correspondant à la ligne, pour créer une nouvelle ligne, tapez son nom)");
@@ -172,11 +178,8 @@ public class Main {
                 
                 // Ajouts possibles 
                 Coordonnee coordo = new Coordonnee(longi, lati) ;
-                
                 Station nouvellestation = new Station(nomstation, coordo);
-                //System.out.println(nouvellestation);
                 Fragment nouveaufragment = new Fragment(nouvellestation,stationexistante, temps) ;
-                //System.out.println(nouveaufragment);
                 
                 // Ajout dans le fichier plan
                 Coordonnee coordonnees = stationexistante.getCoord() ; 
@@ -184,16 +187,17 @@ public class Main {
                 Double latitude = coordonnees.getLatitude();
                 Double longitude = coordonnees.getLongitude() ;
                 
+                //Ecriture dans le fichier
                 FileWriter aecrire = null ;
                 String texte = "\n"+nomstation+"\t"+lati+":"+longi+"\t"+stationexistante.getNom()+"\t"+latitude+":"+longitude+"\t"+temps+"\t"+str ;
                 
                 try{
                     aecrire = new FileWriter(fichier, true);
                     aecrire.write(texte);
+                    System.out.println("Votre station a bien ete enregistree. ") ;
                 }catch(IOException ex){
                     ex.printStackTrace();
                 }
-                System.out.println("Votre station a bien ete enregistree. ") ;
                 aecrire.close() ;
             }     
         }
