@@ -178,7 +178,7 @@ public class Plan {
             System.out.println("Quelle station ?");
             numstation=sc.nextInt();
                 
-            System.out.println("Quel est la durée de ce nouvel incident ?\n");
+            System.out.println("Quelle est la durée de ce nouvel incident ?\n");
             int duree;
             duree=sc.nextInt();
                 
@@ -226,7 +226,7 @@ public class Plan {
                }
            }
            if (ok==false) {
-               System.out.println("Il n'esiste pas de fragment entre ces deux stations");
+               System.out.println("Il n'existe pas de fragment entre ces deux stations");
            }  
         }
     }

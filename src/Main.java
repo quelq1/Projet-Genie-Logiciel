@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
@@ -10,20 +11,21 @@ public class Main {
         
         boolean ok;
 
-        System.out.println("BIENVENU que desirez vous faire ?\n");
+        System.out.println("BIENVENUE que desirez vous faire ?\n");
         
 	do {
 		System.out.println("        MENU        ");
 		System.out.println("1 - Vous localiser");
                 System.out.println("2 - Ajouter une station");
                 System.out.println("3 - Ajouter une ligne");
-		System.out.println("4 - Signaler un incident");
-		System.out.println("5 - Itineraire le plus rapide");
-		System.out.println("6 - Connaitre l'itineraire avec le moins de changement");
-                System.out.println("7 - Connaitre l'itineraire avec différentes etapes");
-		int reponse;
-		Scanner sc=new Scanner(System.in);
-		reponse=sc.nextInt();
+		System.out.println("4 - Signaler un incident sur une ligne");
+                System.out.println("5 - Signaler un incident sur un fragment");
+		System.out.println("6 - Itineraire le plus rapide");
+		System.out.println("7 - Connaitre l'itineraire avec le moins de changement");
+                System.out.println("8 - Connaitre l'itineraire avec différentes etapes");
+                int reponse;
+                Scanner sc=new Scanner(System.in);
+                reponse=sc.nextInt();
 
 		switch(reponse){
 			case 1 :
@@ -36,7 +38,7 @@ public class Main {
                                 
 				break;
 			case 4:
-				plan.ajoutIncident();
+				
 				break;
                         case 5:
                                 
@@ -45,6 +47,9 @@ public class Main {
                                 
                                 break;
                         case 7 :
+                                
+                                break;
+                        case 8 :
                                 
                                 break;
 			default:
