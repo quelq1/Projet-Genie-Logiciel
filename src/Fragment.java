@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Fragment {
 
     private Station depart, arrivee;
@@ -69,5 +71,49 @@ public class Fragment {
         } else {
             return depart;
         }
+    }
+    
+    public static void ajoutIncidentFragment() {
+            int cpt=1;
+            Plan p = new Plan("plan.txt");
+            Scanner sc= new Scanner(System.in);
+            for (Station s : p.getStations()) {
+                System.out.println(cpt+" "+s.getNom()); 
+                cpt++;
+            }
+
+            int statdep;
+            int statarriv;
+            System.out.println("Quelles sont les stations?");
+            System.out.println("Donner la station de départ puis la station d'arriver");
+            statdep=sc.nextInt();
+            statarriv=sc.nextInt();
+
+            System.out.println(statdep+" "+statarriv);
+            System.out.println(p.getStations().get(statdep)+" "+p.getStations().get(statarriv));
+
+            boolean ok=false;
+            String nom=null;
+        
+            for (Ligne l : p.getLignes())  {
+                for (Fragment f : l.getListeFragments()) {
+                    if (f.getStationDep()==p.getStations().get(statdep) && f.getStationArr()==p.getStations().get(statarriv)) {
+                        System.out.println("Quelle est la durée de ce nouvel incident ?\n");
+                        int duree;
+                        duree=sc.nextInt();
+
+                        System.out.println("Ajoutez un commentaire : \n");
+                        String commentaire;
+                        commentaire=sc.next();
+
+                        Incident inc = new Incident(duree,commentaire);
+                        f.setIncident(inc);
+                        ok=true;
+                    }
+               }
+           }
+           if (ok==false) {
+               System.out.println("Il n'esiste pas de fragment entre ces deux stations");
+           }  
     }
 }

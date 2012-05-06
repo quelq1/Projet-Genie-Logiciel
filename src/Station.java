@@ -1,4 +1,8 @@
 
+import java.util.Objects;
+import java.util.Scanner;
+
+
 public class Station {
 
     private String nom;
@@ -75,6 +79,23 @@ public class Station {
         hash = 79 * hash + (this.nom != null ? this.nom.hashCode() : 0);
         return hash;
     }
+     public boolean equalsIncident(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Station other = (Station) obj;
+        if (!Objects.equals(this.nom, other.nom)) {
+            return false;
+        }
+        
+        if (!Objects.equals(this.incident, other.incident)) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public String toString() {
@@ -84,4 +105,31 @@ public class Station {
         }
         return s;
     }
+    
+    public static void ajoutIncidentStation(){ 
+         Plan p= new Plan("plan.txt");
+         Scanner sc= new Scanner(System.in);
+
+            int cpt=1;
+            for (Station s : p.getStations()) {
+                System.out.println(cpt+" "+s.getNom()); 
+                cpt++;
+            }
+            
+            int numstation;
+            System.out.println("Quelle station ?");
+            numstation=sc.nextInt();
+                
+            System.out.println("Quelle est la durée de ce nouvel incident ?\n");
+            int duree;
+            duree=sc.nextInt();
+                
+            System.out.println("Ajoutez un commentaire : \n");
+            String commentaire;
+            commentaire=sc.next();
+
+            Incident inc = new Incident(duree,commentaire);
+            p.getStations().get(numstation).setIncident(inc);    
+     }
+    
 }
