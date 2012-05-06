@@ -1,4 +1,3 @@
-
 public class Fragment {
 
     private Station depart, arrivee;

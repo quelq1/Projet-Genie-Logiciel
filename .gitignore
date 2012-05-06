@@ -12,3 +12,4 @@ nbproject/**
 
 # Ignorer les fichiers .xmf
 *.mf
+dist/**
