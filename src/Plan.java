@@ -160,7 +160,7 @@ public class Plan {
     }
     
     
-    public void ajoutincident() {
+    public void ajoutIncident() {
         
         System.out.println("Est-ce que l'incident a lieu sur une station ? (O : oui/N : non) ");
         String reponse;
