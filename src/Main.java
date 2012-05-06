@@ -33,6 +33,7 @@ public class Main {
 				
 				break;
 			case 3:
+                                plan.ajoutLigne();
 				
 				break;
 			case 4:
