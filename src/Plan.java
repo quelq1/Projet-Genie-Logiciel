@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -170,9 +171,6 @@ public class Plan {
                     //appel récursif
                     this.rechercheItineraires(itineraire, dest, fragPossible, sol);
 
-                    //mise à jour des stations possibles
-                    directions = this.getDirections(dest);
-
                     //décrémente le temps de parcours
                     itineraire.rmDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
                     if (this.aChangement(fragPossible, fragPrec)) {
@@ -324,4 +322,3 @@ public class Plan {
         }
     }
 }
-
