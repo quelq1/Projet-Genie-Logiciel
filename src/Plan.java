@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> c3f484b3d78a13ef7615fd3c58f51a8312993f05
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -164,6 +168,24 @@ public class Plan {
                     res.add(f);
                 }
             }
+<<<<<<< HEAD
+=======
+            
+            int numstation;
+            System.out.println("Quelle station ?");
+            numstation=sc.nextInt();
+                
+            System.out.println("Quelle est la durée de ce nouvel incident ?\n");
+            int duree;
+            duree=sc.nextInt();
+                
+            System.out.println("Ajoutez un commentaire : \n");
+            String commentaire;
+            commentaire=sc.next();
+
+            Incident inc = new Incident(duree,commentaire);
+            stations.get(numstation).setIncident(inc);
+>>>>>>> c3f484b3d78a13ef7615fd3c58f51a8312993f05
         }
         return res;
     }
@@ -303,6 +325,7 @@ public class Plan {
                     } else {
                         System.out.println("Vous avez déja saisi cette station!");
                     }
+<<<<<<< HEAD
 
                 }
 
@@ -320,11 +343,21 @@ public class Plan {
                 System.out.println("Il faut au moins deux stations pour creer la ligne!");
             }
 
+=======
+               }
+           }
+           if (ok==false) {
+               System.out.println("Il n'existe pas de fragment entre ces deux stations");
+           }  
+>>>>>>> c3f484b3d78a13ef7615fd3c58f51a8312993f05
         }
     }
 
     
     
 }   
+<<<<<<< HEAD
 
   
+=======
+>>>>>>> c3f484b3d78a13ef7615fd3c58f51a8312993f05

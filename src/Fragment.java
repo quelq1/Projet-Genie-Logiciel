@@ -73,6 +73,7 @@ public class Fragment {
         }
     }
     
+<<<<<<< HEAD
     public static void ajoutIncidentFragment() {
             int cpt=1;
             Plan p = new Plan("plan.txt");
@@ -116,4 +117,7 @@ public class Fragment {
                System.out.println("Il n'esiste pas de fragment entre ces deux stations");
            }  
     }
+=======
+    
+>>>>>>> c3f484b3d78a13ef7615fd3c58f51a8312993f05
 }
