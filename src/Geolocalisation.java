@@ -81,5 +81,4 @@ public class Geolocalisation {
             }
         } while (!choixOk);
     }
-    
 }
