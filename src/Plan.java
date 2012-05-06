@@ -1,8 +1,5 @@
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -195,4 +192,21 @@ public class Plan {
         }
         return stationextremite ;
     }
+    
+   /* public Plan ajoutPlan() {
+         // Ajout dans le fichier plan
+        Coordonnee coordonnees = stationexistante.getCoord() ; 
+        Double latitude = coordonnees.getLatitude();
+        Double longitude = coordonnees.getLongitude() ;
+        FileWriter aecrire = null ;
+        String texte = nomstation+"\t"+lati+":"+longi+"\t"+stationexistante.getNom()+"\t"+latitude+":"+longitude+"\t"+temps+"\t"+str ;
+        try{
+            aecrire = new FileWriter("plan.txt", true);
+            aecrire.write(texte);
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+        System.out.println("Votre station a bien ete enregistree. ") ;
+        return plan ;
+    }*/
 }

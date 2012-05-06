@@ -98,7 +98,6 @@ public class Main {
         } while (!choixOk);
     }
     
-    /* FIXME : condition d'arrêt de la boucle générale (choixOk jamais à vrai)*/
     /* FIXME : Variable "nouveaufragment" non utilisée */
     
     //TODO : Mettre l'écriture dans le fichier dans une fonction à part
@@ -108,87 +107,83 @@ public class Main {
         Set<Ligne> lignes ;
         lignes = new HashSet<>();
         Scanner sc = new Scanner(System.in);
-        boolean saisieOk = false, choixOk = false;
+        boolean saisieOk = false ;
         double lati = 0 ;
         double longi = 0 ;
         int temps ;
         ArrayList<Station> stationterminus ; 
-        
-        do {
-            System.out.print("Quel est le nom de la station que vous souhaitez ajouter ? ");
-            String nomstation = sc.next() ;
-            Station saisieParUtil = new Station(sc.next());
-            
-            if(stations.contains(saisieParUtil)) {
-                System.out.print("La station que vous souhaitez ajouter existe déjà.");
-            }
-            else {
-                do {
-                    System.out.print("A quelle latitude se trouve-t-elle ? ");
-                    try {
-                        lati = Double.parseDouble(sc.next());
-                        saisieOk = true;
-                    } catch (NumberFormatException e) {
-                        System.out.println("\nChoix incorrect.");
-                    }
-                } while (!saisieOk);
-                
-                do {
-                    System.out.println("A quelle longitude se trouve-t-elle ? ");
-                    try {
-                        longi = Double.parseDouble(sc.next());
-                        saisieOk = true;
-                    } catch (NumberFormatException e) {
-                        System.out.println("\nChoix incorrect.");
-                    }
-                } while (!saisieOk);
-                
-                System.out.println("Sur quelle ligne se trouve-t-elle ? \n Tapez la lettre correspondant à la ligne, pour créer une nouvelle ligne, tapez son nom \n");
-                String str = sc.next() ;
-                
-                Ligne l = new Ligne(str) ;
-                if (!l.equals(lignes)) {
-                    // cf Ndeye
+
+        System.out.print("Quel est le nom de la station que vous souhaitez ajouter ? ");
+        String nomstation = sc.next() ;
+        Station saisieParUtil = new Station(sc.next());
+
+        if(stations.contains(saisieParUtil)) {
+            System.out.print("La station que vous souhaitez ajouter existe déjà.");
+        }
+        else {
+          //  do {
+                System.out.print("A quelle latitude se trouve-t-elle ? ");
+                try {
+                    lati = Double.parseDouble(sc.next());
+                    saisieOk = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("\nChoix incorrect.");
                 }
-                else { 
-                    // permet de mettre la ligne entree par l'utilisateur en objet Ligne
-                    boolean trouve = false ;
-                    Ligne ltmp = null ;
-                    Iterator<Ligne> is = plan.getLignes().iterator() ;
-                    while (!trouve && is.hasNext()) {
-                        ltmp = is.next() ;
-                        if (ltmp.getNom().compareTo(str) == 0) {
-                            trouve = true;
-                        }
-                    }
+            
+                System.out.println("A quelle longitude se trouve-t-elle ? ");
+                try {
+                    longi = Double.parseDouble(sc.next());
+                    saisieOk = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("\nChoix incorrect.");
+                }
+          //  } while (!saisieOk);
 
-                    stationterminus = plan.getStationExtremite(ltmp) ;
-                    System.out.println("Vous avez la possibilite d'ajouter votre station soit avant "+ stationterminus.get(0) +" ou après "+ stationterminus.get(1)+". Quel est votre choix ? \n");
-                    Station stationexistante = new Station(sc.next());
-                    
-                    System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
-                    temps = sc.nextInt() ; 
+            System.out.println("Sur quelle ligne se trouve-t-elle ? \n Tapez la lettre correspondant à la ligne, pour créer une nouvelle ligne, tapez son nom \n");
+            String str = sc.next() ;
 
-                    // Ajouts possibles 
-                    Coordonnee coordo = new Coordonnee(longi, lati) ;
-                    Station nouvellestation = new Station(nomstation, coordo, null); // manque incident
-                    Fragment nouveaufragment = new Fragment(nouvellestation,stationexistante, temps) ;
-                    
-                    // Ajout dans le fichier plan
-                    Coordonnee coordonnees = stationexistante.getCoord() ; 
-                    Double latitude = coordonnees.getLatitude();
-                    Double longitude = coordonnees.getLongitude() ;
-                    FileWriter aecrire = null ;
-                    String texte = nomstation+"\t"+lati+":"+longi+"\t"+stationexistante.getNom()+"\t"+latitude+":"+longitude+"\t"+temps+"\t"+str ;
-                    try{
-                        aecrire = new FileWriter("plan.txt", true);
-                        aecrire.write(texte);
-                    }catch(IOException ex){
-                        ex.printStackTrace();
+            Ligne l = new Ligne(str) ;
+            if (!l.equals(lignes)) {
+                // cf Ndeye
+            }
+            else { 
+                // permet de mettre la ligne entree par l'utilisateur en objet Ligne
+                boolean trouve = false ;
+                Ligne ltmp = null ;
+                Iterator<Ligne> is = plan.getLignes().iterator() ;
+                while (!trouve && is.hasNext()) {
+                    ltmp = is.next() ;
+                    if (ltmp.getNom().compareTo(str) == 0) {
+                        trouve = true;
                     }
-                    System.out.println("Votre station a bien ete enregistree. ") ;
-                }     
-           }
-        } while (!choixOk); 
+                }
+
+                stationterminus = plan.getStationExtremite(ltmp) ;
+                System.out.println("Vous avez la possibilite d'ajouter votre station soit avant "+ stationterminus.get(0) +" ou après "+ stationterminus.get(1)+". Quel est votre choix ? \n");
+                Station stationexistante = new Station(sc.next());
+
+                System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
+                temps = sc.nextInt() ; 
+
+                // Ajouts possibles 
+                Coordonnee coordo = new Coordonnee(longi, lati) ;
+                Station nouvellestation = new Station(nomstation, coordo, null); // manque incident
+                Fragment nouveaufragment = new Fragment(nouvellestation,stationexistante, temps) ;
+
+                // Ajout dans le fichier plan
+                Coordonnee coordonnees = stationexistante.getCoord() ; 
+                Double latitude = coordonnees.getLatitude();
+                Double longitude = coordonnees.getLongitude() ;
+                FileWriter aecrire = null ;
+                String texte = nomstation+"\t"+lati+":"+longi+"\t"+stationexistante.getNom()+"\t"+latitude+":"+longitude+"\t"+temps+"\t"+str ;
+                try{
+                    aecrire = new FileWriter("plan.txt", true);
+                    aecrire.write(texte);
+                }catch(IOException ex){
+                    ex.printStackTrace();
+                }
+                System.out.println("Votre station a bien ete enregistree. ") ;
+            }     
+        }
     }
 }
