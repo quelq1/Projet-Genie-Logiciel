@@ -45,10 +45,12 @@ public class RechercheItineraire {
         //2 : itinéraire moins de changement
         //3 : itinéraire avec étapes
         Itineraire itineraire = null;
+        
         switch (type) {
             case 1:
                 System.out.println("Recherche en cours...");
                 itineraire = getItinerairePlusRapide(plan.getStationUtil(), dest);
+                System.out.println("Résultat : " + itineraire);
                 break;
             case 2:
                 break;
@@ -139,14 +141,15 @@ public class RechercheItineraire {
         Itineraire itineraire = new Itineraire(dep, arr);
         ArrayList<Itineraire> solutions = new ArrayList<>();
         rechercheItineraires(itineraire, dep, null, solutions);
-
+        
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;
         if (!solutions.isEmpty()) {
             int min = solutions.get(0).getDuree();
             for (Itineraire it : solutions) {
-                if (it.getDuree() < min) {
+                if (it.getDuree() <= min) {
                     res = it;
+                    min = it.getDuree();
                 }
             }
         }
@@ -154,18 +157,11 @@ public class RechercheItineraire {
     }
 
     public static void affichageItineraire(Itineraire itineraire) {
-        System.out.println("* Itinéraire trouvé : ");
-        System.out.println("\t- Montez dans le métro à " + itineraire.getStation(0).getNom() + " direction " + itineraire.getStation(1).getNom() + ".");
-
-        Fragment prec, suiv;
-        for (int i = 1 ; i < itineraire.getSize()-1 ; i++) {
-            prec = new Fragment(itineraire.getStation(i-1), itineraire.getStation(i), 0);
-            suiv = new Fragment(itineraire.getStation(i), itineraire.getStation(i+1), 0);
-            
-            if (plan.aChangement(prec, suiv)) {
-                System.out.println("\t- Changer à la station " + itineraire.getStation(i).getNom() + ", direction " + itineraire.getStation(i+1).getNom());
-            }
+        System.out.println("* Itinéraire trouvé en " + itineraire.getDuree() + "m : ");
+        System.out.print("\t - ");
+        for (Station station : itineraire.getTrajet()) {
+            System.out.print(station.getNom() + ", ");
         }
-        System.out.println("Vous êtes arrivé à " + itineraire.getArrivee().getNom());
+        System.out.println("");
     }
 }
