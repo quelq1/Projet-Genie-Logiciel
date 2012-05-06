@@ -30,11 +30,9 @@ public class Main {
                                 Geolocalisation.geolocalisation(plan);
 				break;
 			case 2:
-				plan.ajoutincident();
 				break;
 			case 3:
                                 plan.ajoutLigne();
-				
 				break;
 			case 4:
 				

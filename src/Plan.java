@@ -323,58 +323,5 @@ public class Plan {
             }
         }
     }
-
-    public void ajoutincident() {
-
-        System.out.println("Est-ce que l'incident a lieu sur une station ? (O : oui/N : non) ");
-        String reponse;
-        Scanner sc = new Scanner(System.in);
-        reponse = sc.next();
-
-        if (reponse.compareTo("O") != 0) {
-            int cpt = 1;
-            Station tmp = null;
-            Iterator<Station> is = stations.iterator();
-            if (stations.size() > 0) {
-                while (is.hasNext()) {
-                    tmp = is.next();
-                    System.out.println(cpt + " " + tmp.getNom());
-                }
-                int numstation;
-                System.out.println("Quelle station ?");
-                numstation = sc.nextInt();
-
-                System.out.println("Quel est la durée de ce nouvel incident ?\n");
-                int duree;
-                duree = sc.nextInt();
-
-                System.out.println("Ajoutez un commentaire : \n");
-                String commentaire;
-                commentaire = sc.next();
-
-                Incident inc = new Incident(duree, commentaire);
-                stations.get(numstation).setIncident(inc);
-            }
-        } else {
-            int cpt = 1;
-            Station tmp = null;
-            if (reponse.compareTo("O") != 0) {
-                Iterator<Station> is = stations.iterator();
-                if (stations.size() > 0) {
-                    while (is.hasNext()) {
-                        tmp = is.next();
-                        System.out.println(cpt + " " + tmp.getNom());
-                    }
-                    int numstation;
-                    System.out.println("Quelles sont les stations ?");
-                    numstation = sc.nextInt();
-                    numstation = sc.nextInt();
-                    System.out.println(numstation);
-                }
-
-            }
-
-        }
-    }
 }
 
