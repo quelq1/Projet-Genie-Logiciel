@@ -21,7 +21,7 @@ public class testAjoutLigne extends TestCase{
          * 
          * premier scenario
          */
-          String   data = "2\r\na\r\nb\r\n1\r\n";
+          String   data = "test\r\n2\r\na\r\nb\r\n1\r\n";
           System.setIn(new ByteArrayInputStream(data.getBytes()));
         
             // creation de deux plans p1 et p2 avec une ligne et deux stations avec la méthode classique d'ajout
@@ -49,7 +49,7 @@ public class testAjoutLigne extends TestCase{
             
             // creation de la même ligne et ajout au plan 2 avec la méthode AJOUTLIGNE
             Ligne ltest1=new Ligne("test");
-            p2.ajoutLigne(ltest1);
+            p2.ajoutLigne();
            
             
         assertEquals(p1.getLignes(),p2.getLignes());
@@ -58,20 +58,22 @@ public class testAjoutLigne extends TestCase{
          * Scenario 2 test de l'ajout d'une ligne existante
          * 
          */
+         data = "A\r\n2\r\na\r\nb\r\n1\r\n";
+          System.setIn(new ByteArrayInputStream(data.getBytes()));
             Plan p3= new Plan(); 
             p3.addLignes(l);
             Plan p4= new Plan();
             p4.addLignes(l);
-            p4.ajoutLigne(l);
+            p4.ajoutLigne();
       
          /*
           * Scenario 3: teste de l'ajout d'une ligne contenant moins de 2 stations
           * 
           */
-          data = "1\r\na\r\nb\r\n1\r\n";
+          data = "test\r\n1\r\na\r\nb\r\n1\r\n";
           System.setIn(new ByteArrayInputStream(data.getBytes()));
   
-            p4.ajoutLigne(ltest);
+            p4.ajoutLigne();
    
    
             assertEquals(p3.getLignes(),p4.getLignes());
