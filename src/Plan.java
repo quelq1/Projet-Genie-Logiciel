@@ -194,11 +194,21 @@ public class Plan {
         }
         else {
             int cpt=1;
-            Fragment tmp = null;
-                    
-        }
+            Station tmp = null;
+            if (reponse.compareTo("O") != 0) {
+            Iterator<Station> is = stations.iterator();
+            if (stations.size()>0) {
+                while (is.hasNext()) {
+                    tmp = is.next();
+                    System.out.println(cpt+" "+tmp.getNom()); 
+                }
+                int numstation;
+                System.out.println("Quelle station ?");
+                numstation=sc.nextInt();
+            }
                   
     }
-
-    
+            
+        }
+    }
 }
