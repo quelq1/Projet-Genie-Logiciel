@@ -205,26 +205,4 @@ public class Plan {
             }
         }
     }
-    
-    public Station getStationProche(Coordonnee coord) {
-        Station res = null, tmp;
-        double min, distance;
-
-        Iterator<Station> is = stations.iterator();
-        if (is.hasNext()) {
-            tmp = is.next();
-            res = tmp;
-            min = coord.distance(tmp.getCoord());
-            while (is.hasNext()) {
-                tmp = is.next();
-                distance = coord.distance(tmp.getCoord());
-                if (distance < min) {
-                    res = tmp;
-                    min = distance;
-                }
-            }
-        }
-
-        return res;
-    }
 }
