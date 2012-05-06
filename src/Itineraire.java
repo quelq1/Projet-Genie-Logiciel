@@ -29,19 +29,17 @@ public class Itineraire {
     }
 
     /*
-     * Constructeur pour la recherche d'itinéraire par étapes
-     * (sans ville d'arrivée)
+     * Constructeur pour la recherche d'itinéraire par étapes (sans ville
+     * d'arrivée)
      */
     public Itineraire(Station depart) {
         this.trajet = new ArrayList<>();
         this.depart = depart;
         duree = 0;
-        nbChangement = 0;        
+        nbChangement = 0;
     }
-    
-    
 
-    Itineraire(Station dep, Station arr, int lg, int nb) {
+    public Itineraire(Station dep, Station arr, int lg, int nb) {
         this.trajet = new ArrayList<>();
         //On ajoute la station de départ
         trajet.add(dep);
@@ -97,11 +95,11 @@ public class Itineraire {
         if (!this.depart.equals(other.depart)) {
             return false;
         }
-        
+
         if (this.duree != other.duree) {
             return false;
         }
-        
+
         if (this.nbChangement != other.nbChangement) {
             return false;
         }
@@ -140,23 +138,31 @@ public class Itineraire {
     public int getDuree() {
         return duree;
     }
-    
+
     public int getNbChangement() {
         return nbChangement;
     }
-    
+
     public void incrChangement() {
         nbChangement++;
     }
-    
+
     public void decrChangement() {
         nbChangement--;
     }
-    
+
     public void concatItineraire(Itineraire i) {
         this.arrivee = i.arrivee;
         this.duree += i.duree;
         this.nbChangement += i.nbChangement;
         this.trajet.addAll(i.trajet);
+    }
+
+    public Station getStation(int i) {
+        return trajet.get(i);
+    }
+
+    public int getSize() {
+        return trajet.size();
     }
 }

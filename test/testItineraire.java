@@ -111,75 +111,74 @@ public class testItineraire extends TestCase {
         //----------------------------------
         ArrayList<Itineraire> sol = new ArrayList<>();
         Itineraire it = new Itineraire(s1, s2);
-        p.rechercheItineraires(it, p.getStationUtil(), sol);
+        p.rechercheItineraires(it, p.getStationUtil(), null, sol);
 
         assertEquals(new ArrayList<Itineraire>(), sol);
 
-//        //1 seul chemin possible pas d'impasse
-//        //------------------------------------
-//        Station s3 = new Station("s3");
-//        p.addStation(s1);
-//        p.addStation(s2);
-//        p.addStation(s3);
-//        Fragment f1 = new Fragment(s1, s3, 2);
-//        Fragment f2 = new Fragment(s3, s2, 3);
-//        Ligne a = new Ligne("A");
-//        a.addFragment(f1);
-//        a.addFragment(f2);
-//        p.addLignes(a);
+        //1 seul chemin possible pas d'impasse
+        //------------------------------------
+        Station s3 = new Station("s3");
+        p.addStation(s1);
+        p.addStation(s2);
+        p.addStation(s3);
+        Fragment f1 = new Fragment(s1, s3, 2);
+        Fragment f2 = new Fragment(s3, s2, 3);
+        Ligne a = new Ligne("A");
+        a.addFragment(f1);
+        a.addFragment(f2);
+        p.addLignes(a);
 //        p.rechercheItineraires(it, p.getStationUtil(), sol);
-//
-//        //Résultat attendu
-//        ArrayList<Itineraire> attendu = new ArrayList<>();
-//        Itineraire i1 = new Itineraire(s1, s2, 7, 0);
-//        i1.addStation(s3);
-//        i1.addStation(s2);
-//        attendu.add(i1);
-//
+
+        //Résultat attendu
+        ArrayList<Itineraire> attendu = new ArrayList<>();
+        Itineraire i1 = new Itineraire(s1, s2, 7, 0);
+        i1.addStation(s3);
+        i1.addStation(s2);
+        attendu.add(i1);
+
 //        assertEquals(attendu, sol);
-//
-//        //1 seul chemin possible et impasse
-//        //-----------------------------------
-//        Station s4 = new Station("s4");
-//        Fragment f3 = new Fragment(s4, s1, 4);
-//        Ligne b = new Ligne("B");
-//        b.addFragment(f3);
-//        p.addLignes(b);
-//        sol.clear();
-//        System.out.println("_________________");
-//        p.rechercheItineraires(it, p.getStationUtil(), sol);
-//
-//        //Résultat attendu est le même
-//        assertEquals(attendu, sol);
-//
-//        //2 seul chemins possibles sans impasse
-//        //-------------------------------------
-//        Fragment f4 = new Fragment(s4, s3, 10);
-//        b.addFragment(f4);
-//        sol.clear();
-//        p.rechercheItineraires(it, p.getStationUtil(), sol);
-//
-//        //Résultat attendu
-//        Itineraire i2 = new Itineraire(s1, s2, 21, 3);
-//        i2.addStation(s4);
-//        i2.addStation(s3);
-//        i2.addStation(s2);
-//        attendu.clear();
-//        attendu.add(i2);
-//        attendu.add(i1);
-//
-//        assertEquals(attendu, sol);
-//
-//        //2 seul chemins possibles et impasse
-//        //-------------------------------------
-//        Station s5 = new Station("s5");
-//        Fragment f5 = new Fragment(s4, s5, 1);
-//        Ligne c = new Ligne("c");
-//        c.addFragment(f5);
-//        p.addLignes(c);
-//
-//        //Résultat attendu est le même
-//        assertEquals(attendu, sol);
+
+        //1 seul chemin possible et impasse
+        //-----------------------------------
+        Station s4 = new Station("s4");
+        Fragment f3 = new Fragment(s4, s1, 4);
+        Ligne b = new Ligne("B");
+        b.addFragment(f3);
+        p.addLignes(b);
+        sol.clear();
+        p.rechercheItineraires(it, p.getStationUtil(), null, sol);
+
+        //Résultat attendu est le même
+        assertEquals(attendu, sol);
+
+        //2 seul chemins possibles sans impasse
+        //-------------------------------------
+        Fragment f4 = new Fragment(s4, s3, 10);
+        b.addFragment(f4);
+        sol.clear();
+        p.rechercheItineraires(it, p.getStationUtil(), null, sol);
+        
+        //Résultat attendu
+        Itineraire i2 = new Itineraire(s1, s2, 21, 1);
+        i2.addStation(s4);
+        i2.addStation(s3);
+        i2.addStation(s2);
+        attendu.clear();
+        attendu.add(i2);
+        attendu.add(i1);
+
+        assertEquals(attendu, sol);
+
+        //2 seul chemins possibles et impasse
+        //-------------------------------------
+        Station s5 = new Station("s5");
+        Fragment f5 = new Fragment(s4, s5, 1);
+        Ligne c = new Ligne("c");
+        c.addFragment(f5);
+        p.addLignes(c);
+
+        //Résultat attendu est le même
+        assertEquals(attendu, sol);
     }
 
     /*
@@ -276,10 +275,12 @@ public class testItineraire extends TestCase {
         Itineraire it = p.getItinerairePlusRapide(p.getStationUtil(), s2);
 
         //Résultat attendu
-        Itineraire attendu = new Itineraire(s1, s2, 7, 2);
+        Itineraire attendu = new Itineraire(s1, s2, 7, 0);
         attendu.addStation(s3);
         attendu.addStation(s2);
 
+        System.out.println("Sol : " + it);
+        System.out.println("Attendu : " + attendu);
         assertEquals(attendu, it);
     }
 }

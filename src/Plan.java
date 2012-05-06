@@ -197,7 +197,7 @@ public class Plan {
         return res;
     }
 
-    public void rechercheItineraires(Itineraire itineraire, Station s, ArrayList<Itineraire> sol) {
+    public void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, ArrayList<Itineraire> sol) {
         if (itineraire.getArrivee().equals(s)) {
             //On fait une copie pour éviter les effets de bords
             Itineraire tmp = itineraire.clone();
@@ -205,12 +205,10 @@ public class Plan {
             tmp.rmDuree(s.getTempsArret());
             //ajoute l'itinéraire à la liste des solutions
             sol.add(tmp);
-            System.out.println("Arrivé destination ! Itinéraire "+sol.size()+" : " + tmp);
         } else {
             //On récupère les directions possibles
             ArrayList<Fragment> directions = this.getDirections(s);
             Station dest;
-            Fragment prec = null;
 
             //On boucle sur les stations possibles
             for (Fragment fragPossible : directions) {
@@ -224,27 +222,25 @@ public class Plan {
                     //ajout du temps de trajet
                     itineraire.addDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
 
-                    if (this.aChangement(fragPossible, prec)) {
+                    if (this.aChangement(fragPossible, fragPrec)) {
                         //incrémente le nombre de changement
                         itineraire.incrChangement();
                     }
-
                     //appel récursif
-                    this.rechercheItineraires(itineraire, dest, sol);
-
+                    this.rechercheItineraires(itineraire, dest, fragPossible, sol);
+                    
                     //mise à jour des stations possibles
                     directions = this.getDirections(dest);
 
                     //décrémente le temps de parcours
                     itineraire.rmDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
-                    if (this.aChangement(fragPossible, prec)) {
+                    if (this.aChangement(fragPossible, fragPrec)) {
                         //décrément le nombre de changement
                         itineraire.decrChangement();
                     }
-                    //suppression de la direction
+                    //suppression de la direction et le fragement précédent
                     itineraire.rmLastStation();
                 }
-                prec = fragPossible;
             }
         }
     }
@@ -252,7 +248,7 @@ public class Plan {
     public Itineraire getItinerairePlusRapide(Station dep, Station arr) {
         Itineraire itineraire = new Itineraire(dep, arr);
         ArrayList<Itineraire> solutions = new ArrayList<>();
-        this.rechercheItineraires(itineraire, dep, solutions);
+        this.rechercheItineraires(itineraire, dep, null, solutions);
 
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;
