@@ -21,12 +21,16 @@ public class Geolocalisation {
 
                 //Choix de la station parmis celles existantes
                 util = choixStation();
+                
+                System.out.println("Vous êtes à la station " + util.getNom());
 
             } else if (rep.toUpperCase().compareToIgnoreCase("N") == 0) {
                 choixOk = true;
 
                 //Recherche de la station la plus proche
                 util = rechercheStation();
+                
+                System.out.println("La station la plus proches est : " + util.getNom());
 
             } else {
                 System.out.println("Merci de respecter le format d'écriture.");
@@ -51,7 +55,7 @@ public class Geolocalisation {
             try {
                 nStation = Integer.parseInt(sc.next());
 
-                if (nStation < 0 || nStation >= plan.getStations().size()) {
+                if (nStation <= 0 || nStation > plan.getStations().size()) {
                     throw new NumberFormatException();
                 }
                 saisieOk = true;
@@ -60,7 +64,7 @@ public class Geolocalisation {
             }
         } while (!saisieOk);
 
-        Station util = plan.getStations().get(nStation);
+        Station util = plan.getStations().get(nStation-1);
 
         return util;
     }

@@ -1,25 +1,66 @@
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * To change this template, choose Tools | Templates and open the template in
+ * the editor.
  */
-
 /**
  *
  * @author Loïc Cimon
  */
 public class RechercheItineraire {
-    
-    private Plan plan;
 
-    public RechercheItineraire(Plan plan) {
-        this.plan = plan;
+    private static Plan plan;
+
+    /*
+     * Utile juste pour les tests JUnits
+     */
+    public static void initPlan(Plan p) {
+        plan = p;
     }
     
-    public ArrayList<Fragment> getDirections(Station s) {
+    public static void menuChoixDestination(Plan p, int type) {
+        plan = p;
+        Scanner sc = new Scanner(System.in);
+        
+        boolean choixOk = false;
+        Station dest;
+        do {
+            System.out.println("Entrez la station de destination : ");
+            dest = new Station(sc.next());
+            
+            if (plan.getStations().contains(dest)) {
+                dest = plan.getStations().get(plan.getStations().indexOf(dest));
+                choixOk = true;
+            }
+            else {
+                System.out.println("Erreur : la station saisie n'existe pas.");
+            }            
+        } while (!choixOk);
+        
+        //On lance la recherche d'itinéraire
+        //1 : itinéraire rapide
+        //2 : itinéraire moins de changement
+        //3 : itinéraire avec étapes
+        Itineraire itineraire = null;
+        switch (type) {
+            case 1 :
+                System.out.println("Recherche en cours...");
+                itineraire = getItinerairePlusRapide(plan.getStationUtil(), dest);
+                break;
+            case 2 : 
+                break;
+            case 3 : 
+                break;
+        }
+        
+        System.out.println("Itinéraire : " + itineraire);
+    }
+
+    public static ArrayList<Fragment> getDirections(Station s) {
         ArrayList<Fragment> res = new ArrayList<>();
         Fragment f;
 
@@ -49,8 +90,8 @@ public class RechercheItineraire {
         }
         return res;
     }
-    
-     public void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, ArrayList<Itineraire> sol) {
+
+    public static void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, ArrayList<Itineraire> sol) {
         if (itineraire.getArrivee().equals(s)) {
             //On fait une copie pour éviter les effets de bords
             Itineraire tmp = itineraire.clone();
@@ -60,7 +101,7 @@ public class RechercheItineraire {
             sol.add(tmp);
         } else {
             //On récupère les directions possibles
-            ArrayList<Fragment> directions = this.getDirections(s);
+            ArrayList<Fragment> directions = getDirections(s);
             Station dest;
 
             //On boucle sur les stations possibles
@@ -80,7 +121,7 @@ public class RechercheItineraire {
                         itineraire.incrChangement();
                     }
                     //appel récursif
-                    this.rechercheItineraires(itineraire, dest, fragPossible, sol);
+                    rechercheItineraires(itineraire, dest, fragPossible, sol);
 
                     //décrémente le temps de parcours
                     itineraire.rmDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
@@ -95,10 +136,10 @@ public class RechercheItineraire {
         }
     }
 
-    public Itineraire getItinerairePlusRapide(Station dep, Station arr) {
+    public static Itineraire getItinerairePlusRapide(Station dep, Station arr) {
         Itineraire itineraire = new Itineraire(dep, arr);
         ArrayList<Itineraire> solutions = new ArrayList<>();
-        this.rechercheItineraires(itineraire, dep, null, solutions);
+        rechercheItineraires(itineraire, dep, null, solutions);
 
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;
