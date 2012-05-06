@@ -11,6 +11,12 @@ public class Fragment {
         depart = sd;
         arrivee = sa;
     }
+    public Fragment(Station sd, Station sa) {
+        
+        incident = null;
+        depart = sd;
+        arrivee = sa;
+    }
 	
 	public Fragment(Station dep, Station arr, int tpsparc, Incident inci) {
         depart=dep;
