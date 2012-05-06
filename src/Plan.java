@@ -5,6 +5,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ *
+ * @author Mami Sall
+ */
 public class Plan {
 
     private List<Station> stations;
@@ -33,19 +37,194 @@ public class Plan {
         return lignes.add(l);
     }
 
+    public void rmLignes(Ligne l) {
+        this.lignes.remove(l);
+    }
+
+    //Station utilisateur
+    public Station getStationUtil() {
+        return util;
+    }
+
+    public void setStationUtil(Station s) {
+        util = s;
+    }
+
+    private void chargementPlan(String fichier) {
+        //lecture du fichier texte	
+        try {
+            InputStream ips = new FileInputStream(fichier);
+            InputStreamReader ipsr = new InputStreamReader(ips);
+            BufferedReader br = new BufferedReader(ipsr);
+
+            String ligne;
+            while ((ligne = br.readLine()) != null) {
+                traitementLigne(ligne);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    @Override
+    public String toString() {
+        String s = "* Plan :";
+        s += "\n\t- Nombre de stations : " + stations.size();
+        s += "\n\t- Nombre de lignes : " + lignes.size();
+        s += "\n";
+        s += "* Stations :";
+        Iterator<Station> is = stations.iterator();
+        while (is.hasNext()) {
+            s += "\n\t- " + is.next();
+        }
+        s += "\n";
+        s += "* Lignes :";
+        Iterator<Ligne> il = lignes.iterator();
+        while (il.hasNext()) {
+            s += "\n\t- " + il.next();
+        }
+        return s;
+    }
+
+    public Station getStationProche(Coordonnee coord) {
+        Station res = null, tmp;
+        double min, distance;
+
+        Iterator<Station> is = stations.iterator();
+        if (is.hasNext()) {
+            tmp = is.next();
+            res = tmp;
+            min = coord.distance(tmp.getCoord());
+            while (is.hasNext()) {
+                tmp = is.next();
+                distance = coord.distance(tmp.getCoord());
+                if (distance < min) {
+                    res = tmp;
+                    min = distance;
+                }
+            }
+        }
+
+        return res;
+    }
+
+    public ArrayList<Fragment> getDirections(Station s) {
+        ArrayList<Fragment> res = new ArrayList<>();
+        Fragment f;
+
+        //Parcours des lignes
+        Iterator<Ligne> ligne = lignes.iterator();
+        Iterator<Fragment> frag;
+        while (ligne.hasNext()) {
+            //Parcours des fragments de la ligne
+            frag = ligne.next().getListeFragments().iterator();
+            while (frag.hasNext()) {
+                f = frag.next();
+
+                //Si le fragment contient la station et qu'elle n'est pas déjà dans la liste
+                //On ajoute si :
+                // - le fragment contient la station de départ
+                // - le fragment n'est pas déjà contenu
+                // - le fragment n'a pas d'incident
+                // - la station d'arrivée n'a pas d'incident
+
+                if (f.contientStation(s)
+                        && !res.contains(f)
+                        && f.getIncident() == null
+                        && f.getDestination(s).getIncident() == null) {
+                    res.add(f);
+                }
+            }
+        }
+        return res;
+    }
+
+    public void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, ArrayList<Itineraire> sol) {
+        if (itineraire.getArrivee().equals(s)) {
+            //On fait une copie pour éviter les effets de bords
+            Itineraire tmp = itineraire.clone();
+            //On ne compte pas le temps d'arrêt à la station d'arrivée.
+            tmp.rmDuree(s.getTempsArret());
+            //ajoute l'itinéraire à la liste des solutions
+            sol.add(tmp);
+        } else {
+            //On récupère les directions possibles
+            ArrayList<Fragment> directions = this.getDirections(s);
+            Station dest;
+
+            //On boucle sur les stations possibles
+            for (Fragment fragPossible : directions) {
+                //On récupère la destination du fragment
+                dest = fragPossible.getDestination(s);
+
+                //Vérifie que la station n'a jamais été emprunté
+                if (!itineraire.contains(dest)) {
+                    //enregistrement de la station
+                    itineraire.addStation(dest);
+                    //ajout du temps de trajet
+                    itineraire.addDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
+
+                    if (this.aChangement(fragPossible, fragPrec)) {
+                        //incrémente le nombre de changement
+                        itineraire.incrChangement();
+                    }
+                    //appel récursif
+                    this.rechercheItineraires(itineraire, dest, fragPossible, sol);
+                    
+                    //mise à jour des stations possibles
+                    directions = this.getDirections(dest);
+
+                    //décrémente le temps de parcours
+                    itineraire.rmDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
+                    if (this.aChangement(fragPossible, fragPrec)) {
+                        //décrément le nombre de changement
+                        itineraire.decrChangement();
+                    }
+                    //suppression de la direction et le fragement précédent
+                    itineraire.rmLastStation();
+                }
+            }
+        }
+    }
+
+    public Itineraire getItinerairePlusRapide(Station dep, Station arr) {
+        Itineraire itineraire = new Itineraire(dep, arr);
+        ArrayList<Itineraire> solutions = new ArrayList<>();
+        this.rechercheItineraires(itineraire, dep, null, solutions);
+
+        //On parcours les chemins pour connaître le plus court
+        Itineraire res = null;
+        if (!solutions.isEmpty()) {
+            int min = solutions.get(0).getDuree();
+            for (Itineraire it : solutions) {
+                if (it.getDuree() < min) {
+                    res = it;
+                }
+            }
+        }
+        return res;
+    }
+
+    public boolean aChangement(Fragment fragPossible, Fragment prec) {
+        if (prec == null || fragPossible == null) {
+            return false;
+        }
+
+        for (Ligne l : lignes) {
+            if (l.getListeFragments().contains(prec) && l.getListeFragments().contains(fragPossible)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     //Ajout ligne
-<<<<<<< HEAD
      public void ajoutLigne() {
         
         Scanner sc1 = new Scanner(System.in);
        
         System.out.println("Entrez le nom de la ligne à creer:");
         Ligne l= new Ligne(sc1.next());
-=======
-     public void ajoutLigne(Ligne l) {
-        
-        Scanner sc1 = new Scanner(System.in);
->>>>>>> 765b15120fd867ebf7dad1248e7a77ff4738fc4b
         if (lignes.contains(l)) {
             System.out.println("la ligne existe déjà!!");
         } else 
@@ -73,10 +252,10 @@ public class Plan {
 
 
                 for (int i = 0; i <= ListStationTmp.size() - 2; i++) {
-                    Fragment f = new Fragment(ListStationTmp.get(i), ListStationTmp.get(i + 1));
+                    
                     System.out.println("Entrer le temps de parcours entre " + ListStationTmp.get(i) + "et " + ListStationTmp.get(i + 1) + ":");
                     int tempsTmp = sc1.nextInt();
-                    f.setTempsDeParcours(tempsTmp);
+                    Fragment f = new Fragment(ListStationTmp.get(i), ListStationTmp.get(i + 1), tempsTmp);
                     l.addFragment(f);
                 }
                 lignes.add(l);
@@ -97,30 +276,8 @@ public class Plan {
         return stations.add(s);
     }
 
-    //Station utilisateur
-    public Station getStationUtil() {
-        return util;
-    }
 
-    public void setStationUtil(Station s) {
-        util = s;
-    }
-
-    private void chargementPlan(String fichier) {
-        //lecture du fichier texte	
-        try {
-            InputStream ips = new FileInputStream(fichier);
-            InputStreamReader ipsr = new InputStreamReader(ips);
-            BufferedReader br = new BufferedReader(ipsr);
-
-            String ligne;
-            while ((ligne = br.readLine()) != null) {
-                traitementLigne(ligne);
-            }
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-    }
+   
 
     public void traitementLigne(String chaine) {
         if (chaine != null) {
@@ -170,50 +327,7 @@ public class Plan {
                 }
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        String s = "* Plan :";
-        s += "\n\t- Nombre de stations : " + stations.size();
-        s += "\n\t- Nombre de lignes : " + lignes.size();
-        s += "\n";
-        s += "* Stations :";
-        Iterator<Station> is = stations.iterator();
-        while (is.hasNext()) {
-            s += "\n\t- " + is.next();
-        }
-        s += "\n";
-        s += "* Lignes :";
-        Iterator<Ligne> il = lignes.iterator();
-        while (il.hasNext()) {
-            s += "\n\t- " + il.next();
-        }
-        return s;
-    }
-
-    public Station getStationProche(Coordonnee coord) {
-        Station res = null, tmp;
-        double min, distance;
-        
-        Iterator<Station> is = stations.iterator();
-        if (is.hasNext()) {
-            tmp = is.next(); 
-            res = tmp;
-            min = coord.distance(tmp.getCoord());
-            while (is.hasNext()) {
-                tmp = is.next();
-                distance = coord.distance(tmp.getCoord());
-                if (distance < min) {
-                    res = tmp;
-                    min = distance;
-                }
-            }
-        }
-
-        return res;
-    }
-    
+    }    
     
     public void ajoutincident() {
         
