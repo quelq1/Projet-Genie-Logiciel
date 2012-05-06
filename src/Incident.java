@@ -1,9 +1,13 @@
 
+import java.util.List;
+
+
 public class Incident {
     private int duree;
     private String commentaire;
+    private List<Incident> lIncident;
     
-	public Incident(int d) {
+    public Incident(int d) {
         duree = d;
         commentaire = null;
     }
@@ -29,5 +33,8 @@ public class Incident {
     
     public void setCommentaire(String newcom){
         commentaire=newcom;
-    }    
+    }
+    
+
+    
 }
