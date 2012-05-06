@@ -1,11 +1,8 @@
 
-import java.util.List;
-
 
 public class Incident {
     private int duree;
     private String commentaire;
-    private List<Incident> lIncident;
     
     public Incident(int d) {
         duree = d;
@@ -38,8 +35,5 @@ public class Incident {
     @Override
     public String toString() {
         return "Incident{" + "duree=" + duree + ", commentaire=" + commentaire + '}';
-    }
-    
-
-    
+    }    
 }
