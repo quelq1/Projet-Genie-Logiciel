@@ -167,7 +167,7 @@ public class Plan {
         Scanner sc = new Scanner(System.in);
 	reponse=sc.next();
         
-        if (reponse.compareTo("O") != 0) {
+        if (reponse.compareToIgnoreCase("O") != 0) {
             int cpt=1;
             Station tmp = null;
             Iterator<Station> is = stations.iterator();
@@ -175,6 +175,7 @@ public class Plan {
                 while (is.hasNext()) {
                     tmp = is.next();
                     System.out.println(cpt+" "+tmp.getNom()); 
+                    cpt++;
                 }
                 int numstation;
                 System.out.println("Quelle station ?");
@@ -200,7 +201,8 @@ public class Plan {
             if (stations.size()>0) {
                 while (is.hasNext()) {
                     tmp = is.next();
-                    System.out.println(cpt+" "+tmp.getNom()); 
+                    System.out.println(cpt+" "+tmp.getNom());
+                    cpt++;
                 }
                 int numstation;
                 System.out.println("Quelles sont les stations ?");
@@ -208,7 +210,7 @@ public class Plan {
                 numstation=sc.nextInt();
                 System.out.println(numstation);
             }
-                  
+                 
     }
             
         }

@@ -30,13 +30,13 @@ public class Main {
                                 Geolocalisation.geolocalisation(plan);
 				break;
 			case 2:
-				plan.ajoutincident();
+				
 				break;
 			case 3:
 				
 				break;
 			case 4:
-				
+				plan.ajoutincident();
 				break;
                         case 5:
                                 
