@@ -36,8 +36,9 @@ public class testItineraire extends TestCase {
      */
     public void TestGetDirections() {
         Plan p = new Plan();
+        
         Station s1 = new Station("Tulipe");
-        ArrayList<Fragment> res = p.getDirections(s1);
+        ArrayList<Fragment> res = RechercheItineraire.getDirections(s1);
 
         //Sans ligne existante
         assertEquals(new ArrayList<Station>(), res);
@@ -49,7 +50,7 @@ public class testItineraire extends TestCase {
         b.addFragment(f1);
         b.addFragment(f2);
         p.addLignes(b);
-        res = p.getDirections(s1);
+        res = RechercheItineraire.getDirections(s1);
 
         assertEquals(new ArrayList<Fragment>(), res);
 
@@ -58,7 +59,7 @@ public class testItineraire extends TestCase {
         Ligne c = new Ligne("C");
         c.addFragment(f3);
         p.addLignes(c);
-        res = p.getDirections(s1);
+        res = RechercheItineraire.getDirections(s1);
 
         ArrayList<Fragment> attendu = new ArrayList<>();
         attendu.add(f3);
@@ -68,7 +69,7 @@ public class testItineraire extends TestCase {
         Ligne d = new Ligne("D");
         d.addFragment(f3);
         p.addLignes(d);
-        res = p.getDirections(s1);
+        res = RechercheItineraire.getDirections(s1);
 
         assertEquals(attendu, res);
     }
@@ -103,6 +104,8 @@ public class testItineraire extends TestCase {
      */
     public void testRechercheItineraires() {
         Plan p = new Plan();
+        RechercheItineraire.initPlan(p);
+        
         Station s1 = new Station("s1");
         Station s2 = new Station("s2");
         p.setStationUtil(s1);
@@ -111,7 +114,7 @@ public class testItineraire extends TestCase {
         //----------------------------------
         ArrayList<Itineraire> sol = new ArrayList<>();
         Itineraire it = new Itineraire(s1, s2);
-        p.rechercheItineraires(it, p.getStationUtil(), null, sol);
+        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, sol);
 
         assertEquals(new ArrayList<Itineraire>(), sol);
 
@@ -127,7 +130,7 @@ public class testItineraire extends TestCase {
         a.addFragment(f1);
         a.addFragment(f2);
         p.addLignes(a);
-//        p.rechercheItineraires(it, p.getStationUtil(), sol);
+        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, sol);
 
         //Résultat attendu
         ArrayList<Itineraire> attendu = new ArrayList<>();
@@ -136,7 +139,7 @@ public class testItineraire extends TestCase {
         i1.addStation(s2);
         attendu.add(i1);
 
-//        assertEquals(attendu, sol);
+        assertEquals(attendu, sol);
 
         //1 seul chemin possible et impasse
         //-----------------------------------
@@ -146,7 +149,7 @@ public class testItineraire extends TestCase {
         b.addFragment(f3);
         p.addLignes(b);
         sol.clear();
-        p.rechercheItineraires(it, p.getStationUtil(), null, sol);
+        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, sol);
 
         //Résultat attendu est le même
         assertEquals(attendu, sol);
@@ -156,7 +159,7 @@ public class testItineraire extends TestCase {
         Fragment f4 = new Fragment(s4, s3, 10);
         b.addFragment(f4);
         sol.clear();
-        p.rechercheItineraires(it, p.getStationUtil(), null, sol);
+        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, sol);
         
         //Résultat attendu
         Itineraire i2 = new Itineraire(s1, s2, 21, 1);
@@ -239,6 +242,8 @@ public class testItineraire extends TestCase {
     public void testGetItinerairePlusRapide() {
         //Création du plan
         Plan p = new Plan();
+        RechercheItineraire.initPlan(p);
+        
         Station s1 = new Station("s1");
         Station s2 = new Station("s2");
         Station s3 = new Station("s3");
@@ -272,7 +277,7 @@ public class testItineraire extends TestCase {
         c.addFragment(f5);
         p.addLignes(c);
 
-        Itineraire it = p.getItinerairePlusRapide(p.getStationUtil(), s2);
+        Itineraire it = RechercheItineraire.getItinerairePlusRapide(p.getStationUtil(), s2);
 
         //Résultat attendu
         Itineraire attendu = new Itineraire(s1, s2, 7, 0);
