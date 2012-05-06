@@ -22,6 +22,7 @@ public class Main {
 
         System.out.println("");
         System.out.println("***********Ajout de ligne*************");
+        
         System.out.println("Entrer le nom de la ligne:");
         String nomLigneTmp=sc.next();
         Ligne LigneTmp=new Ligne(nomLigneTmp);

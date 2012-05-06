@@ -68,7 +68,9 @@ public class Ligne {
             return false;
         }
         final Ligne other = (Ligne) obj;
-        
+        if (!Objects.equals(this.nom, other.nom)) {
+            return false;
+        }
         if (!Objects.equals(this.lFragment, other.lFragment)) {
             return false;
         }
