@@ -8,7 +8,7 @@ public class Main {
     private static String fichier = "plan.txt";
    
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Plan plan = new Plan(fichier);
         System.out.println(plan);
 
@@ -101,7 +101,7 @@ public class Main {
     /* FIXME : Variable "nouveaufragment" non utilisée */
     
     //TODO : Mettre l'écriture dans le fichier dans une fonction à part
-    public static void ajoutstation(Plan plan) {
+    public static void ajoutstation(Plan plan) throws IOException {
         Set<Ligne> lignes ;
         Set<Ligne> l ;
         lignes = new HashSet<>();
@@ -155,33 +155,46 @@ public class Main {
                         trouve = true;
                     }
                 }
-               // System.out.println(ltmp.getListeFragments());
+               
                 stationterminus = plan.getStationExtremite(ltmp) ;
-                System.out.println(stationterminus);
-                System.out.println("Vous avez la possibilite d'ajouter votre station soit avant "+ stationterminus.get(0) +" ou après "+ stationterminus.get(1)+". Quel est votre choix ? \n");
+                
+                System.out.print("Vous avez la possibilite d'ajouter votre station soit avant "+ stationterminus.get(0) +" ou après "+ stationterminus.get(1)+". Quel est votre choix ? ");
                 Station stationexistante = new Station(sc.next());
-
-                System.out.println("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
+                
+                List<Station> s = plan.getStations() ;
+                for (int i = 0 ; i < s.size() ; i++ ) {
+                    if (s.get(i).getNom().compareTo(stationexistante.getNom()) == 0) {
+                        stationexistante = s.get(i) ;
+                    }
+                } 
+                System.out.print("Combien de temps mettez-vous d'une station à l'autre ? (en minutes) ") ;
                 temps = sc.nextInt() ; 
-
+                
                 // Ajouts possibles 
                 Coordonnee coordo = new Coordonnee(longi, lati) ;
-                Station nouvellestation = new Station(nomstation, coordo, null); // manque incident
+                
+                Station nouvellestation = new Station(nomstation, coordo);
+                //System.out.println(nouvellestation);
                 Fragment nouveaufragment = new Fragment(nouvellestation,stationexistante, temps) ;
-
+                //System.out.println(nouveaufragment);
+                
                 // Ajout dans le fichier plan
                 Coordonnee coordonnees = stationexistante.getCoord() ; 
+               
                 Double latitude = coordonnees.getLatitude();
                 Double longitude = coordonnees.getLongitude() ;
+                
                 FileWriter aecrire = null ;
-                String texte = nomstation+"\t"+lati+":"+longi+"\t"+stationexistante.getNom()+"\t"+latitude+":"+longitude+"\t"+temps+"\t"+str ;
+                String texte = "\n"+nomstation+"\t"+lati+":"+longi+"\t"+stationexistante.getNom()+"\t"+latitude+":"+longitude+"\t"+temps+"\t"+str ;
+                
                 try{
-                    aecrire = new FileWriter("plan.txt", true);
+                    aecrire = new FileWriter(fichier, true);
                     aecrire.write(texte);
                 }catch(IOException ex){
                     ex.printStackTrace();
                 }
                 System.out.println("Votre station a bien ete enregistree. ") ;
+                aecrire.close() ;
             }     
         }
     }
