@@ -162,40 +162,43 @@ public class Plan {
     
     public void ajoutincident() {
         
-        System.out.println("Est-ce que l_incident a lieu sur une station ? (O : oui/N : non) ");
-        String Reponse;
+        System.out.println("Est-ce que l'incident a lieu sur une station ? (O : oui/N : non) ");
+        String reponse;
         Scanner sc = new Scanner(System.in);
-	Reponse=sc.next();
+	reponse=sc.next();
         
-        if (Reponse.compareTo("O")==0) {
+        if (reponse.compareTo("O") != 0) {
             int cpt=1;
             Station tmp = null;
             Iterator<Station> is = stations.iterator();
             if (stations.size()>0) {
                 while (is.hasNext()) {
                     tmp = is.next();
-                    System.out.println(cpt+" "+tmp.getNom());        
+                    System.out.println(cpt+" "+tmp.getNom()); 
                 }
                 int numstation;
+                System.out.println("Quelle station ?");
                 numstation=sc.nextInt();
-
-                is = stations.iterator();
-                cpt=1;
-                while ((is.hasNext()) && (cpt<=numstation)) {
-                    tmp = is.next();
-                }
+                
                 System.out.println("Quel est la durée de ce nouvel incident ?\n");
                 int duree;
                 duree=sc.nextInt();
-
+                
                 System.out.println("Ajoutez un commentaire : \n");
                 String commentaire;
                 commentaire=sc.next();
 
                 Incident inc = new Incident(duree,commentaire);
-                tmp.setIncident(inc);
+                stations.get(numstation).setIncident(inc);
             }
         }
-          
+        else {
+            int cpt=1;
+            Fragment tmp = null;
+                    
+        }
+                  
     }
+
+    
 }
