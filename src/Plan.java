@@ -3,28 +3,22 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
-/**
- *
- * @author Mami Sall
- */
 public class Plan {
 
-    private Set<Station> stations;
+    private List<Station> stations;
     private Set<Ligne> lignes;
     private Station util;
 
     public Plan() {
-        stations = new HashSet<>();
+        stations = new ArrayList<>();
         lignes = new HashSet<>();
         util = null;
     }
 
     public Plan(String fichier) {
-        stations = new HashSet<>();
+        stations = new ArrayList<>();
         lignes = new HashSet<>();
         util = null;
         chargementPlan(fichier);
@@ -40,7 +34,7 @@ public class Plan {
     }
 
     //Stations
-    public Set<Station> getStations() {
+    public List<Station> getStations() {
         return stations;
     }
 
@@ -90,8 +84,12 @@ public class Plan {
             if (!sd.equals(sa)) {
 
                 //Ajout des stations de depart et d'arrivée si elle n'existe pas
-                stations.add(sd);
-                stations.add(sa);
+                if (!stations.contains(sd)) {
+                    stations.add(sd);
+                }
+                if (!stations.contains(sa)) {
+                    stations.add(sa);
+                }
 
                 // creation du fragment 
                 Fragment d = new Fragment(sd, sa, Integer.parseInt(ligne[4]));
@@ -159,5 +157,45 @@ public class Plan {
         }
 
         return res;
+    }
+    
+    
+    public void ajoutincident() {
+        
+        System.out.println("Est-ce que l_incident a lieu sur une station ? (O : oui/N : non) ");
+        String Reponse;
+        Scanner sc = new Scanner(System.in);
+	Reponse=sc.next();
+        
+        if (Reponse.compareTo("O")==0) {
+            int cpt=1;
+            Station tmp = null;
+            Iterator<Station> is = stations.iterator();
+            if (stations.size()>0) {
+                while (is.hasNext()) {
+                    tmp = is.next();
+                    System.out.println(cpt+" "+tmp.getNom());        
+                }
+                int numstation;
+                numstation=sc.nextInt();
+
+                is = stations.iterator();
+                cpt=1;
+                while ((is.hasNext()) && (cpt<=numstation)) {
+                    tmp = is.next();
+                }
+                System.out.println("Quel est la durée de ce nouvel incident ?\n");
+                int duree;
+                duree=sc.nextInt();
+
+                System.out.println("Ajoutez un commentaire : \n");
+                String commentaire;
+                commentaire=sc.next();
+
+                Incident inc = new Incident(duree,commentaire);
+                tmp.setIncident(inc);
+            }
+        }
+          
     }
 }

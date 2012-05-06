@@ -1,14 +1,9 @@
-
 import java.util.Iterator;
 import java.util.Scanner;
 
-/**
- *
- * @author GOBIN
- */
 public class Geolocalisation {
         
-    public static void geoloca(Plan plan) {
+    public static void geolocalisation(Plan plan) {
         Scanner sc = new Scanner(System.in);
         Station util = null;
         boolean saisieOk = false, choixOk = false;
