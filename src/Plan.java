@@ -34,12 +34,18 @@ public class Plan {
     }
 
     //Ajout ligne
+<<<<<<< HEAD
      public void ajoutLigne() {
         
         Scanner sc1 = new Scanner(System.in);
        
         System.out.println("Entrez le nom de la ligne à creer:");
         Ligne l= new Ligne(sc1.next());
+=======
+     public void ajoutLigne(Ligne l) {
+        
+        Scanner sc1 = new Scanner(System.in);
+>>>>>>> 765b15120fd867ebf7dad1248e7a77ff4738fc4b
         if (lignes.contains(l)) {
             System.out.println("la ligne existe déjà!!");
         } else 
