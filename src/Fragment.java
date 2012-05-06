@@ -1,14 +1,9 @@
 
-import java.util.Iterator;
-import java.util.Set;
-
-
 public class Fragment {
 
     private Station depart, arrivee;
     private int tempsParcours;
     private Incident incident;
-    private Set<Ligne> lignes;
     
     public Fragment(Station sd, Station sa, int tp) {
         tempsParcours = tp;
@@ -60,8 +55,6 @@ public class Fragment {
         incident=newinci;
     }
     
-    
-
     @Override
     public String toString() {
         return "tempsParcours=" + tempsParcours + ", depart=" + depart + ", arrivee=" + arrivee;
