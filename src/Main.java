@@ -18,7 +18,7 @@ public class Main {
             System.out.println("\t\t------");
             System.out.println("\t\t MENU");
             System.out.println("\t\t------");
-            System.out.println("1 - Actualiser sa position");
+            System.out.println("1 - Actualiser ma position");
             System.out.println("2 - Ajouter une station");
             System.out.println("3 - Ajouter une ligne");
             System.out.println("4 - Signaler un incident");
