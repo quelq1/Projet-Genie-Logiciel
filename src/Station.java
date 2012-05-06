@@ -1,4 +1,7 @@
 
+import java.util.Objects;
+
+
 public class Station {
 
     private String nom;
@@ -8,6 +11,7 @@ public class Station {
 
     public Station(String name) {
         nom = name;
+        incident=null;
     }
 
     public Station(String name, Coordonnee c) {
@@ -52,6 +56,26 @@ public class Station {
 
     public void setIncident(Incident newinci) {
         incident = newinci;
+    }
+    
+    public boolean equalsIncident(Object obj)
+    {
+         
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Station other = (Station) obj;
+        if (!Objects.equals(this.nom, other.nom)) {
+            return false;
+        }
+        if (!Objects.equals(this.incident, other.incident)) {
+            return false;
+        }
+        return true;
+    
     }
 
     @Override

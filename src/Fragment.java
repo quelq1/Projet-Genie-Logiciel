@@ -1,3 +1,6 @@
+
+import java.util.Objects;
+
 public class Fragment {
 
     private Station depart, arrivee;
@@ -52,6 +55,37 @@ public class Fragment {
 
     public void setIncident(Incident newinci) {
         incident = newinci;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Fragment other = (Fragment) obj;
+        if (!Objects.equals(this.depart.getNom(), other.depart.getNom())) {
+            return false;
+        }
+        if (!Objects.equals(this.arrivee.getNom(), other.arrivee.getNom())) {
+            return false;
+        }
+        if (!Objects.equals(this.incident, other.incident)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.depart);
+        hash = 97 * hash + Objects.hashCode(this.arrivee);
+        hash = 97 * hash + this.tempsParcours;
+        hash = 97 * hash + Objects.hashCode(this.incident);
+        return hash;
     }
 
     @Override

@@ -34,6 +34,11 @@ public class Incident {
     public void setCommentaire(String newcom){
         commentaire=newcom;
     }
+
+    @Override
+    public String toString() {
+        return "Incident{" + "duree=" + duree + ", commentaire=" + commentaire + '}';
+    }
     
 
     
