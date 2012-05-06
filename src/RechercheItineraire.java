@@ -21,43 +21,42 @@ public class RechercheItineraire {
     public static void initPlan(Plan p) {
         plan = p;
     }
-    
+
     public static void menuChoixDestination(Plan p, int type) {
         plan = p;
         Scanner sc = new Scanner(System.in);
-        
+
         boolean choixOk = false;
         Station dest;
         do {
             System.out.println("Entrez la station de destination : ");
             dest = new Station(sc.next());
-            
+
             if (plan.getStations().contains(dest)) {
                 dest = plan.getStations().get(plan.getStations().indexOf(dest));
                 choixOk = true;
-            }
-            else {
+            } else {
                 System.out.println("Erreur : la station saisie n'existe pas.");
-            }            
+            }
         } while (!choixOk);
-        
+
         //On lance la recherche d'itinéraire
         //1 : itinéraire rapide
         //2 : itinéraire moins de changement
         //3 : itinéraire avec étapes
         Itineraire itineraire = null;
         switch (type) {
-            case 1 :
+            case 1:
                 System.out.println("Recherche en cours...");
                 itineraire = getItinerairePlusRapide(plan.getStationUtil(), dest);
                 break;
-            case 2 : 
+            case 2:
                 break;
-            case 3 : 
+            case 3:
                 break;
         }
-        
-        System.out.println("Itinéraire : " + itineraire);
+
+        affichageItineraire(itineraire);
     }
 
     public static ArrayList<Fragment> getDirections(Station s) {
@@ -152,5 +151,21 @@ public class RechercheItineraire {
             }
         }
         return res;
+    }
+
+    public static void affichageItineraire(Itineraire itineraire) {
+        System.out.println("* Itinéraire trouvé : ");
+        System.out.println("\t- Montez dans le métro à " + itineraire.getStation(0).getNom() + " direction " + itineraire.getStation(1).getNom() + ".");
+
+        Fragment prec, suiv;
+        for (int i = 1 ; i < itineraire.getSize()-1 ; i++) {
+            prec = new Fragment(itineraire.getStation(i-1), itineraire.getStation(i), 0);
+            suiv = new Fragment(itineraire.getStation(i), itineraire.getStation(i+1), 0);
+            
+            if (plan.aChangement(prec, suiv)) {
+                System.out.println("\t- Changer à la station " + itineraire.getStation(i).getNom() + ", direction " + itineraire.getStation(i+1).getNom());
+            }
+        }
+        System.out.println("Vous êtes arrivé à " + itineraire.getArrivee().getNom());
     }
 }
