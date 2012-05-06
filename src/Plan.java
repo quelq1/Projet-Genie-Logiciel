@@ -161,34 +161,44 @@ public class Plan {
         return res;
     }
     
-           
-    public ArrayList<Station> getStationExtremite(Ligne lig) {
+    // ArrayList car station de début et station de fin       
+    public List<Station> getStationExtremite(Ligne lig) {
         Station stationtmp = null ;
-        ArrayList<Station> stationtab = new ArrayList();
-        int i = 0 ;
-        int compteur = 0 ;
-        ArrayList<Station> stationextremite = new ArrayList() ;
+        Station stationtmp2 = null ;
+        List<Station> lstationtmp = new ArrayList();
+        List<Station> lstationtmp1 = new ArrayList();
+        List<Station> lstationtmp2 = new ArrayList();
+        List<Station> stationextremite = new ArrayList() ; 
+        List<Station> stationimpossible = new ArrayList() ;
         
-        
-        // pour tous les fragments, on getStationDep qu'on stocke ds une variable de type station 
+        // pour tous les fragments, on getStationDep et getStationArr qu'on stocke ds une variable dans 2 listes de stations temporaires
         for (Fragment f:lig.getListeFragments()) {
-                stationtmp = f.getStationDep() ;
-                stationtab.add(stationtmp) ;
-                i++ ;
-        }
-        
-        //pour chaque station on compte le nombre d'occurences qu'elle y est
-        while (!stationtab.isEmpty()) {
-            for (int j = i+1 ; j < stationtab.size() ; j++) {
-                if(stationtab.get(i).equals(stationtab.get(j))) {
-                   compteur ++ ;
-                }     
+                lstationtmp1.add(f.getStationDep());
+                lstationtmp2.add(f.getStationArr());
+       }
+       // on concatène nos deux listes temporaires en une liste propre
+       lstationtmp.addAll(lstationtmp1) ; 
+       lstationtmp.addAll(lstationtmp2) ;
+       
+       //pour toutes les stations appartenant à la liste, on regarde s'il y a des doublons -> si oui impossible que ça soit une extremité
+       for (int i = 0 ; i < lstationtmp.size() ; i++) {
+           for (int j=i+1 ; j < lstationtmp.size() ; j++) {
+               if (lstationtmp.get(i).getNom().compareTo(lstationtmp.get(j).getNom()) == 0){
+                   stationtmp = lstationtmp.get(j) ;
+                   stationimpossible.add(stationtmp);
+               }
+           }
+       }
+      
+      // on compare notre liste impossible avec notre liste normale et la difference donne les extremités 
+      for (int k = 0 ; k < lstationtmp.size() ; k++) { 
+        for (int l = 0 ; l < stationimpossible.size() ; l++) {
+            if (!(lstationtmp.get(k).equals(stationimpossible.get(l)))) {
+                stationtmp2 = lstationtmp.get(k) ;
+                stationextremite.add(stationtmp2);
             }
-            if (compteur%2 != 0) {
-                stationextremite = stationtab;
-            }
-            
         }
+      } 
         return stationextremite ;
     }
     

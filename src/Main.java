@@ -102,27 +102,25 @@ public class Main {
     
     //TODO : Mettre l'écriture dans le fichier dans une fonction à part
     public static void ajoutstation(Plan plan) {
-        Set<Station> stations;
-        stations = new HashSet<>();  
         Set<Ligne> lignes ;
+        Set<Ligne> l ;
         lignes = new HashSet<>();
         Scanner sc = new Scanner(System.in);
         boolean saisieOk = false ;
         double lati = 0 ;
         double longi = 0 ;
         int temps ;
-        ArrayList<Station> stationterminus ; 
+        List<Station> stationterminus ; 
 
-        System.out.print("Quel est le nom de la station que vous souhaitez ajouter ? ");
-        String nomstation = sc.next() ;
+        System.out.println("Quel est le nom de la station que vous souhaitez ajouter ? ");
         Station saisieParUtil = new Station(sc.next());
-
-        if(stations.contains(saisieParUtil)) {
-            System.out.print("La station que vous souhaitez ajouter existe déjà.");
+        String nomstation = saisieParUtil.getNom() ;
+        if(plan.getStations().contains(saisieParUtil)) {
+            System.out.println("La station que vous souhaitez ajouter existe déjà.");
         }
         else {
-          //  do {
-                System.out.print("A quelle latitude se trouve-t-elle ? ");
+           do {
+                System.out.println("A quelle latitude se trouve-t-elle ? ");
                 try {
                     lati = Double.parseDouble(sc.next());
                     saisieOk = true;
@@ -137,13 +135,13 @@ public class Main {
                 } catch (NumberFormatException e) {
                     System.out.println("\nChoix incorrect.");
                 }
-          //  } while (!saisieOk);
+            } while (!saisieOk);
 
-            System.out.println("Sur quelle ligne se trouve-t-elle ? \n Tapez la lettre correspondant à la ligne, pour créer une nouvelle ligne, tapez son nom \n");
-            String str = sc.next() ;
-
-            Ligne l = new Ligne(str) ;
-            if (!l.equals(lignes)) {
+            System.out.println("Sur quelle ligne se trouve-t-elle ? (Tapez la lettre correspondant à la ligne, pour créer une nouvelle ligne, tapez son nom)");
+            Ligne ligne = new Ligne(sc.next());
+            String str = ligne.getNom() ;
+            
+            if (!(plan.getLignes().contains(ligne))) {
                 // cf Ndeye
             }
             else { 
@@ -157,8 +155,9 @@ public class Main {
                         trouve = true;
                     }
                 }
-
+               // System.out.println(ltmp.getListeFragments());
                 stationterminus = plan.getStationExtremite(ltmp) ;
+                System.out.println(stationterminus);
                 System.out.println("Vous avez la possibilite d'ajouter votre station soit avant "+ stationterminus.get(0) +" ou après "+ stationterminus.get(1)+". Quel est votre choix ? \n");
                 Station stationexistante = new Station(sc.next());
 
