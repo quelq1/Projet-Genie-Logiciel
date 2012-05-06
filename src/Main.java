@@ -18,13 +18,13 @@ public class Main {
             System.out.println("\t\t---");
             System.out.println("\t\tMENU");
             System.out.println("\t\t---");
-            System.out.println("1 - Ajouter une station");
-            System.out.println("2 - Ajouter une ligne");
-            System.out.println("3 - Signaler un incident");
-            System.out.println("4 - Itinéraire le plus rapide");
-            System.out.println("5 - Itinéraire avec le moins de changements");
-            System.out.println("6 - Itinéraire avec différentes etapes");
-            System.out.println("7 - Se localiser");
+            System.out.println("1 - Actualiser sa position");
+            System.out.println("2 - Ajouter une station");
+            System.out.println("3 - Ajouter une ligne");
+            System.out.println("4 - Signaler un incident");
+            System.out.println("5 - Itinéraire le plus rapide");
+            System.out.println("6 - Itinéraire avec le moins de changements");
+            System.out.println("7 - Itinéraire avec différentes etapes");
             System.out.println("");
             System.out.println("0 - Quitter");
             int reponse;
@@ -45,21 +45,15 @@ public class Main {
                     break;
                 case 3:
                     plan.ajoutIncident();
-
                     break;
                 case 4:
                     RechercheItineraire.menuChoixDestination(plan, 1);
-
                     break;
                 case 5:
 
                     break;
                 case 6:
                     break;
-                case 7:
-                    Geolocalisation.geolocalisation(plan);
-                    break;
-
                 default:
                     System.out.println("Choix incorrect...");
                     break;
