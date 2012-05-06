@@ -55,6 +55,7 @@ public class Main {
                 System.out.println("\nAvez-vous quelque chose d'autre à faire  (O : oui/N : non) ? ");
 		String rep;
 		rep=sc.next();
+                //permet de prendre en compte les minuscules et les majuscules
 		if (rep.compareToIgnoreCase("O")!=0) {
 			ok=false;
 		}
