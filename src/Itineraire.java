@@ -122,8 +122,10 @@ public class Itineraire {
 
     @Override
     public String toString() {
-        String s = "De " + depart + " à " + arrivee + "[ durée : " + duree + " - Nombre de changement : " + nbChangement + "] :";
-        s += "\n" + trajet;
+        String s = "De " + depart + " à " + arrivee + "[ durée : " + duree + " - Nombre de changement : " + nbChangement + "] : ";        
+        for (Station station : trajet) {
+            s += station.getNom() + ", ";
+        }
         return s;
     }
 
@@ -164,5 +166,9 @@ public class Itineraire {
 
     public int getSize() {
         return trajet.size();
+    }
+    
+    public ArrayList<Station> getTrajet() {
+        return trajet;
     }
 }

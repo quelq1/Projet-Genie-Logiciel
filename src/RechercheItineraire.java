@@ -21,43 +21,44 @@ public class RechercheItineraire {
     public static void initPlan(Plan p) {
         plan = p;
     }
-    
+
     public static void menuChoixDestination(Plan p, int type) {
         plan = p;
         Scanner sc = new Scanner(System.in);
-        
+
         boolean choixOk = false;
         Station dest;
         do {
             System.out.println("Entrez la station de destination : ");
             dest = new Station(sc.next());
-            
+
             if (plan.getStations().contains(dest)) {
                 dest = plan.getStations().get(plan.getStations().indexOf(dest));
                 choixOk = true;
-            }
-            else {
+            } else {
                 System.out.println("Erreur : la station saisie n'existe pas.");
-            }            
+            }
         } while (!choixOk);
-        
+
         //On lance la recherche d'itinéraire
         //1 : itinéraire rapide
         //2 : itinéraire moins de changement
         //3 : itinéraire avec étapes
         Itineraire itineraire = null;
+        
         switch (type) {
-            case 1 :
+            case 1:
                 System.out.println("Recherche en cours...");
                 itineraire = getItinerairePlusRapide(plan.getStationUtil(), dest);
+                System.out.println("Résultat : " + itineraire);
                 break;
-            case 2 : 
+            case 2:
                 break;
-            case 3 : 
+            case 3:
                 break;
         }
-        
-        System.out.println("Itinéraire : " + itineraire);
+
+        affichageItineraire(itineraire);
     }
 
     public static ArrayList<Fragment> getDirections(Station s) {
@@ -140,17 +141,27 @@ public class RechercheItineraire {
         Itineraire itineraire = new Itineraire(dep, arr);
         ArrayList<Itineraire> solutions = new ArrayList<>();
         rechercheItineraires(itineraire, dep, null, solutions);
-
+        
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;
         if (!solutions.isEmpty()) {
             int min = solutions.get(0).getDuree();
             for (Itineraire it : solutions) {
-                if (it.getDuree() < min) {
+                if (it.getDuree() <= min) {
                     res = it;
+                    min = it.getDuree();
                 }
             }
         }
         return res;
+    }
+
+    public static void affichageItineraire(Itineraire itineraire) {
+        System.out.println("* Itinéraire trouvé en " + itineraire.getDuree() + "m : ");
+        System.out.print("\t - ");
+        for (Station station : itineraire.getTrajet()) {
+            System.out.print(station.getNom() + ", ");
+        }
+        System.out.println("");
     }
 }
