@@ -203,8 +203,10 @@ public class Plan {
                     System.out.println(cpt+" "+tmp.getNom()); 
                 }
                 int numstation;
-                System.out.println("Quelle station ?");
+                System.out.println("Quelles sont les stations ?");
                 numstation=sc.nextInt();
+                numstation=sc.nextInt();
+                System.out.println(numstation);
             }
                   
     }
