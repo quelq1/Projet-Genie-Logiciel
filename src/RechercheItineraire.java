@@ -45,20 +45,53 @@ public class RechercheItineraire {
         //2 : itinéraire moins de changement
         //3 : itinéraire avec étapes
         Itineraire itineraire = null;
-        
+        System.out.println("Recherche en cours...");
         switch (type) {
             case 1:
-                System.out.println("Recherche en cours...");
                 itineraire = getItinerairePlusRapide(plan.getStationUtil(), dest);
-                System.out.println("Résultat : " + itineraire);
                 break;
             case 2:
+                itineraire = getItineraireMoinsChangement(plan.getStationUtil(), dest);
                 break;
             case 3:
+                ArrayList<Station> etapes = menuChoixEtapes(dest);
+                System.out.println("Etapes : " + etapes);
+                itineraire = getItineraireParEtapes(etapes);
                 break;
         }
 
         affichageItineraire(itineraire);
+    }
+
+    private static ArrayList<Station> menuChoixEtapes(Station dest) {
+        Scanner sc = new Scanner(System.in);
+
+        ArrayList<Station> lEtapes = new ArrayList<>();
+        lEtapes.add(plan.getStationUtil());
+
+        System.out.println("Saissisez les étapes [Finir par : f] : ");
+        Station etape = null;
+        String saisie;
+        boolean fin = false;
+        do {
+            saisie = sc.next();
+            etape = new Station(saisie);
+
+            if (saisie.compareToIgnoreCase("f") == 0) {
+                fin = true;
+            } else if (plan.getStations().contains(etape)) {
+                etape = plan.getStations().get(plan.getStations().indexOf(etape));
+                lEtapes.add(etape);
+            } else {
+                System.out.println("Erreur : la station saisie n'existe pas.");
+            }
+        } while (!fin);
+
+        if (!lEtapes.contains(dest)) {
+            lEtapes.add(dest);
+        }
+
+        return lEtapes;
     }
 
     public static ArrayList<Fragment> getDirections(Station s) {
@@ -136,7 +169,7 @@ public class RechercheItineraire {
         Itineraire itineraire = new Itineraire(dep, arr);
         ArrayList<Itineraire> solutions = new ArrayList<>();
         rechercheItineraires(itineraire, dep, null, solutions);
-        
+
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;
         if (!solutions.isEmpty()) {
@@ -150,7 +183,7 @@ public class RechercheItineraire {
         }
         return res;
     }
-    
+
     public static Itineraire getItineraireMoinsChangement(Station dep, Station arr) {
         Itineraire itineraire = new Itineraire(dep, arr);
         ArrayList<Itineraire> solutions = new ArrayList<>();
@@ -170,8 +203,24 @@ public class RechercheItineraire {
         return res;
     }
 
+    /*
+     * La station de départ doit être la 1ère La station d'arrivée la dernière
+     */
+    public static Itineraire getItineraireParEtapes(ArrayList<Station> etapes) {
+        Itineraire res = null, tmp;
+        if (etapes.size() >= 2) {
+            res = getItinerairePlusRapide(etapes.get(0), etapes.get(1));
+            //On calcule l'itinéraire le plus rapide entre chaque étape
+            for (int i = 2; i < etapes.size(); i++) {
+                tmp = getItinerairePlusRapide(etapes.get(i - 1), etapes.get(i));
+                res.concatItineraire(tmp, plan);
+            }
+        }
+        return res;
+    }
+
     public static void affichageItineraire(Itineraire itineraire) {
-        System.out.println("* Itinéraire trouvé en " + itineraire.getDuree() + "m : ");
+        System.out.println("* Itinéraire trouvé en " + itineraire.getDuree() + "m et " + itineraire.getNbChangement() + " changement(s) : ");
         System.out.print("\t - ");
         for (Station station : itineraire.getTrajet()) {
             System.out.print(station.getNom() + ", ");

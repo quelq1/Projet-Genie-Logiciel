@@ -71,9 +71,6 @@ public class Station {
         if (!Objects.equals(this.nom, other.nom)) {
             return false;
         }
-        if (!Objects.equals(this.incident, other.incident)) {
-            return false;
-        }
         return true;
     
     }

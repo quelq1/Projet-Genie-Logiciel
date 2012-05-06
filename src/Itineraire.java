@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 
 /*
@@ -122,7 +123,7 @@ public class Itineraire {
 
     @Override
     public String toString() {
-        String s = "De " + depart + " à " + arrivee + "[ durée : " + duree + " - Nombre de changement : " + nbChangement + "] : ";        
+        String s = "De " + depart + " à " + arrivee + "[ durée : " + duree + " - Nombre de changement : " + nbChangement + "] : ";
         for (Station station : trajet) {
             s += station.getNom() + ", ";
         }
@@ -153,11 +154,32 @@ public class Itineraire {
         nbChangement--;
     }
 
-    public void concatItineraire(Itineraire i) {
+    public void concatItineraire(Itineraire i, Plan p) {
         this.arrivee = i.arrivee;
-        this.duree += i.duree;
+        this.duree += i.duree + i.trajet.get(0).getTempsArret();
         this.nbChangement += i.nbChangement;
+        Fragment prec = p.getFragmentByStations(this.trajet.get(this.trajet.size() - 1).getNom(), this.trajet.get(this.trajet.size() - 2).getNom());
+        Fragment suiv = p.getFragmentByStations(i.trajet.get(0).getNom(), i.trajet.get(1).getNom());
+
+        if (p.aChangement(prec, suiv)) {
+            this.nbChangement++;
+        }
+        
+        i.trajet.remove(0);
         this.trajet.addAll(i.trajet);
+
+//        if (!this.trajet.contains(s)) {
+//            this.trajet.add(s);
+//        } else {
+//            this.duree += s.getTempsArret();
+//            Fragment prec = p.getFragmentByStations(s.getNom(), this.trajet.get(this.trajet.size() - 2).getNom());
+//            Fragment suiv = p.getFragmentByStations(s.getNom(), i.trajet.get(1).getNom());
+//            
+//            if (p.aChangement(prec, suiv)) {
+//                this.nbChangement++;
+//            }
+//        }
+
     }
 
     public Station getStation(int i) {
@@ -167,7 +189,7 @@ public class Itineraire {
     public int getSize() {
         return trajet.size();
     }
-    
+
     public ArrayList<Station> getTrajet() {
         return trajet;
     }

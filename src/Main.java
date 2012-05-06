@@ -15,9 +15,9 @@ public class Main {
         Geolocalisation.geolocalisation(plan);
 
         do {
-            System.out.println("\t\t---");
-            System.out.println("\t\tMENU");
-            System.out.println("\t\t---");
+            System.out.println("\t\t------");
+            System.out.println("\t\t MENU");
+            System.out.println("\t\t------");
             System.out.println("1 - Actualiser sa position");
             System.out.println("2 - Ajouter une station");
             System.out.println("3 - Ajouter une ligne");
@@ -44,15 +44,19 @@ public class Main {
                     plan.ajoutLigne();
                     break;
                 case 3:
-                    plan.ajoutIncident();
+                    plan.ajoutLigne();
                     break;
                 case 4:
-                    RechercheItineraire.menuChoixDestination(plan, 1);
+                    plan.ajoutIncident();
                     break;
                 case 5:
-
+                    RechercheItineraire.menuChoixDestination(plan, 1);
                     break;
                 case 6:
+                    RechercheItineraire.menuChoixDestination(plan, 2);
+                    break;
+                case 7:
+                    RechercheItineraire.menuChoixDestination(plan, 3);
                     break;
                 default:
                     System.out.println("Choix incorrect...");

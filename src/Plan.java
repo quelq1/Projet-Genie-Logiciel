@@ -276,9 +276,6 @@ public class Plan {
         return stations.add(s);
     }
 
-
-   
-
     public void traitementLigne(String chaine) {
         if (chaine != null) {
             String[] ligne = chaine.split("\t");
@@ -328,8 +325,6 @@ public class Plan {
             }
         }
     }
-    
-    
     
     public void ajoutIncident() {
         
@@ -401,5 +396,17 @@ public class Plan {
                System.out.println("Il n'existe pas de fragment entre ces deux stations");
            }  
         }
+    }
+    
+    public Fragment getFragmentByStations(String s1, String s2) {
+        for (Ligne l : lignes) {
+            for (Fragment f : l.getListeFragments()) {
+                if ((f.getStationArr().getNom().compareTo(s1) == 0 || f.getStationArr().getNom().compareTo(s2) == 0)
+                        && ((f.getStationDep().getNom().compareTo(s1) == 0) || f.getStationDep().getNom().compareTo(s2) == 0)) {
+                    return f;
+                }
+            }
+        }
+        return null;
     }
 }
