@@ -1,4 +1,3 @@
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
@@ -8,88 +7,61 @@ public class Main {
     public static void main(String[] args) {
         Plan plan = new Plan(fichier);
         System.out.println(plan);
+        
+        boolean ok;
 
-        System.out.println("");
+        System.out.println("BIENVENU que desirez vous faire ?\n");
+        
+	do {
+		System.out.println("        MENU        ");
+		System.out.println("1 - Vous localiser");
+                System.out.println("2 - Ajouter une station");
+                System.out.println("3 - Ajouter une ligne");
+		System.out.println("4 - Signaler un incident");
+		System.out.println("5 - Itineraire le plus rapide");
+		System.out.println("6 - Connaitre l'itineraire avec le moins de changement");
+                System.out.println("7 - Connaitre l'itineraire avec différentes etapes");
+		int reponse;
+		Scanner sc=new Scanner(System.in);
+		reponse=sc.nextInt();
 
-        geolocalisation(plan);
-    }
-
-    public static void geolocalisation(Plan plan) {
-        Scanner sc = new Scanner(System.in);
-        Station util = null;
-        boolean saisieOk = false, choixOk = false;
-        do {
-            System.out.print("Vous trouvez-vous dans une station (O : oui/N : non) ? ");
-            String rep = sc.next();
-
-            if (rep.toUpperCase().compareTo("O") == 0) {
-                choixOk = true;
-                //On affiche les stations dispo
-                Iterator<Station> is = plan.getStations().iterator();
-                int i = 1;
-                while (is.hasNext()) {
-                    System.out.println(i + " - " + is.next());
-                    i++;
-                }
-
-                int nStation = 0;
-                do {
-                    System.out.print("Quel est son nom (tapez le numero correspondant à votre station) ? ");
-                    try {
-                        nStation = Integer.parseInt(sc.next());
-
-                        if (nStation < 0 || nStation > plan.getStations().size()) {
-                            throw new NumberFormatException();
-                        }
-                        saisieOk = true;
-                    } catch (NumberFormatException e) {
-                        System.out.println("\nChoix incorrect.");
-                    }
-                } while (!saisieOk);
-
-                is = plan.getStations().iterator();
-                i = 1;
-                while (is.hasNext() && i <= nStation) {
-                    if (i == nStation) {
-                        util = is.next();
-                    } else {
-                        i++;
-                        is.next();
-                    }
-                }
-
-                System.out.println("Vous vous trouvez à " + util + ".");
-                plan.setStationUtil(util);
-            } else if (rep.toUpperCase().compareTo("N") == 0) {
-                choixOk = true;
-                double lat = 0, lon = 0;
-
-                do {
-                    System.out.println("A quelle latitude vous trouvez-vous ?");
-                    try {
-                        lat = Double.parseDouble(sc.next());
-                        saisieOk = true;
-                    } catch (NumberFormatException e) {
-                        System.out.println("\nChoix incorrect.");
-                    }
-                } while (!saisieOk);
-
-                do {
-                    System.out.println("A quelle longitude vous trouvez-vous ?");
-                    try {
-                        lon = Double.parseDouble(sc.next());
-                        saisieOk = true;
-                    } catch (NumberFormatException e) {
-                        System.out.println("\nChoix incorrect.");
-                    }
-                } while (!saisieOk);
-
-                util = plan.getStationProche(new Coordonnee(lat, lon));
-                plan.setStationUtil(util);
-                System.out.println("La station la plus proche est " + util + ".");
-            } else {
-                System.out.println("Merci de respecter le format d'ecriture.");
-            }
-        } while (!choixOk);
-    }
+		switch(reponse){
+			case 1 :
+                                Geolocalisation.geolocalisation(plan);
+				break;
+			case 2:
+				plan.ajoutincident();
+				break;
+			case 3:
+				
+				break;
+			case 4:
+				
+				break;
+                        case 5:
+                                
+                                break;
+                        case 6:
+                                
+                                break;
+                        case 7 :
+                                
+                                break;
+			default:
+				Geolocalisation.geolocalisation(plan);
+				break;
+		}
+       
+                System.out.println("\nAvez-vous quelque chose d'autre à faire  (O : oui/N : non) ? ");
+		String rep;
+		rep=sc.next();
+                //permet de prendre en compte les minuscules et les majuscules
+		if (rep.compareToIgnoreCase("O")!=0) {
+			ok=false;
+		}
+		else {
+			ok=true;
+		}
+        }while (ok);
+   }  
 }
