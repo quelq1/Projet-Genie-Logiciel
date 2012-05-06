@@ -8,7 +8,6 @@ package projet;
  *
  * @author Mami Sall
  */
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -43,69 +42,57 @@ public class Plan {
         return lignes;
     }
 
-    public void addLignes(Ligne l) {
+    public void ajoutLigne(Ligne l) {
         
-        Iterator<Ligne> it = lignes.iterator();
-                    Ligne ligneTmp;
-                    while (it.hasNext())
-                    {
-                        ligneTmp = it.next();
-                        if (ligneTmp.equalsNom(l)) 
-                        {
-                            System.out.println("Le nom existe deja!");
-                            System.exit(1);
-                            
-                        }
-                    }
-        int nbreStation;
         Scanner sc1 = new Scanner(System.in);
-        Scanner sc2 = new Scanner(System.in);
-        do{
-        System.out.println("Entrer le nombre de stations à ajouter:");
-        nbreStation=sc1.nextInt();
-        if(nbreStation>=2)
-        { ArrayList<Station> ListStationTmp= new ArrayList();
-        while(nbreStation!=0)
-          {
-              System.out.println("Entrer le nom de la station:");
-              String s=sc2.next();
-              Station stationTmp= new Station(s);
-              if(!ListStationTmp.contains(stationTmp))
-                {if(this.stations.contains(stationTmp))
-                  System.out.println("Cette station existe deja!");
-                
-                 ListStationTmp.add(stationTmp);
-                 nbreStation --;
-                }
-               else
-                System.out.println("Vous avez déja saisi cette station!");   
-                
-           }
-          
-           
-       for(int i=0;i<=ListStationTmp.size()-2;i++)
-           {   
-               Fragment f= new Fragment(ListStationTmp.get(i), ListStationTmp.get(i+1));
-               System.out.println("Entrer le temps de parcours entre "+ListStationTmp.get(i) +"et "+ListStationTmp.get(i+1)+":");
-               int tempsTmp=sc1.nextInt();
-               f.setTempsDeParcours(tempsTmp);
-               l.addFragment(f);
-           }
-           lignes.add(l);
-           System.out.println("La ligne a été ajoutée!");
-           System.out.println(this.getLignes().toString());
-          }
-       else
-           System.out.println("Il faut au moins deux stations pour creer la ligne!");
-  
-    }while(nbreStation<2);
-      
-}
-       
-       
-    
+        if (lignes.contains(l)) {
+            System.out.println("la ligne existe déjà!!");
+        } else 
+            {
+            System.out.println("Entrer le nombre de stations à ajouter:");
+            int nbreStation = sc1.nextInt();
+            if (nbreStation >= 2) {
+                ArrayList<Station> ListStationTmp = new ArrayList();
+                while (nbreStation != 0) {
+                    System.out.println("Entrer le nom de la station:");
+                    String s = sc1.next();
+                    Station stationTmp = new Station(s);
+                    if (!ListStationTmp.contains(stationTmp)) {
+                        if (this.stations.contains(stationTmp)) {
+                            System.out.println("Station existante...");
+                        }
 
-   
+                        ListStationTmp.add(stationTmp);
+                        nbreStation--;
+                    } else {
+                        System.out.println("Vous avez déja saisi cette station!");
+                    }
+
+                }
+
+
+                for (int i = 0; i <= ListStationTmp.size() - 2; i++) {
+                    Fragment f = new Fragment(ListStationTmp.get(i), ListStationTmp.get(i + 1));
+                    System.out.println("Entrer le temps de parcours entre " + ListStationTmp.get(i) + "et " + ListStationTmp.get(i + 1) + ":");
+                    int tempsTmp = sc1.nextInt();
+                    f.setTempsDeParcours(tempsTmp);
+                    l.addFragment(f);
+                }
+                lignes.add(l);
+                System.out.println("La ligne a été ajoutée!");
+            } else {
+                System.out.println("Il faut au moins deux stations pour creer la ligne!");
+            }
+
+        }
+    }
+
+    public boolean addLignes(Ligne l) {
+
+        return lignes.add(l);
+
+    }
+
     //Stations
     public Set<Station> getStations() {
         return stations;
@@ -209,10 +196,10 @@ public class Plan {
     public Station getStationProche(Coordonnee coord) {
         Station res = null, tmp;
         double min, distance;
-        
+
         Iterator<Station> is = stations.iterator();
         if (is.hasNext()) {
-            tmp = is.next(); 
+            tmp = is.next();
             res = tmp;
             min = coord.distance(tmp.getCoord());
             while (is.hasNext()) {
@@ -227,6 +214,4 @@ public class Plan {
 
         return res;
     }
-
-    
 }

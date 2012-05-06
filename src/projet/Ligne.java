@@ -71,18 +71,17 @@ public class Ligne {
         if (!Objects.equals(this.nom, other.nom)) {
             return false;
         }
-        if (!Objects.equals(this.lFragment, other.lFragment)) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + Objects.hashCode(this.lFragment);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.nom);
         return hash;
     }
+
+   
 
    
 
