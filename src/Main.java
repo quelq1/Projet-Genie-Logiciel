@@ -24,6 +24,7 @@ public class Main {
             System.out.println("4 - Itineraire le plus rapide");
             System.out.println("5 - Connaitre l'itineraire avec le moins de changement");
             System.out.println("6 - Connaitre l'itineraire avec différentes etapes");
+            System.out.println("7 - Se localiser");
             System.out.println("");
             System.out.println("0 - Quitter");
             int reponse;
@@ -54,6 +55,9 @@ public class Main {
 
                     break;
                 case 6:break;
+                    case 7: 
+                        Geolocalisation.geolocalisation(plan);
+                        break;
 
                 default:
 				System.out.println("Choix incorrect...");
