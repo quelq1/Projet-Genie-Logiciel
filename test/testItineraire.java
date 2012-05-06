@@ -284,6 +284,57 @@ public class testItineraire extends TestCase {
         attendu.addStation(s3);
         attendu.addStation(s2);
 
+        assertEquals(attendu, it);
+    }
+    
+    /*
+     * Test de la méthode getItineraireMoinsChangement de Plan
+     */
+    public void testGetItineraireMoinsChangement() {
+        //Création du plan
+        Plan p = new Plan();
+        RechercheItineraire.initPlan(p);
+        
+        Station s1 = new Station("s1");
+        Station s2 = new Station("s2");
+        Station s3 = new Station("s3");
+        Station s4 = new Station("s4");
+        Station s5 = new Station("s5");
+        
+        p.setStationUtil(s1);
+        
+        p.addStation(s1);
+        p.addStation(s2);
+        p.addStation(s3);
+        
+        Fragment f1 = new Fragment(s1, s3, 3);
+        Fragment f2 = new Fragment(s3, s2, 3);
+        
+        Ligne a = new Ligne("A");        
+        a.addFragment(f1);
+        a.addFragment(f2);
+        p.addLignes(a);
+        
+        Fragment f3 = new Fragment(s4, s1, 1);
+        Fragment f4 = new Fragment(s4, s3, 1);
+        Ligne b = new Ligne("B");
+        b.addFragment(f3);
+        b.addFragment(f4);
+        p.addLignes(b);
+        
+
+        Fragment f5 = new Fragment(s4, s5, 1);
+        Ligne c = new Ligne("C");
+        c.addFragment(f5);
+        p.addLignes(c);
+        
+        Itineraire it = RechercheItineraire.getItineraireMoinsChangement(p.getStationUtil(), s2);
+        
+        //Résultat attendu
+        Itineraire attendu = new Itineraire(s1, s2, 8, 0);
+        attendu.addStation(s3);
+        attendu.addStation(s2);
+        
         System.out.println("Sol : " + it);
         System.out.println("Attendu : " + attendu);
         assertEquals(attendu, it);

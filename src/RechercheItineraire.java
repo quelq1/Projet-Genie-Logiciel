@@ -63,16 +63,11 @@ public class RechercheItineraire {
 
     public static ArrayList<Fragment> getDirections(Station s) {
         ArrayList<Fragment> res = new ArrayList<>();
-        Fragment f;
 
-        //Parcours des lignes
-        Iterator<Ligne> ligne = plan.getLignes().iterator();
-        Iterator<Fragment> frag;
-        while (ligne.hasNext()) {
+        for (Ligne l : plan.getLignes()) {
+
             //Parcours des fragments de la ligne
-            frag = ligne.next().getListeFragments().iterator();
-            while (frag.hasNext()) {
-                f = frag.next();
+            for (Fragment f : l.getListeFragments()) {
 
                 //Si le fragment contient la station et qu'elle n'est pas déjà dans la liste
                 //On ajoute si :
@@ -150,6 +145,25 @@ public class RechercheItineraire {
                 if (it.getDuree() <= min) {
                     res = it;
                     min = it.getDuree();
+                }
+            }
+        }
+        return res;
+    }
+    
+    public static Itineraire getItineraireMoinsChangement(Station dep, Station arr) {
+        Itineraire itineraire = new Itineraire(dep, arr);
+        ArrayList<Itineraire> solutions = new ArrayList<>();
+        rechercheItineraires(itineraire, dep, null, solutions);
+
+        //On parcours les chemins pour connaître le plus court
+        Itineraire res = null;
+        if (!solutions.isEmpty()) {
+            int min = solutions.get(0).getNbChangement();
+            for (Itineraire it : solutions) {
+                if (it.getNbChangement() <= min) {
+                    res = it;
+                    min = it.getNbChangement();
                 }
             }
         }
