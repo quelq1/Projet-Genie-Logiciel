@@ -13,7 +13,6 @@ public class Plan {
 
     private List<Station> stations;
     private Set<Ligne> lignes;
-    private Set<Fragment> fragments ;
     private Station util;
     
 
