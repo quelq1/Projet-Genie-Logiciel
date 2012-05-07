@@ -1,29 +1,35 @@
 
+import java.util.Calendar;
 import java.util.Objects;
-
 
 public class Station {
 
+    private final int nbRameHeure = 12;
+    private final int tmpChgmt = 2;
+    private int tmpArret;
     private String nom;
     private Coordonnee coord;
-    private static int tps_darret = 2;
     private Incident incident;
 
     public Station(String name) {
         nom = name;
-        incident=null;
+        incident = null;
+        coord = null;
+        tmpArret = 0;
     }
 
     public Station(String name, Coordonnee c) {
         nom = name;
         incident = null;
         coord = c;
+        tmpArret = 0;
     }
 
     public Station(String n, Coordonnee c, Incident inci) {
         nom = n;
         coord = c;
         incident = inci;
+        tmpArret = 0;
     }
 
     //nom
@@ -45,8 +51,16 @@ public class Station {
     }
 
     //tps darret
-    public int getTempsArret() {
-        return tps_darret;
+    public int getTempsAttente(Calendar d) {
+        System.out.println("Entré : " + d.getTime());
+        int minute = d.get(Calendar.MINUTE);
+        int attente = (60 / nbRameHeure) - minute % (60 / nbRameHeure);
+ 
+        if (attente == 0) {
+            attente += tmpChgmt;
+        }
+        tmpArret = attente;
+        return attente;
     }
 
     //incident
@@ -57,10 +71,9 @@ public class Station {
     public void setIncident(Incident newinci) {
         incident = newinci;
     }
-    
-    public boolean equalsIncident(Object obj)
-    {
-         
+
+    public boolean equalsIncident(Object obj) {
+
         if (obj == null) {
             return false;
         }
@@ -72,7 +85,7 @@ public class Station {
             return false;
         }
         return true;
-    
+
     }
 
     @Override
@@ -104,5 +117,9 @@ public class Station {
             s += " - " + incident;
         }
         return s;
+    }
+    
+    public int getTmpArret() {
+        return tmpArret;
     }
 }

@@ -1,6 +1,6 @@
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Calendar;
 import java.util.Scanner;
 
 /*
@@ -14,16 +14,19 @@ import java.util.Scanner;
 public class RechercheItineraire {
 
     private static Plan plan;
+    private static Calendar heureDep;
 
     /*
      * Utile juste pour les tests JUnits
      */
-    public static void initPlan(Plan p) {
+    public static void initPlan(Plan p, Calendar c) {
         plan = p;
+        heureDep = c;
     }
 
     public static void menuChoixDestination(Plan p, int type) {
         plan = p;
+        heureDep = Calendar.getInstance();
         Scanner sc = new Scanner(System.in);
 
         boolean choixOk = false;
@@ -120,12 +123,13 @@ public class RechercheItineraire {
         return res;
     }
 
-    public static void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, ArrayList<Itineraire> sol) {
+    public static void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, Calendar heure, ArrayList<Itineraire> sol) {
+        System.out.println("Heure : " + heure.getTime());
         if (itineraire.getArrivee().equals(s)) {
             //On fait une copie pour éviter les effets de bords
             Itineraire tmp = itineraire.clone();
             //On ne compte pas le temps d'arrêt à la station d'arrivée.
-            tmp.rmDuree(s.getTempsArret());
+            tmp.addDuree(-s.getTmpArret());
             //ajoute l'itinéraire à la liste des solutions
             sol.add(tmp);
         } else {
@@ -143,17 +147,20 @@ public class RechercheItineraire {
                     //enregistrement de la station
                     itineraire.addStation(dest);
                     //ajout du temps de trajet
-                    itineraire.addDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
+                    int tmpParcours = fragPossible.getTempsDeParcours();
+                    itineraire.addDuree(tmpParcours);
+                    int tmpAttente = dest.getTempsAttente(itineraire.getDateArrivee());
+                    itineraire.addDuree(tmpAttente);
 
                     if (plan.aChangement(fragPossible, fragPrec)) {
                         //incrémente le nombre de changement
                         itineraire.incrChangement();
                     }
                     //appel récursif
-                    rechercheItineraires(itineraire, dest, fragPossible, sol);
+                    rechercheItineraires(itineraire, dest, fragPossible, itineraire.getDateArrivee(), sol);
 
                     //décrémente le temps de parcours
-                    itineraire.rmDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
+                    itineraire.addDuree(-(fragPossible.getTempsDeParcours() + dest.getTmpArret()));
                     if (plan.aChangement(fragPossible, fragPrec)) {
                         //décrément le nombre de changement
                         itineraire.decrChangement();
@@ -166,18 +173,18 @@ public class RechercheItineraire {
     }
 
     public static Itineraire getItinerairePlusRapide(Station dep, Station arr) {
-        Itineraire itineraire = new Itineraire(dep, arr);
+        Itineraire itineraire = new Itineraire(dep, arr, heureDep);
         ArrayList<Itineraire> solutions = new ArrayList<>();
-        rechercheItineraires(itineraire, dep, null, solutions);
+        rechercheItineraires(itineraire, dep, null, heureDep, solutions);
 
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;
         if (!solutions.isEmpty()) {
-            int min = solutions.get(0).getDuree();
+            Calendar min = solutions.get(0).getDateArrivee();
             for (Itineraire it : solutions) {
-                if (it.getDuree() <= min) {
+                if (it.getDateArrivee().before(min)) {
                     res = it;
-                    min = it.getDuree();
+                    min = it.getDateArrivee();
                 }
             }
         }
@@ -185,9 +192,9 @@ public class RechercheItineraire {
     }
 
     public static Itineraire getItineraireMoinsChangement(Station dep, Station arr) {
-        Itineraire itineraire = new Itineraire(dep, arr);
+        Itineraire itineraire = new Itineraire(dep, arr, heureDep);
         ArrayList<Itineraire> solutions = new ArrayList<>();
-        rechercheItineraires(itineraire, dep, null, solutions);
+        rechercheItineraires(itineraire, dep, null, heureDep, solutions);
 
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;
@@ -213,14 +220,14 @@ public class RechercheItineraire {
             //On calcule l'itinéraire le plus rapide entre chaque étape
             for (int i = 2; i < etapes.size(); i++) {
                 tmp = getItinerairePlusRapide(etapes.get(i - 1), etapes.get(i));
-                res.concatItineraire(tmp, plan);
+//                res.concatItineraire(tmp, plan);
             }
         }
         return res;
     }
 
     public static void affichageItineraire(Itineraire itineraire) {
-        System.out.println("* Itinéraire trouvé en " + itineraire.getDuree() + "m et " + itineraire.getNbChangement() + " changement(s) : ");
+        System.out.println("* Itinéraire trouvé en " + itineraire.getDateArrivee() + "m et " + itineraire.getNbChangement() + " changement(s) : ");
         System.out.print("\t - ");
         for (Station station : itineraire.getTrajet()) {
             System.out.print(station.getNom() + ", ");
