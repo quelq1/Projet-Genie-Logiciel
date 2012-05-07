@@ -11,4 +11,13 @@ nbproject/**
 *.xml
 
 # Ignorer les fichiers .xmf
+<<<<<<< HEAD
 *.mf
+=======
+<<<<<<< HEAD
+*.mf
+dist/**
+=======
+*.mf
+>>>>>>> 765b15120fd867ebf7dad1248e7a77ff4738fc4b
+>>>>>>> master

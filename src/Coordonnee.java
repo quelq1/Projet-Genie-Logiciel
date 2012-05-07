@@ -1,20 +1,11 @@
 
 public class Coordonnee {
-    private double longitude;
     private double latitude;
+    private double longitude;
     
-    public Coordonnee(double longi, double lat) {
-        longitude=longi;
+    public Coordonnee(double lat, double longi) {
         latitude=lat;
-    }
-    
-    //longitude
-    public double getLongitude(){
-        return longitude;
-    }
-
-    public void setLongitude(double nouveaulong) {
-        longitude=nouveaulong;
+        longitude=longi;
     }
     
     //latitude
@@ -26,6 +17,16 @@ public class Coordonnee {
         latitude=nouvellelat;
     }
     
+    
+    //longitude
+    public double getLongitude(){
+        return longitude;
+    }
+
+    public void setLongitude(double nouveaulong) {
+        longitude=nouveaulong;
+    }
+    
     public double distance(Coordonnee c) {
         double lat = (this.getLatitude()-c.getLatitude())*(this.getLatitude()-c.getLatitude());
         double lon = (this.getLongitude()-c.getLongitude())*(this.getLongitude()-c.getLongitude());
@@ -34,6 +35,7 @@ public class Coordonnee {
 
     @Override
     public String toString() {
-        return longitude + ":" + latitude;
+        return latitude + ":" + longitude;
     }
+
 }
