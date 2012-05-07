@@ -1,7 +1,5 @@
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Scanner;
+import java.util.*;
 
 /*
  * To change this template, choose Tools | Templates and open the template in
@@ -124,7 +122,6 @@ public class RechercheItineraire {
     }
 
     public static void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, ArrayList<Itineraire> sol) {
-        System.out.println("Dans " + s.getNom() + " à " + itineraire.getDateArrivee().getTime());
         if (itineraire.getArrivee().equals(s)) {
             //On fait une copie pour éviter les effets de bords
             Itineraire tmp = itineraire.clone();
@@ -220,14 +217,10 @@ public class RechercheItineraire {
     public static Itineraire getItineraireParEtapes(ArrayList<Station> etapes) {
         Itineraire res = null, tmp;
         if (etapes.size() >= 2) {
-            System.out.println("HeureDep : " + heureDep.getTime());
             res = getItinerairePlusRapide(etapes.get(0), etapes.get(1), heureDep);
-            System.out.println("Res : " + res);
             //On calcule l'itinéraire le plus rapide entre chaque étape
             for (int i = 2; i < etapes.size(); i++) {
-                tmp = getItinerairePlusRapide(etapes.get(i - 1), etapes.get(i), (Calendar)res.getDateArrivee().clone());
-                System.out.println("iti prec : " + res);
-                System.out.println("iti suiv : " + tmp);
+                tmp = getItinerairePlusRapide(etapes.get(i - 1), etapes.get(i), (Calendar) res.getDateArrivee().clone());
                 res.concatItineraire(tmp, plan);
             }
         }
@@ -235,11 +228,66 @@ public class RechercheItineraire {
     }
 
     public static void affichageItineraire(Itineraire itineraire) {
-        System.out.println("* Itinéraire trouvé en " + itineraire.getDateArrivee() + "m et " + itineraire.getNbChangement() + " changement(s) : ");
-        System.out.print("\t - ");
-        for (Station station : itineraire.getTrajet()) {
-            System.out.print(station.getNom() + ", ");
+        System.out.println("Données : " + itineraire);
+        System.out.println("* Itinéraire :");
+
+        Station sDeb;
+        Station sSuiv = null;
+        Fragment fDeb;
+        List<Ligne> lignesDeb;
+
+        if (itineraire.getSize() <= 2) {
+            sDeb = itineraire.getStation(0);
+            sSuiv = itineraire.getStation(1);
+            fDeb = plan.getFragmentByStations(sDeb.getNom(), sSuiv.getNom());
+            lignesDeb = plan.getLigneByFragment(fDeb);
+            System.out.println("\t- A " + sDeb.getNom() + ", prendre la ligne " + lignesDeb.get(0).getNom() + " jusqu'à " + sSuiv.getNom());
+        } else {
+
+            Station sFin;
+            Fragment fSuiv = null;
+            Ligne ligne = null;
+
+            int i;
+            for (i = 1; i <= itineraire.getSize() - 1; i++) {
+                //On récupère les stations
+                sDeb = itineraire.getStation(i - 1);
+                sSuiv = itineraire.getStation(i);
+                sFin = itineraire.getStation(i + 1);
+
+                //On récupère les fragments
+                fDeb = plan.getFragmentByStations(sDeb.getNom(), sSuiv.getNom());
+                lignesDeb = plan.getLigneByFragment(fDeb);
+
+                if (sFin != null) {
+                    fSuiv = plan.getFragmentByStations(sSuiv.getNom(), sFin.getNom());
+                }
+                ligne = plan.getLigneCommune(fDeb, fSuiv);
+                if (ligne == null) {
+                    ligne = lignesDeb.get(lignesDeb.size()-1);
+                }
+                else {
+                    do {
+                        sSuiv = itineraire.getStation(i);
+                        i++;
+                    } while (ligne.contientStation(itineraire.getStation(i)));
+                    i--;
+                }
+
+                
+
+                System.out.println("\t- A " + sDeb.getNom() + ", prendre la ligne " + ligne.getNom() + " jusqu'à " + sSuiv.getNom() + ".");
+            }
         }
-        System.out.println("");
+
+        System.out.println("\t- Vous êtes arrivé à " + sSuiv.getNom());
+
+
+//        System.out.println("* Itinéraire trouvé en " + itineraire.getDateArrivee() + "m et " + itineraire.getNbChangement() + " changement(s) : ");
+//        System.out.print("\t - ");
+//        for (Station station : itineraire.getTrajet()) {
+//            System.out.print(station.getNom() + ", ");
+//        }
+//        System.out.println("");
     }
 }

@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
-*
-* @author Mami Sall
-*/
+ *
+ * @author Mami Sall
+ */
 public class Plan {
 
     private List<Station> stations;
@@ -108,30 +108,39 @@ public class Plan {
         return res;
     }
 
+    public Ligne getLigneCommune(Fragment f1, Fragment f2) {
+        if (f1 == null || f2 == null) {
+            return null;
+        }
+        for (Ligne l : lignes) {
+            if (l.getListeFragments().contains(f1) && l.getListeFragments().contains(f2)) {
+                return l;
+            }
+        }
+        return null;
+    }
+
     public boolean aChangement(Fragment fragPossible, Fragment prec) {
         if (prec == null || fragPossible == null) {
             return false;
         }
-
-        for (Ligne l : lignes) {
-            if (l.getListeFragments().contains(prec) && l.getListeFragments().contains(fragPossible)) {
-                return false;
-            }
+        if (this.getLigneCommune(fragPossible, prec) == null) {
+            return true;
+        } else {
+            return false;
         }
-        return true;
     }
 
     //Ajout ligne
-     public void ajoutLigne() {
-        
+    public void ajoutLigne() {
+
         Scanner sc1 = new Scanner(System.in);
-       
+
         System.out.println("Entrez le nom de la ligne à creer:");
-        Ligne l= new Ligne(sc1.next());
+        Ligne l = new Ligne(sc1.next());
         if (lignes.contains(l)) {
             System.out.println("la ligne existe déjà!!");
-        } else
-            {
+        } else {
             System.out.println("Entrer le nombre de stations à ajouter:");
             int nbreStation = sc1.nextInt();
             if (nbreStation >= 2) {
@@ -155,7 +164,7 @@ public class Plan {
 
 
                 for (int i = 0; i <= ListStationTmp.size() - 2; i++) {
-                    
+
                     System.out.println("Entrer le temps de parcours entre " + ListStationTmp.get(i) + "et " + ListStationTmp.get(i + 1) + ":");
                     int tempsTmp = sc1.nextInt();
                     Fragment f = new Fragment(ListStationTmp.get(i), ListStationTmp.get(i + 1), tempsTmp);
@@ -228,41 +237,40 @@ public class Plan {
             }
         }
     }
-    
+
     public void ajoutIncident() {
-        
+
         System.out.println("Est-ce que l'incident a lieu sur une station ? (O : oui/N : non) ");
         String reponse;
         Scanner sc = new Scanner(System.in);
-	reponse=sc.next();
-        
+        reponse = sc.next();
+
         if (reponse.compareToIgnoreCase("O") == 0) {
-            int cpt=1;
+            int cpt = 1;
             for (Station s : stations) {
-                System.out.println(cpt+" "+s.getNom()); 
+                System.out.println(cpt + " " + s.getNom());
                 cpt++;
             }
-            
+
             int numstation;
             System.out.println("Quelle station ?");
-            numstation=sc.nextInt();
-                
+            numstation = sc.nextInt();
+
             System.out.println("Quel est la durée de ce nouvel incident ?\n");
             int duree;
-            duree=sc.nextInt();
-                
+            duree = sc.nextInt();
+
             System.out.println("Ajoutez un commentaire : \n");
             String commentaire;
-            commentaire=sc.next();
+            commentaire = sc.next();
 
-            Incident inc = new Incident(duree,commentaire);
-            stations.get(numstation-1).setIncident(inc);
-            
-        }
-        else {
-            int cpt=1;
+            Incident inc = new Incident(duree, commentaire);
+            stations.get(numstation - 1).setIncident(inc);
+
+        } else {
+            int cpt = 1;
             for (Station s : stations) {
-                System.out.println(cpt+" "+s.getNom()); 
+                System.out.println(cpt + " " + s.getNom());
                 cpt++;
             }
 
@@ -270,37 +278,37 @@ public class Plan {
             int statarriv;
             System.out.println("Quelles sont les stations?");
             System.out.println("Donner la station de départ puis la station d'arrivée");
-            statdep=sc.nextInt();
-            statarriv=sc.nextInt();
+            statdep = sc.nextInt();
+            statarriv = sc.nextInt();
 
-            System.out.println(statdep+" "+statarriv);
-            System.out.println(stations.get(statdep-1)+" "+stations.get(statarriv-1));
+            System.out.println(statdep + " " + statarriv);
+            System.out.println(stations.get(statdep - 1) + " " + stations.get(statarriv - 1));
 
-            boolean ok=false;
-            
-            for (Ligne l : lignes)  {
+            boolean ok = false;
+
+            for (Ligne l : lignes) {
                 for (Fragment f : l.getListeFragments()) {
-                    if (f.getStationDep()==stations.get(statdep-1) && f.getStationArr()==stations.get(statarriv-1)) {
+                    if (f.getStationDep() == stations.get(statdep - 1) && f.getStationArr() == stations.get(statarriv - 1)) {
                         System.out.println("Quel est la durée de ce nouvel incident ?\n");
                         int duree;
-                        duree=sc.nextInt();
+                        duree = sc.nextInt();
 
                         System.out.println("Ajoutez un commentaire : \n");
                         String commentaire;
-                        commentaire=sc.next();
+                        commentaire = sc.next();
 
-                        Incident inc = new Incident(duree,commentaire);
+                        Incident inc = new Incident(duree, commentaire);
                         f.setIncident(inc);
-                        ok=true;
+                        ok = true;
                     }
-               }
-           }
-           if (ok==false) {
-               System.out.println("Il n'existe pas de fragment entre ces deux stations");
-           }  
+                }
+            }
+            if (ok == false) {
+                System.out.println("Il n'existe pas de fragment entre ces deux stations");
+            }
         }
     }
-    
+
     public Fragment getFragmentByStations(String s1, String s2) {
         for (Ligne l : lignes) {
             for (Fragment f : l.getListeFragments()) {
@@ -311,5 +319,15 @@ public class Plan {
             }
         }
         return null;
+    }
+
+    public List<Ligne> getLigneByFragment(Fragment f) {
+        List<Ligne> res = new ArrayList<>();
+        for (Ligne l : lignes) {
+            if (l.getListeFragments().contains(f)) {
+                res.add(l);
+            }
+        }
+        return res;
     }
 }

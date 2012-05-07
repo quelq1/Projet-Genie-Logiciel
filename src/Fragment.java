@@ -1,6 +1,4 @@
 
-import java.util.Objects;
-
 public class Fragment {
 
     private Station depart, arrivee;

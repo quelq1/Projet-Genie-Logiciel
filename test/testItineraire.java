@@ -187,8 +187,6 @@ public class testItineraire extends TestCase {
         attendu.add(i2);
         attendu.add(i1);
 
-        System.out.println("Att : " + attendu);
-        System.out.println("Sol : " + sol);
         assertEquals(attendu, sol);
 
         //2 seul chemins possibles et impasse
@@ -198,7 +196,7 @@ public class testItineraire extends TestCase {
         Ligne c = new Ligne("c");
         c.addFragment(f5);
         p.addLignes(c);
-
+        
         //Résultat attendu est le même
         assertEquals(attendu, sol);
     }
@@ -303,6 +301,14 @@ public class testItineraire extends TestCase {
         attendu.addStation(s3);
 
         assertEquals(attendu, it);
+        
+        Fragment f6 = new Fragment(s4, s2, 50);
+        c.addFragment(f6);
+        
+        RechercheItineraire.initPlan(p, this.getHeure(11, 00, 00));
+        it = RechercheItineraire.getItinerairePlusRapide(s5, s2, this.getHeure(11, 00, 00));
+        
+        RechercheItineraire.affichageItineraire(it);
     }
 
     /*

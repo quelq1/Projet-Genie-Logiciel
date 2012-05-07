@@ -187,6 +187,9 @@ public class Itineraire {
     }
 
     public Station getStation(int i) {
+        if (trajet.size() <= i) {
+            return null;
+        }
         return trajet.get(i);
     }
 

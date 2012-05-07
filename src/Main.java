@@ -31,7 +31,6 @@ public class Main {
             Scanner sc = new Scanner(System.in);
             reponse = sc.nextInt();
 
-
             switch (reponse) {
                 case 0:
                     System.out.println("Au revoir...");

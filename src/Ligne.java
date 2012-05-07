@@ -59,4 +59,13 @@ public class Ligne {
     public String toString() {
         return nom + " : " + (lFragment.size()+1) + " stations : \n"+lFragment;
     }
+    
+    public boolean contientStation(Station s) {
+        for (Fragment f : lFragment) {
+            if (f.contientStation(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
