@@ -52,7 +52,6 @@ public class Station {
 
     //tps darret
     public int getTempsAttente(Calendar d) {
-        System.out.println("Entré : " + d.getTime());
         int minute = d.get(Calendar.MINUTE);
         int attente = (60 / nbRameHeure) - minute % (60 / nbRameHeure);
  

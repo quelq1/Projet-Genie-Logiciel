@@ -123,8 +123,8 @@ public class RechercheItineraire {
         return res;
     }
 
-    public static void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, Calendar heure, ArrayList<Itineraire> sol) {
-        System.out.println("Heure : " + heure.getTime());
+    public static void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, ArrayList<Itineraire> sol) {
+
         if (itineraire.getArrivee().equals(s)) {
             //On fait une copie pour éviter les effets de bords
             Itineraire tmp = itineraire.clone();
@@ -157,7 +157,7 @@ public class RechercheItineraire {
                         itineraire.incrChangement();
                     }
                     //appel récursif
-                    rechercheItineraires(itineraire, dest, fragPossible, itineraire.getDateArrivee(), sol);
+                    rechercheItineraires(itineraire, dest, fragPossible, sol);
 
                     //décrémente le temps de parcours
                     itineraire.addDuree(-(fragPossible.getTempsDeParcours() + dest.getTmpArret()));
@@ -175,7 +175,7 @@ public class RechercheItineraire {
     public static Itineraire getItinerairePlusRapide(Station dep, Station arr) {
         Itineraire itineraire = new Itineraire(dep, arr, heureDep);
         ArrayList<Itineraire> solutions = new ArrayList<>();
-        rechercheItineraires(itineraire, dep, null, heureDep, solutions);
+        rechercheItineraires(itineraire, dep, null/*, heureDep*/, solutions);
 
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;
@@ -194,7 +194,7 @@ public class RechercheItineraire {
     public static Itineraire getItineraireMoinsChangement(Station dep, Station arr) {
         Itineraire itineraire = new Itineraire(dep, arr, heureDep);
         ArrayList<Itineraire> solutions = new ArrayList<>();
-        rechercheItineraires(itineraire, dep, null, heureDep, solutions);
+        rechercheItineraires(itineraire, dep, null, solutions);
 
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;

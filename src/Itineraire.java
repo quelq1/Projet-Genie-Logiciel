@@ -125,7 +125,6 @@ public class Itineraire {
 
     public void addDuree(int i) {
         dateArr.add(Calendar.MINUTE, i);
-        System.out.println("new Heure : " + dateArr.getTime());
     }
 
     @Override

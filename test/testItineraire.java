@@ -124,7 +124,7 @@ public class testItineraire extends TestCase {
         ArrayList<Itineraire> sol = new ArrayList<>();
         Itineraire it = new Itineraire(s1, s2, this.getDate(11, 00, 00));
 
-        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, this.getDate(11, 00, 00), sol);
+        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, sol);
         
         assertEquals(new ArrayList<Itineraire>(), sol);
 
@@ -141,7 +141,7 @@ public class testItineraire extends TestCase {
         a.addFragment(f2);
         p.addLignes(a);
         
-        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, this.getDate(11, 00, 00), sol);
+        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, sol);
         
         //Résultat attendu
         ArrayList<Itineraire> attendu = new ArrayList<>();
@@ -163,7 +163,7 @@ public class testItineraire extends TestCase {
         b.addFragment(f3);
         p.addLignes(b);
         sol.clear();
-        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, this.getDate(11, 00, 00), sol);
+        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, sol);
 
         //Résultat attendu est le même
         assertEquals(attendu, sol);
@@ -174,7 +174,7 @@ public class testItineraire extends TestCase {
         Fragment f4 = new Fragment(s4, s3, 10);
         b.addFragment(f4);
         sol.clear();
-        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, this.getDate(11, 00, 00), sol);
+        RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, sol);
         
         //Résultat attendu
         Itineraire i2 = new Itineraire(s1, s2, this.getDate(11, 23, 00), 1);
@@ -185,8 +185,6 @@ public class testItineraire extends TestCase {
         attendu.add(i2);
         attendu.add(i1);
 
-        System.out.println("Att : " + attendu);
-        System.out.println("Sol : " + sol);
         assertEquals(attendu, sol);
 
         //2 seul chemins possibles et impasse
