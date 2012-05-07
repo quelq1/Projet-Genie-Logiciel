@@ -129,13 +129,13 @@ public class RechercheItineraire {
             //On fait une copie pour éviter les effets de bords
             Itineraire tmp = itineraire.clone();
             //On ne compte pas le temps d'arrêt à la station d'arrivée.
-//            tmp.addDuree(-s.getTmpArret());
+            s.setTempsAttenteStation(0);
             //ajoute l'itinéraire à la liste des solutions
             sol.add(tmp);
         } else {
             //Ajout le temps d'attente de la prochaine rame
             //On considère qu'il faut au moins 2min pour changer
-            int tmpAttente = s.getTempsAttente(itineraire.getDateArrivee());
+            int tmpAttente = s.getTempsAttenteStation(itineraire.getDateArrivee());
             itineraire.addDuree(tmpAttente);
 
             //On récupère les directions possibles
@@ -220,10 +220,12 @@ public class RechercheItineraire {
     public static Itineraire getItineraireParEtapes(ArrayList<Station> etapes) {
         Itineraire res = null, tmp;
         if (etapes.size() >= 2) {
+            System.out.println("HeureDep : " + heureDep.getTime());
             res = getItinerairePlusRapide(etapes.get(0), etapes.get(1), heureDep);
+            System.out.println("Res : " + res);
             //On calcule l'itinéraire le plus rapide entre chaque étape
             for (int i = 2; i < etapes.size(); i++) {
-                tmp = getItinerairePlusRapide(etapes.get(i - 1), etapes.get(i), res.getDateArrivee());
+                tmp = getItinerairePlusRapide(etapes.get(i - 1), etapes.get(i), (Calendar)res.getDateArrivee().clone());
                 System.out.println("iti prec : " + res);
                 System.out.println("iti suiv : " + tmp);
                 res.concatItineraire(tmp, plan);

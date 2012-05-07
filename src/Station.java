@@ -6,7 +6,7 @@ public class Station {
 
     private final int nbRameHeure = 12;
     private final int tmpChgmt = 2;
-    private int tmpArret;
+    private int tmpAttenteStation;
     private String nom;
     private Coordonnee coord;
     private Incident incident;
@@ -15,21 +15,21 @@ public class Station {
         nom = name;
         incident = null;
         coord = null;
-        tmpArret = 0;
+        tmpAttenteStation = 0;
     }
 
     public Station(String name, Coordonnee c) {
         nom = name;
         incident = null;
         coord = c;
-        tmpArret = 0;
+        tmpAttenteStation = 0;
     }
 
     public Station(String n, Coordonnee c, Incident inci) {
         nom = n;
         coord = c;
         incident = inci;
-        tmpArret = 0;
+        tmpAttenteStation = 0;
     }
 
     //nom
@@ -51,15 +51,19 @@ public class Station {
     }
 
     //tps darret
-    public int getTempsAttente(Calendar d) {
+    public int getTempsAttenteStation(Calendar d) {
         int minute = d.get(Calendar.MINUTE);
         int attente = (60 / nbRameHeure) - minute % (60 / nbRameHeure);
  
         if (attente < tmpChgmt) {
             attente = (60 / nbRameHeure) + attente;
         }
-        tmpArret = attente;
+        tmpAttenteStation = attente;
         return attente;
+    }
+    
+    public void setTempsAttenteStation(int i) {
+        tmpAttenteStation = i;
     }
 
     //incident
@@ -119,6 +123,6 @@ public class Station {
     }
     
     public int getTmpArret() {
-        return tmpArret;
+        return tmpAttenteStation;
     }
 }

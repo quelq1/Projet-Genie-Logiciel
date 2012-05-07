@@ -299,8 +299,7 @@ public class testItineraire extends TestCase {
         Itineraire it = RechercheItineraire.getItinerairePlusRapide(p.getStationUtil(), s3, this.getHeure(11, 00, 00));
 
         //Résultat attendu
-        Itineraire attendu = new Itineraire(s4, s3, this.getHeure(11, 7, 00), 1);
-        attendu.addStation(s1);
+        Itineraire attendu = new Itineraire(s4, s3, this.getHeure(11, 15, 00), 0);
         attendu.addStation(s3);
 
         assertEquals(attendu, it);
@@ -349,6 +348,7 @@ public class testItineraire extends TestCase {
 
         //Sans étapes
         //------------------------------
+        RechercheItineraire.initPlan(p, this.getHeure(11, 0, 0));
         ArrayList<Station> etapes = new ArrayList<>();
 
         Itineraire it = RechercheItineraire.getItineraireParEtapes(etapes);
@@ -356,14 +356,16 @@ public class testItineraire extends TestCase {
         assertEquals(null, it);
 
         //Sans étapes intermédiaire
+        // s1 -> s2
         //------------------------------
+        RechercheItineraire.initPlan(p, this.getHeure(11, 0, 0));
         etapes.add(s1);
         etapes.add(s2);
 
         it = RechercheItineraire.getItineraireParEtapes(etapes);
 
         //Résultat attendu
-        Itineraire attendu = new Itineraire(s1, s2, this.getHeure(11, 8, 00), 0);
+        Itineraire attendu = new Itineraire(s1, s2, this.getHeure(11, 13, 00), 0);
         attendu.addStation(s3);
         attendu.addStation(s2);
 
@@ -371,35 +373,33 @@ public class testItineraire extends TestCase {
 
         //Avec 1 seule étape : s1 -> s4 -> s3 sans changement de ligne
         //------------------------------
+        RechercheItineraire.initPlan(p, this.getHeure(11, 0, 0));
         etapes.clear();
         etapes.add(s1);
         etapes.add(s4);
         etapes.add(s3);
 
-        System.out.println("____________________");
         it = RechercheItineraire.getItineraireParEtapes(etapes);
 
         //Résultat attendu
-        attendu = new Itineraire(s1, s3, this.getHeure(11, 15, 00), 0);
+        attendu = new Itineraire(s1, s3, this.getHeure(11, 25, 00), 0);
         attendu.addStation(s4);
         attendu.addStation(s3);
 
-        System.out.println("Att : " + attendu);
-        System.out.println("iti : " + it);
         assertEquals(attendu, it);
 
         //Etape : s1 -> s3 -> s5 avec changement de ligne
         //------------------------------
+        RechercheItineraire.initPlan(p, this.getHeure(11, 0, 0));
         etapes.clear();
         etapes.add(s1);
         etapes.add(s3);
-        etapes.add(s4);
         etapes.add(s5);
 
         it = RechercheItineraire.getItineraireParEtapes(etapes);
 
         //Résultat attendu
-        attendu = new Itineraire(s1, s5, this.getHeure(11, 9, 00), 2);
+        attendu = new Itineraire(s1, s5, this.getHeure(11, 26, 00), 2);
         attendu.addStation(s3);
         attendu.addStation(s4);
         attendu.addStation(s5);
@@ -408,6 +408,7 @@ public class testItineraire extends TestCase {
 
         //Etape : s1 -> s2 -> s4 avec impasse
         //------------------------------
+        RechercheItineraire.initPlan(p, this.getHeure(11, 0, 0));
         etapes.clear();
         etapes.add(s1);
         etapes.add(s2);
@@ -416,10 +417,11 @@ public class testItineraire extends TestCase {
         it = RechercheItineraire.getItineraireParEtapes(etapes);
 
         //Résultat attendu
-        attendu = new Itineraire(s1, s4, this.getHeure(11, 16, 00), 1);
+        attendu = new Itineraire(s1, s4, this.getHeure(11, 29, 00), 1);
         attendu.addStation(s3);
         attendu.addStation(s2);
         attendu.addStation(s3);
+        attendu.addStation(s1);
         attendu.addStation(s4);
 
         assertEquals(attendu, it);
@@ -469,7 +471,7 @@ public class testItineraire extends TestCase {
         Itineraire it = RechercheItineraire.getItineraireMoinsChangement(p.getStationUtil(), s2);
 
         //Résultat attendu
-        Itineraire attendu = new Itineraire(s1, s2, this.getHeure(11, 8, 0), 0);
+        Itineraire attendu = new Itineraire(s1, s2, this.getHeure(11, 13, 0), 0);
         attendu.addStation(s3);
         attendu.addStation(s2);
 

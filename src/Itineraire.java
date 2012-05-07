@@ -159,7 +159,7 @@ public class Itineraire {
     public void concatItineraire(Itineraire i, Plan p) {
         this.arrivee = i.arrivee;
         
-        this.dateArr = (Calendar) i.dateArr.clone() /*+ i.trajet.get(0).getTempsAttente(heure)*/;
+        this.dateArr = (Calendar) i.dateArr.clone();
         
         this.nbChangement += i.nbChangement;
         //Vérifie si y a un changement de ligne entre les 2 itinéraires
