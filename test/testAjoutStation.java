@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 import junit.framework.TestCase;
+import org.junit.Test;
 
 /*
  * To change this template, choose Tools | Templates and open the template in
@@ -14,12 +15,12 @@ import junit.framework.TestCase;
  * @author Elodie
  */
 public class testAjoutStation extends TestCase {
-
+    
     public void testAjoutStation() throws IOException {
         /*
-         * Scénario 1
+         * Scénario 1 normal
          */
-        String data = "C\r\n0\r\n1\r\nligne\r\nB\r\n2\r\n"; //scenario normal
+        String data = "C\r\n0\r\n1\r\nligne\r\nB\r\n2\r\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
 
         Plan p1 = new Plan();
@@ -43,37 +44,70 @@ public class testAjoutStation extends TestCase {
         assertEquals(p1.getStations(), p2.getStations());
       
         
-        /* /*
-         * Scénario 2
+        /* 
+         * Scénario 2 nom déjà existant
          */
-        /*
-         * data = "A\r\n0.00\r\n1\r\nA\r\n1\r\n" ; //latitude en double
-         * System.setIn(new ByteArrayInputStream(data.getBytes()));
-         * Ajoutstation.ajoutstation(p) ; assertEquals(s, p.getStationUtil());
-         *
-         * /*
-         * Scénario 3
-         */
-        /*
-         * data = "A\r\n0\r\n1.00\r\nA\r\n1\r\n" ; //longitude en double
-         * System.setIn(new ByteArrayInputStream(data.getBytes()));
-         * Ajoutstation.ajoutstation(p) ; assertEquals(s, p.getStationUtil());
-         *
-         * /*
-         * Scénario 4
-         */
-        /*
-         * data = "A\r\n0\r\n1.000\r\nA\r\n1\r\n" ; //longitude incorrecte
-         * System.setIn(new ByteArrayInputStream(data.getBytes()));
-         * Ajoutstation.ajoutstation(p) ; assertFalse(s2, p.getStationUtil());
-         *
-         * /*
-         * Scénario 5
-         */
-        /*
-         * data = "A\r\n0.000\r\n1.00\r\nA\r\n1\r\n" ; //latitude incorrecte
-         * System.setIn(new ByteArrayInputStream(data.getBytes()));
-         * Ajoutstation.ajoutstation(p) ; assertFalse(s2, p.getStationUtil());
-         */
+        
+         data = "C\r\n0\r\n1\r\nligne\r\nB\r\n2\r\n";
+         System.setIn(new ByteArrayInputStream(data.getBytes()));
+         Plan p3= new Plan(); 
+         p3.addLignes(l);
+         Plan p4= new Plan();
+         p4.addLignes(l);
+         p4.ajoutLigne();
+         
+         /*
+          * Scénario 3 la latitude et la longitude existent déjà
+          */
+         
+         /*
+          * 
+          */
     }
+    
+     /*public void testAjoutstation() {
+        System.out.println("ajoutstation");
+        Plan plan = null;
+        Ajoutstation.ajoutstation(plan);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }*/
+     
+    /**
+     * Test of equals method, of class Ajoutstation.
+     */
+  //  @Test
+   /* public void testEquals() {
+        System.out.println("equals");
+        Object obj = null;
+        Ajoutstation instance = new Ajoutstation();
+        boolean expResult = false;
+        boolean result = instance.equals(obj);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of hashCode method, of class Ajoutstation.
+     */
+    //@Test
+   /* public void testHashCode() {
+        System.out.println("hashCode");
+        Ajoutstation instance = new Ajoutstation();
+        int expResult = 0;
+        int result = instance.hashCode();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }*/
+    
+   /*  @Test
+    public void testEcriturefichier() {
+        System.out.println("ecriturefichier");
+        String texte = "";
+        Ajoutstation.ecriturefichier(texte);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }*/
 }

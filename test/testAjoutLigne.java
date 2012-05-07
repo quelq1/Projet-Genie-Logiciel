@@ -67,7 +67,7 @@ public class testAjoutLigne extends TestCase{
             p4.ajoutLigne();
       
          /*
-          * Scenario 3: teste de l'ajout d'une ligne contenant moins de 2 stations
+          * Scenario 3: test de l'ajout d'une ligne contenant moins de 2 stations
           * 
           */
           data = "test\r\n1\r\na\r\nb\r\n1\r\n";
@@ -84,11 +84,4 @@ public class testAjoutLigne extends TestCase{
         
        
     }
-
-    
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 }

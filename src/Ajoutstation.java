@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -18,14 +19,56 @@ public class Ajoutstation {
     
     private static String fichier = "plan.txt";
     
-    //TODO : Mettre l'écriture dans le fichier dans une fonction à part
+    private int attribut1;
+    private String attribut2;
+    private boolean visible; // Attribut non-représentatif et donc ignoré
+    public static double lati = -4 ;
+    public static double longi = -4 ;
+    
+    @Override
+    public boolean equals(Object obj) {
+        // Vérification de l'égalité des références
+        if (obj==this) {
+            return true;
+        }
+        // Vérification du type du paramètre
+        if (obj instanceof Ajoutstation) {
+            // Vérification des valeurs des attributs
+            Ajoutstation other = (Ajoutstation) obj;
+            // Pour les attributs de type primitif
+            // on compare directement les valeurs :
+            if (this.attribut1 != other.attribut1) {
+                return false; // les attributs sont différents 
+            }
+            // Pour les attributs de type objets 
+            // on compare dans un premier temps les références 
+            if (this.attribut2 != other.attribut2) {
+                // Si les références ne sont pas identiques
+                // on doit en plus utiliser equals()
+                if (this.attribut2 == null || !this.attribut2.equals(other.attribut2)) {
+                    return false; // les attributs sont différents 
+                }
+            }
+            // Si on arrive ici c'est que tous les attributs sont égaux :
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.longi) ^ (Double.doubleToLongBits(this.longi) >>> 32));
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.lati) ^ (Double.doubleToLongBits(this.lati) >>> 32));
+        return hash;
+    }
+    
+    
     public static void ajoutstation(Plan plan) {
         Set<Ligne> lignes ;
         lignes = new HashSet<>();
         Scanner sc = new Scanner(System.in);
         boolean saisieOk = false ;
-        double lati = -4 ;
-        double longi = -4 ;
         int temps ;
         List<Station> stationterminus ; 
 
@@ -64,8 +107,8 @@ public class Ajoutstation {
             Coordonnee coordo = new Coordonnee(lati, longi) ;
             //System.out.println(coordo);
            // System.out.println(plan.getStations().get(0).getCoord());
-           // System.out.println(plan.getStations().get(1));
            // System.out.println(plan.getStations().get(2));
+            // redéfinir Equals :/
             for (int x = 0 ; x < plan.getStations().size() ; x++  ) {
                 if (plan.getStations().get(x).getCoord().equals(coordo) == true) {
                    System.out.println("Vous ne pouvez pas ajouter une nouvelle station avec les mêmes coordonnées qu'une déjà existante");
@@ -93,7 +136,6 @@ public class Ajoutstation {
                 }
 
                 stationterminus = plan.getStationExtremite(ltmp) ;
-                System.out.println(stationterminus);
                 System.out.print("Vous avez la possibilite d'ajouter votre station soit avant "+stationterminus.get(0)+" ou après "+stationterminus.get(1)+". Quel est votre choix ? ");
 
                 Station stationexistante = new Station(sc.next());
