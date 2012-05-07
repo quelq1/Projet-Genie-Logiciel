@@ -124,7 +124,7 @@ public class RechercheItineraire {
     }
 
     public static void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, ArrayList<Itineraire> sol) {
-
+        System.out.println("Dans " + s.getNom() + " à " + itineraire.getDateArrivee().getTime());
         if (itineraire.getArrivee().equals(s)) {
             //On fait une copie pour éviter les effets de bords
             Itineraire tmp = itineraire.clone();
@@ -177,10 +177,15 @@ public class RechercheItineraire {
         ArrayList<Itineraire> solutions = new ArrayList<>();
         rechercheItineraires(itineraire, dep, null/*, heureDep*/, solutions);
 
+        System.out.println("Solutions trouvées : ");
+        for (Itineraire iti : solutions) {
+            System.out.println(iti);
+        }
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;
         if (!solutions.isEmpty()) {
             Calendar min = solutions.get(0).getDateArrivee();
+            res = solutions.get(0);
             for (Itineraire it : solutions) {
                 if (it.getDateArrivee().before(min)) {
                     res = it;
