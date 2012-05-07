@@ -129,6 +129,7 @@ public class testItineraire extends TestCase {
 
         //1 seul chemin possible pas d'impasse : s1 -> s3 -> s2
         //------------------------------------
+        it = new Itineraire(s1, s2, this.getHeure(11, 00, 00));
         Station s3 = new Station("s3");
         p.addStation(s1);
         p.addStation(s2);
@@ -144,7 +145,7 @@ public class testItineraire extends TestCase {
 
         //Résultat attendu
         ArrayList<Itineraire> attendu = new ArrayList<>();
-        Itineraire i1 = new Itineraire(s1, s2, this.getHeure(11, 8, 00), 0);
+        Itineraire i1 = new Itineraire(s1, s2, this.getHeure(11, 13, 00), 0);
         i1.addStation(s3);
         i1.addStation(s2);
         attendu.add(i1);
@@ -160,21 +161,25 @@ public class testItineraire extends TestCase {
         b.addFragment(f3);
         p.addLignes(b);
         sol.clear();
+
         RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, sol);
 
         //Résultat attendu est le même
         assertEquals(attendu, sol);
 
         //2 seul chemins possibles sans impasse
+        // s1->s3->s2
+        // s1->s4->s3->s2
         //-------------------------------------
         it = new Itineraire(s1, s2, this.getHeure(11, 00, 00));
         Fragment f4 = new Fragment(s4, s3, 10);
         b.addFragment(f4);
         sol.clear();
+
         RechercheItineraire.rechercheItineraires(it, p.getStationUtil(), null, sol);
 
         //Résultat attendu
-        Itineraire i2 = new Itineraire(s1, s2, this.getHeure(11, 23, 00), 1);
+        Itineraire i2 = new Itineraire(s1, s2, this.getHeure(11, 33, 00), 1);
         i2.addStation(s4);
         i2.addStation(s3);
         i2.addStation(s2);
@@ -182,6 +187,8 @@ public class testItineraire extends TestCase {
         attendu.add(i2);
         attendu.add(i1);
 
+        System.out.println("Att : " + attendu);
+        System.out.println("Sol : " + sol);
         assertEquals(attendu, sol);
 
         //2 seul chemins possibles et impasse
@@ -289,7 +296,7 @@ public class testItineraire extends TestCase {
         c.addFragment(f5);
         p.addLignes(c);
 
-        Itineraire it = RechercheItineraire.getItinerairePlusRapide(p.getStationUtil(), s3);
+        Itineraire it = RechercheItineraire.getItinerairePlusRapide(p.getStationUtil(), s3, this.getHeure(11, 00, 00));
 
         //Résultat attendu
         Itineraire attendu = new Itineraire(s4, s3, this.getHeure(11, 7, 00), 1);
@@ -298,124 +305,126 @@ public class testItineraire extends TestCase {
 
         assertEquals(attendu, it);
     }
-//    
-//    /*
-//     * Test de la méthode getItineraireParEtapes de Plan
-//     */
-//    
-//    public void testGetItineraireParEtapes() {
-//        //Création du plan
-//        Plan p = new Plan();
-//        RechercheItineraire.initPlan(p, Calendar.getInstance());
-//        
-//        Station s1 = new Station("s1");
-//        Station s2 = new Station("s2");
-//        Station s3 = new Station("s3");
-//        Station s4 = new Station("s4");
-//        Station s5 = new Station("s5");
-//        
-//        p.setStationUtil(s1);
-//        
-//        p.addStation(s1);
-//        p.addStation(s2);
-//        p.addStation(s3);
-//        
-//        Fragment f1 = new Fragment(s1, s3, 3);
-//        Fragment f2 = new Fragment(s3, s2, 3);
-//        
-//        Ligne a = new Ligne("A");        
-//        a.addFragment(f1);
-//        a.addFragment(f2);
-//        p.addLignes(a);
-//        
-//        Fragment f3 = new Fragment(s4, s1, 1);
-//        Fragment f4 = new Fragment(s4, s3, 1);
-//        Ligne b = new Ligne("B");
-//        b.addFragment(f3);
-//        b.addFragment(f4);
-//        p.addLignes(b);
-//        
-//
-//        Fragment f5 = new Fragment(s4, s5, 1);
-//        Ligne c = new Ligne("C");
-//        c.addFragment(f5);
-//        p.addLignes(c);
-//        
-//        //Sans étapes
-//        //------------------------------
-//        ArrayList<Station> etapes = new ArrayList<>();
-//        
-//        Itineraire it = RechercheItineraire.getItineraireParEtapes(etapes);
-//             
-//        assertEquals(null, it);
-//        
-//        //Sans étapes intermédiaire
-//        //------------------------------
-//        etapes.add(s1);
-//        etapes.add(s2);
-//        
-//        it = RechercheItineraire.getItineraireParEtapes(etapes);
-//        
-//        //Résultat attendu
-//        Itineraire attendu = new Itineraire(s1, s2, 8, 0);
-//        attendu.addStation(s3);
-//        attendu.addStation(s2);
-//        
-//        assertEquals(attendu, it);
-//        
-//        //Avec 1 seule étape : s1 -> s4 -> s3 sans changement de ligne
-//        //------------------------------
-//        etapes.clear();
-//        etapes.add(s1);
-//        etapes.add(s4);
-//        etapes.add(s3);
-//        
-//        it = RechercheItineraire.getItineraireParEtapes(etapes);
-//        
-//        //Résultat attendu
-//        attendu = new Itineraire(s1, s3, 4, 0);
-//        attendu.addStation(s4);
-//        attendu.addStation(s3);
-//        
-//        assertEquals(attendu, it);
-//        
-//        //Etape : s1 -> s3 -> s5 avec changement de ligne
-//        //------------------------------
-//        etapes.clear();
-//        etapes.add(s1);
-//        etapes.add(s3);
-//        etapes.add(s4);
-//        etapes.add(s5);
-//        
-//        it = RechercheItineraire.getItineraireParEtapes(etapes);
-//        
-//        //Résultat attendu
-//        attendu = new Itineraire(s1, s5, 9, 2);
-//        attendu.addStation(s3);
-//        attendu.addStation(s4);
-//        attendu.addStation(s5);
-//        
-//        assertEquals(attendu, it);
-//        
-//        //Etape : s1 -> s2 -> s4 avec impasse
-//        //------------------------------
-//        etapes.clear();
-//        etapes.add(s1);
-//        etapes.add(s2);
-//        etapes.add(s4);
-//        
-//        it = RechercheItineraire.getItineraireParEtapes(etapes);
-//        
-//        //Résultat attendu
-//        attendu = new Itineraire(s1, s4, 16, 1);
-//        attendu.addStation(s3);
-//        attendu.addStation(s2);
-//        attendu.addStation(s3);
-//        attendu.addStation(s4);
-//        
-//        assertEquals(attendu, it);
-//    }
-//    
+
+    /*
+     * Test de la méthode getItineraireParEtapes de Plan
+     */
+    public void testGetItineraireParEtapes() {
+        //Création du plan
+        Plan p = new Plan();
+        RechercheItineraire.initPlan(p, this.getHeure(11, 0, 0));
+
+        Station s1 = new Station("s1");
+        Station s2 = new Station("s2");
+        Station s3 = new Station("s3");
+        Station s4 = new Station("s4");
+        Station s5 = new Station("s5");
+
+        p.setStationUtil(s1);
+
+        p.addStation(s1);
+        p.addStation(s2);
+        p.addStation(s3);
+
+        Fragment f1 = new Fragment(s1, s3, 2);
+        Fragment f2 = new Fragment(s3, s2, 3);
+
+        Ligne a = new Ligne("A");
+        a.addFragment(f1);
+        a.addFragment(f2);
+        p.addLignes(a);
+
+        Fragment f3 = new Fragment(s4, s1, 4);
+        Fragment f4 = new Fragment(s4, s3, 10);
+        Ligne b = new Ligne("B");
+        b.addFragment(f3);
+        b.addFragment(f4);
+        p.addLignes(b);
+
+
+        Fragment f5 = new Fragment(s4, s5, 1);
+        Ligne c = new Ligne("C");
+        c.addFragment(f5);
+        p.addLignes(c);
+
+        //Sans étapes
+        //------------------------------
+        ArrayList<Station> etapes = new ArrayList<>();
+
+        Itineraire it = RechercheItineraire.getItineraireParEtapes(etapes);
+
+        assertEquals(null, it);
+
+        //Sans étapes intermédiaire
+        //------------------------------
+        etapes.add(s1);
+        etapes.add(s2);
+
+        it = RechercheItineraire.getItineraireParEtapes(etapes);
+
+        //Résultat attendu
+        Itineraire attendu = new Itineraire(s1, s2, this.getHeure(11, 8, 00), 0);
+        attendu.addStation(s3);
+        attendu.addStation(s2);
+
+        assertEquals(attendu, it);
+
+        //Avec 1 seule étape : s1 -> s4 -> s3 sans changement de ligne
+        //------------------------------
+        etapes.clear();
+        etapes.add(s1);
+        etapes.add(s4);
+        etapes.add(s3);
+
+        System.out.println("____________________");
+        it = RechercheItineraire.getItineraireParEtapes(etapes);
+
+        //Résultat attendu
+        attendu = new Itineraire(s1, s3, this.getHeure(11, 15, 00), 0);
+        attendu.addStation(s4);
+        attendu.addStation(s3);
+
+        System.out.println("Att : " + attendu);
+        System.out.println("iti : " + it);
+        assertEquals(attendu, it);
+
+        //Etape : s1 -> s3 -> s5 avec changement de ligne
+        //------------------------------
+        etapes.clear();
+        etapes.add(s1);
+        etapes.add(s3);
+        etapes.add(s4);
+        etapes.add(s5);
+
+        it = RechercheItineraire.getItineraireParEtapes(etapes);
+
+        //Résultat attendu
+        attendu = new Itineraire(s1, s5, this.getHeure(11, 9, 00), 2);
+        attendu.addStation(s3);
+        attendu.addStation(s4);
+        attendu.addStation(s5);
+
+        assertEquals(attendu, it);
+
+        //Etape : s1 -> s2 -> s4 avec impasse
+        //------------------------------
+        etapes.clear();
+        etapes.add(s1);
+        etapes.add(s2);
+        etapes.add(s4);
+
+        it = RechercheItineraire.getItineraireParEtapes(etapes);
+
+        //Résultat attendu
+        attendu = new Itineraire(s1, s4, this.getHeure(11, 16, 00), 1);
+        attendu.addStation(s3);
+        attendu.addStation(s2);
+        attendu.addStation(s3);
+        attendu.addStation(s4);
+
+        assertEquals(attendu, it);
+    }
+
     /*
      * Test de la méthode getItineraireMoinsChangement de Plan
      */
@@ -423,47 +432,47 @@ public class testItineraire extends TestCase {
         //Création du plan
         Plan p = new Plan();
         RechercheItineraire.initPlan(p, this.getHeure(11, 0, 0));
-        
+
         Station s1 = new Station("s1");
         Station s2 = new Station("s2");
         Station s3 = new Station("s3");
         Station s4 = new Station("s4");
         Station s5 = new Station("s5");
-        
+
         p.setStationUtil(s1);
-        
+
         p.addStation(s1);
         p.addStation(s2);
         p.addStation(s3);
-        
+
         Fragment f1 = new Fragment(s1, s3, 3);
         Fragment f2 = new Fragment(s3, s2, 3);
-        
-        Ligne a = new Ligne("A");        
+
+        Ligne a = new Ligne("A");
         a.addFragment(f1);
         a.addFragment(f2);
         p.addLignes(a);
-        
+
         Fragment f3 = new Fragment(s4, s1, 1);
         Fragment f4 = new Fragment(s4, s3, 1);
         Ligne b = new Ligne("B");
         b.addFragment(f3);
         b.addFragment(f4);
         p.addLignes(b);
-        
+
 
         Fragment f5 = new Fragment(s4, s5, 1);
         Ligne c = new Ligne("C");
         c.addFragment(f5);
         p.addLignes(c);
-        
+
         Itineraire it = RechercheItineraire.getItineraireMoinsChangement(p.getStationUtil(), s2);
-        
+
         //Résultat attendu
         Itineraire attendu = new Itineraire(s1, s2, this.getHeure(11, 8, 0), 0);
         attendu.addStation(s3);
         attendu.addStation(s2);
-        
+
         assertEquals(attendu, it);
     }
 }

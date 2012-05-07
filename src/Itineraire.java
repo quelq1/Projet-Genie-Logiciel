@@ -156,13 +156,15 @@ public class Itineraire {
         nbChangement--;
     }
 
-    public void concatItineraire(Itineraire i, Calendar heure, Plan p) {
+    public void concatItineraire(Itineraire i, Plan p) {
         this.arrivee = i.arrivee;
-//        this.dateArr += i.dateArr + i.trajet.get(0).getTempsAttente(heure);
+        
+        this.dateArr = (Calendar) i.dateArr.clone() /*+ i.trajet.get(0).getTempsAttente(heure)*/;
+        
         this.nbChangement += i.nbChangement;
+        //Vérifie si y a un changement de ligne entre les 2 itinéraires
         Fragment prec = p.getFragmentByStations(this.trajet.get(this.trajet.size() - 1).getNom(), this.trajet.get(this.trajet.size() - 2).getNom());
         Fragment suiv = p.getFragmentByStations(i.trajet.get(0).getNom(), i.trajet.get(1).getNom());
-
         if (p.aChangement(prec, suiv)) {
             this.nbChangement++;
         }

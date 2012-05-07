@@ -55,8 +55,8 @@ public class Station {
         int minute = d.get(Calendar.MINUTE);
         int attente = (60 / nbRameHeure) - minute % (60 / nbRameHeure);
  
-        if (attente == 0) {
-            attente += tmpChgmt;
+        if (attente < tmpChgmt) {
+            attente = (60 / nbRameHeure) + attente;
         }
         tmpArret = attente;
         return attente;

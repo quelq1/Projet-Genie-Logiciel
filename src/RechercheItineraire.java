@@ -51,7 +51,7 @@ public class RechercheItineraire {
         System.out.println("Recherche en cours...");
         switch (type) {
             case 1:
-                itineraire = getItinerairePlusRapide(plan.getStationUtil(), dest);
+                itineraire = getItinerairePlusRapide(plan.getStationUtil(), dest, heureDep);
                 break;
             case 2:
                 itineraire = getItineraireMoinsChangement(plan.getStationUtil(), dest);
@@ -129,10 +129,15 @@ public class RechercheItineraire {
             //On fait une copie pour éviter les effets de bords
             Itineraire tmp = itineraire.clone();
             //On ne compte pas le temps d'arrêt à la station d'arrivée.
-            tmp.addDuree(-s.getTmpArret());
+//            tmp.addDuree(-s.getTmpArret());
             //ajoute l'itinéraire à la liste des solutions
             sol.add(tmp);
         } else {
+            //Ajout le temps d'attente de la prochaine rame
+            //On considère qu'il faut au moins 2min pour changer
+            int tmpAttente = s.getTempsAttente(itineraire.getDateArrivee());
+            itineraire.addDuree(tmpAttente);
+
             //On récupère les directions possibles
             ArrayList<Fragment> directions = getDirections(s);
             Station dest;
@@ -149,8 +154,6 @@ public class RechercheItineraire {
                     //ajout du temps de trajet
                     int tmpParcours = fragPossible.getTempsDeParcours();
                     itineraire.addDuree(tmpParcours);
-                    int tmpAttente = dest.getTempsAttente(itineraire.getDateArrivee());
-                    itineraire.addDuree(tmpAttente);
 
                     if (plan.aChangement(fragPossible, fragPrec)) {
                         //incrémente le nombre de changement
@@ -172,15 +175,11 @@ public class RechercheItineraire {
         }
     }
 
-    public static Itineraire getItinerairePlusRapide(Station dep, Station arr) {
-        Itineraire itineraire = new Itineraire(dep, arr, heureDep);
+    public static Itineraire getItinerairePlusRapide(Station dep, Station arr, Calendar heure) {
+        Itineraire itineraire = new Itineraire(dep, arr, heure);
         ArrayList<Itineraire> solutions = new ArrayList<>();
-        rechercheItineraires(itineraire, dep, null/*, heureDep*/, solutions);
+        rechercheItineraires(itineraire, dep, null, solutions);
 
-        System.out.println("Solutions trouvées : ");
-        for (Itineraire iti : solutions) {
-            System.out.println(iti);
-        }
         //On parcours les chemins pour connaître le plus court
         Itineraire res = null;
         if (!solutions.isEmpty()) {
@@ -221,11 +220,13 @@ public class RechercheItineraire {
     public static Itineraire getItineraireParEtapes(ArrayList<Station> etapes) {
         Itineraire res = null, tmp;
         if (etapes.size() >= 2) {
-            res = getItinerairePlusRapide(etapes.get(0), etapes.get(1));
+            res = getItinerairePlusRapide(etapes.get(0), etapes.get(1), heureDep);
             //On calcule l'itinéraire le plus rapide entre chaque étape
             for (int i = 2; i < etapes.size(); i++) {
-                tmp = getItinerairePlusRapide(etapes.get(i - 1), etapes.get(i));
-//                res.concatItineraire(tmp, plan);
+                tmp = getItinerairePlusRapide(etapes.get(i - 1), etapes.get(i), res.getDateArrivee());
+                System.out.println("iti prec : " + res);
+                System.out.println("iti suiv : " + tmp);
+                res.concatItineraire(tmp, plan);
             }
         }
         return res;
