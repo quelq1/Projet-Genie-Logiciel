@@ -191,7 +191,6 @@ public class testItineraire extends TestCase {
 
         //2 seul chemins possibles et impasse
         //-------------------------------------
-        it = new Itineraire(s1, s2, this.getDate(11, 00, 00));
         Station s5 = new Station("s5");
         Fragment f5 = new Fragment(s4, s5, 1);
         Ligne c = new Ligne("c");
