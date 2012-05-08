@@ -1,3 +1,4 @@
+
 import java.io.Serializable;
 import java.util.Scanner;
 
@@ -19,7 +20,7 @@ public class Coordonnee implements Serializable {
     public void setLatitude(double nouvellelat) {
         latitude = nouvellelat;
     }
-    
+
     //longitude
     public double getLongitude() {
         return longitude;
@@ -28,7 +29,7 @@ public class Coordonnee implements Serializable {
     public void setLongitude(double nouveaulong) {
         longitude = nouveaulong;
     }
-    
+
     public double distance(Coordonnee c) {
         double lat = (this.getLatitude() - c.getLatitude()) * (this.getLatitude() - c.getLatitude());
         double lon = (this.getLongitude() - c.getLongitude()) * (this.getLongitude() - c.getLongitude());
@@ -37,7 +38,7 @@ public class Coordonnee implements Serializable {
 
     @Override
     public String toString() {
-        return longitude + ":" + latitude;
+        return latitude + ":" + longitude;
     }
 
     @Override
@@ -65,48 +66,33 @@ public class Coordonnee implements Serializable {
         hash = 23 * hash + (int) (Double.doubleToLongBits(this.longitude) ^ (Double.doubleToLongBits(this.longitude) >>> 32));
         return hash;
     }
-    
-    public static Coordonnee saisieCoord(Plan plan, Scanner sc) {        
+
+    public static Coordonnee saisieCoord(Plan plan, Scanner sc) {
         //Saisie coord
         double[] coord = new double[2];
-        String[] nomCoord = new String[]{"latitude", "longiture"};
+        String[] nomCoord = new String[]{"latitude", "longitude"};
         Coordonnee res;
 
-        boolean coordValide = false;
-        do {
-            boolean saisieOk;
-            for (int i = 0; i < nomCoord.length; i++) {
-                saisieOk = false;
-                do {
-                    System.out.println("A quelle " + nomCoord[i] + " se trouve-t-elle ? ");
-                    try {
-                        coord[i] = Double.parseDouble(sc.next());
+        boolean saisieOk;
+        for (int i = 0; i < nomCoord.length; i++) {
+            saisieOk = false;
+            do {
+                System.out.println("A quelle " + nomCoord[i] + " se trouve-t-elle ? ");
+                try {
+                    coord[i] = Double.parseDouble(sc.next());
 
-                        if (0. <= coord[i] && coord[i] <= 90.) {
-                            saisieOk = true;
-                        }
-                        else {
-                            System.out.println("Choix incorrect : la " + nomCoord[i] +  " doit être entre 0 et 90.");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Choix incorrect.");
+                    if (0. <= coord[i] && coord[i] <= 90.) {
+                        saisieOk = true;
+                    } else {
+                        System.out.println("Choix incorrect : la " + nomCoord[i] + " doit être entre 0 et 90.");
                     }
-                } while (!saisieOk);
-            }
-            
-            res = new Coordonnee(coord[0], coord[1]);
-            
-            //Vérifie qu'aucune station n'a pas déjà ces coords
-            for (Station s : plan.getStations()) {
-                if (s.getCoord().equals(res)) {
-                    System.out.println("Vous ne pouvez pas ajouter une nouvelle station avec les mêmes coordonnées qu'une déjà existante");
+                } catch (NumberFormatException e) {
+                    System.out.println("Choix incorrect.");
                 }
-                else {
-                    coordValide = true;
-                }
-            }
+            } while (!saisieOk);
+        }
 
-        } while (!coordValide);
+        res = new Coordonnee(coord[0], coord[1]);
 
         return res;
     }

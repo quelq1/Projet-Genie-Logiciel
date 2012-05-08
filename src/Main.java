@@ -79,18 +79,20 @@ public class Main {
     }
 
     public static int saisieInt(Scanner sc) {
+        String s;
         int n = 0;
         boolean estInt = false;
         while (!estInt) {
             try {
-                n = sc.nextInt();
+                s = sc.next();
+                n = Integer.parseInt(s);
 
                 if (n < 0) {
-                    System.out.print("Erreur de saisie.");
+                    System.out.println("Erreur de saisie.");
                 } else {
                     estInt = true;
                 }
-            } catch (InputMismatchException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Erreur de saisie.");
                 //Permet de lire, le reste de la ligne (nextInt ne lit pas le retour chariot)
                 sc.nextLine();

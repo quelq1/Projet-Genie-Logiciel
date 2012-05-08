@@ -25,7 +25,22 @@ public class AjoutStation {
         }
 
         //Coordonnée
-        Coordonnee c = Coordonnee.saisieCoord(plan, sc);
+        boolean saisieOk = false;
+        Coordonnee c;
+        do {
+            c = Coordonnee.saisieCoord(plan, sc);
+
+            //Vérifie qu'aucune station n'a pas déjà ces coords
+            for (Station s : plan.getStations()) {
+                if (s.getCoord().equals(c)) {
+                    System.out.println("Vous ne pouvez pas ajouter une nouvelle station avec les mêmes coordonnées qu'une déjà existante");
+                    saisieOk = false;
+                    break;
+                } else {
+                    saisieOk = true;
+                }
+            }
+        } while (!saisieOk);
         aAjoute.setCoord(c);
 
         //Saisie ligne
@@ -54,27 +69,24 @@ public class AjoutStation {
         System.out.println("\t2 - " + stationterminus.get(1).getNom());
         System.out.println("Quel est votre choix ?");
         int choix = 0;
-        boolean saisieOk = false;
+        saisieOk = false;
         do {
-            try {
-                choix = Integer.parseInt(sc.next());
+            choix = Main.saisieInt(sc);
 
-                if (0 < choix && choix < 3) {
-                    saisieOk = true;
-                }
-                else {
-                    System.out.println("\nChoix incorrect.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("\nChoix incorrect.");
+            if (0 < choix && choix < 3) {
+                saisieOk = true;
+            } else {
+                System.out.println("Choix incorrect.");
             }
         } while (!saisieOk);
         Station extremite = stationterminus.get(choix - 1);
 
         //Création du fragment
-        Fragment frag = Fragment.saisieFragment(aAjoute, extremite);
+        Fragment frag = Fragment.saisieFragment(aAjoute, extremite, sc);
         ligne.addFragment(frag);
         plan.addStation(aAjoute);
+        
+        System.out.println("La station " + aAjoute.getNom() + " a été ajoutée à ligne " + ligne.getNom() + ".");
 
         //On écrit dans le fichier
         ecriturefichier(aAjoute, extremite, frag.getTempsDeParcours(), ligne);
@@ -89,16 +101,9 @@ public class AjoutStation {
         try {
             writer = new FileWriter(Main.getFichierPlan(), true);
             writer.write(texte, 0, texte.length());
+            writer.close();
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
         }
     }
 }

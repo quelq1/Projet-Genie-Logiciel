@@ -42,9 +42,12 @@ public class AjoutLigne {
             String s = sc.next();
             Station stationTmp = new Station(s);
 
+            //Vérifie si la station n'a pas déjà été saisie
             if (!listStationTmp.contains(stationTmp)) {
+
+                //Vérifie si la station n'existe pas déjà dans le plan
                 if (!plan.getStations().contains(stationTmp)) {
-                    System.out.println("La station n'existe pas, voulez vous la créer ? [O/Y]");
+                    System.out.println("La station n'existe pas, voulez vous la créer ? [O/N]");
                     String choix = sc.next();
                     if (choix.compareToIgnoreCase("o") == 0) {
                         Coordonnee coord = Coordonnee.saisieCoord(plan, sc);
@@ -65,8 +68,14 @@ public class AjoutLigne {
             }
         }
 
+        Fragment f;
         for (int i = 0; i <= listStationTmp.size() - 2; i++) {
-            Fragment f = Fragment.saisieFragment(listStationTmp.get(i), listStationTmp.get(i+1));
+            //Vérifie que le fragement n'existe pas déjà
+            f = plan.getFragmentByStations(listStationTmp.get(i).getNom(), listStationTmp.get(i + 1).getNom());
+            if (f == null) {
+                //Si null, on le crée
+                f = Fragment.saisieFragment(listStationTmp.get(i), listStationTmp.get(i + 1), sc);
+            }
             l.addFragment(f);
         }
 
