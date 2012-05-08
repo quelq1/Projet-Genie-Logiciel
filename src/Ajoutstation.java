@@ -62,34 +62,14 @@ public class AjoutStation {
             }
         }
 
-        //Crée le fragment
-        List<Station> stationterminus = plan.getStationExtremite(ligne);
-        System.out.println("Vous avez la possibilite de lier votre station à :");
-        System.out.println("\t1 - " + stationterminus.get(0).getNom());
-        System.out.println("\t2 - " + stationterminus.get(1).getNom());
-        System.out.println("Quel est votre choix ?");
-        int choix = 0;
-        saisieOk = false;
-        do {
-            choix = Main.saisieInt(sc);
-
-            if (0 < choix && choix < 3) {
-                saisieOk = true;
-            } else {
-                System.out.println("Choix incorrect.");
-            }
-        } while (!saisieOk);
-        Station extremite = stationterminus.get(choix - 1);
-
-        //Création du fragment
-        Fragment frag = Fragment.saisieFragment(aAjoute, extremite, sc);
+        Fragment frag = Fragment.creationLiaisonFragment(plan, ligne, aAjoute, sc);
         ligne.addFragment(frag);
         plan.addStation(aAjoute);
         
         System.out.println("La station " + aAjoute.getNom() + " a été ajoutée à ligne " + ligne.getNom() + ".");
 
         //On écrit dans le fichier
-        ecriturefichier(aAjoute, extremite, frag.getTempsDeParcours(), ligne);
+        ecriturefichier(aAjoute, frag.getDestination(aAjoute), frag.getTempsDeParcours(), ligne);
     }
 
     public static void ecriturefichier(Station s1, Station s2, int temps, Ligne ligne) {

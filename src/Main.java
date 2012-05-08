@@ -47,7 +47,7 @@ public class Main {
                     AjoutStation.menuAjoutStation(plan);
                     break;
                 case 3:
-                    AjoutLigne.menuAjoutLigne(plan);
+                    AjoutLigne.menuGestionLigne(plan);
                     break;
                 case 4:
                     AjoutIncident.menuAjoutIncident(plan);

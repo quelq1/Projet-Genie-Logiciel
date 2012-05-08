@@ -68,7 +68,7 @@ public class testAjoutLigne extends TestCase{
         String data = "A\r\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         
-        AjoutLigne.menuAjoutLigne(resultat);
+        AjoutLigne.ajoutLigne(resultat);
         
         assertEquals(attendu.toString(), resultat.toString());
     }
@@ -77,7 +77,7 @@ public class testAjoutLigne extends TestCase{
         String data = "Z\r\n-1\r\n0\r\n1\r\n2\r\ns1\r\ns1\r\na\r\nn\r\ns3";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         
-        AjoutLigne.menuAjoutLigne(resultat);
+        AjoutLigne.ajoutLigne(resultat);
         
         Ligne z = new Ligne("Z");
         Fragment f = attendu.getFragmentByStations("s1", "s3");
@@ -123,7 +123,7 @@ public class testAjoutLigne extends TestCase{
 //            
 //            // creation de la même ligne et ajout au plan 2 avec la méthode AJOUTLIGNE
 //            Ligne ltest1=new Ligne("test");
-//            AjoutLigne.menuAjoutLigne(p2);
+//            AjoutLigne.ajoutLigne(p2);
 //           
 //            
 //        assertEquals(p1.getLignes(),p2.getLignes());
@@ -138,7 +138,7 @@ public class testAjoutLigne extends TestCase{
 //            p3.addLignes(l);
 //            Plan p4= new Plan();
 //            p4.addLignes(l);
-//            AjoutLigne.menuAjoutLigne(p4);
+//            AjoutLigne.ajoutLigne(p4);
 //            
 //            assertEquals(p3.getLignes(),p4.getLignes());
 //      
@@ -149,7 +149,7 @@ public class testAjoutLigne extends TestCase{
 //          data = "test\r\n1\r\na\r\nb\r\n1\r\n";
 //          System.setIn(new ByteArrayInputStream(data.getBytes()));
 //  
-//            AjoutLigne.menuAjoutLigne(p4);
+//            AjoutLigne.ajoutLigne(p4);
 //   
 //   
 //            assertEquals(p3.getLignes(),p4.getLignes());
