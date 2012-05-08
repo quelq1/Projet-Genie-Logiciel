@@ -2,10 +2,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
 /**
  *
  * @author Loïc Cimon
@@ -51,7 +47,7 @@ public class AjoutLigne {
                     System.out.println("La station n'existe pas, voulez vous la créer ? [O/Y]");
                     String choix = sc.next();
                     if (choix.compareToIgnoreCase("o") == 0) {
-                        Coordonnee coord = AjoutStation.saisieCoord(plan);
+                        Coordonnee coord = Coordonnee.saisieCoord(plan);
                         stationTmp.setCoord(coord);
                     } else {
                         //Passe à l'itération suivante
@@ -75,6 +71,6 @@ public class AjoutLigne {
         }
 
         plan.getLignes().add(l);
-        System.out.println("La ligne a été ajoutée!");
+        System.out.println("La ligne a été ajoutée !");
     }
 }

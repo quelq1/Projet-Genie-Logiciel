@@ -25,7 +25,7 @@ public class AjoutStation {
         }
 
         //Coordonnée
-        Coordonnee c = saisieCoord(plan);
+        Coordonnee c = Coordonnee.saisieCoord(plan);
         aAjoute.setCoord(c);
 
         //Saisie ligne
@@ -94,52 +94,6 @@ public class AjoutStation {
         } while (!saisieOk);
 
         return new Fragment(s1, s2, tmpTrajet);
-    }
-
-    public static Coordonnee saisieCoord(Plan plan) {
-        //Saisie coord
-        double[] coord = new double[2];
-        String[] nomCoord = new String[]{"latitude", "longiture"};
-        Coordonnee res;
-
-        boolean coordValide = false;
-        do {
-            boolean saisieOk;
-            for (int i = 0; i < nomCoord.length; i++) {
-                saisieOk = false;
-                do {
-                    System.out.println("A quelle " + nomCoord[i] + " se trouve-t-elle ? ");
-                    try {
-                        coord[i] = Double.parseDouble(sc.next());
-
-                        if (0. <= coord[i] && coord[i] <= 90.) {
-                            saisieOk = true;
-                        }
-                        else {
-                            System.out.println("Choix incorrect : la " + nomCoord[i] +  " doit être entre 0 et 90.");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Choix incorrect.");
-                    }
-                } while (!saisieOk);
-            }
-            
-            res = new Coordonnee(coord[0], coord[1]);
-            
-            //Vérifie qu'aucune station n'a pas déjà ces coords
-            for (Station s : plan.getStations()) {
-                if (s.getCoord().equals(res)) {
-                    System.out.println("Vous ne pouvez pas ajouter une nouvelle station avec les mêmes coordonnées qu'une déjà existante");
-                }
-                else {
-                    coordValide = true;
-                }
-            }
-
-        } while (!coordValide);
-
-
-        return res;
     }
 
     public static void ecriturefichier(Station s1, Station s2, int temps, Ligne ligne) {

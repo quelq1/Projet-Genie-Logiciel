@@ -27,8 +27,8 @@ public class FavorisUtilisateur implements Serializable {
             System.out.println("\t\t Favoris");
             System.out.println("\t\t----------");
             System.out.println("");
-            System.out.println("1 - Ajouter une station aux favorites");
-            System.out.println("2 - Supprimer une station aux favorites");
+            System.out.println("1 - Ajouter une station aux favoris");
+            System.out.println("2 - Supprimer une station aux favoris");
             System.out.println("");
             System.out.println("0 - Quitter");
             System.out.println("");
@@ -57,10 +57,18 @@ public class FavorisUtilisateur implements Serializable {
     public static void addFavoris() {
         boolean choixOk = false;
         Station choixStation;
+        String choix;
         do {
-            System.out.println("Entrez le nom de la station a ajouté aux favoris :");
-            choixStation = new Station(sc.next());
+            System.out.println("Entrez le nom de la station a ajouté aux favoris [0 : annuler] : ");
+            choix = sc.next();
 
+
+            //Si annuler, on coupe tout
+            if (choix.compareTo("0") == 0) {
+                return;
+            }
+            
+            choixStation = new Station(choix);
             if (plan.getStations().contains(choixStation)) {
                 choixStation = plan.getStations().get(plan.getStations().indexOf(choixStation));
                 choixOk = true;
@@ -71,14 +79,17 @@ public class FavorisUtilisateur implements Serializable {
 
         //On ajoute la station à la liste des favoris
         favoris.add(choixStation);
+        System.out.println(choixStation.getNom() + " a été ajoutée aux favoris.");
     }
 
     public static void afficheListeFavoris() {
-        System.out.println("Favoris :");
-        int i = 1;
-        for (Station s : favoris) {
-            System.out.println(i + " - " + s.getNom());
-            i++;
+        if (!favoris.isEmpty()) {
+            System.out.println("Favoris :");
+            int i = 1;
+            for (Station s : favoris) {
+                System.out.println("\t" + i + " - " + s.getNom());
+                i++;
+            }
         }
     }
 
@@ -130,7 +141,7 @@ public class FavorisUtilisateur implements Serializable {
     }
 
     public static Station getFavoris(int i) {
-        if (favoris.size() > i && i > 0) {
+        if (favoris.size() > i && i >= 0) {
             return favoris.get(i);
         } else {
             return null;
@@ -140,12 +151,11 @@ public class FavorisUtilisateur implements Serializable {
     public static Station choixStation() {
         sc = new Scanner(System.in);
         Station station;
+        String choix;
         boolean choixOk = false;
-        System.out.print("Quel est son nom (tapez le numero correspondant à votre station) ? ");
         afficheListeFavoris();
         do {
-            String choix = sc.next();
-
+            choix = sc.nextLine();
 
             try {
                 station = FavorisUtilisateur.getFavoris(Integer.parseInt(choix) - 1);

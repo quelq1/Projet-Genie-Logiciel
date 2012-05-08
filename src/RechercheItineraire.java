@@ -4,10 +4,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
 /**
  *
  * @author Loïc Cimon
@@ -28,42 +24,18 @@ public class RechercheItineraire {
     public static void menuChoixDestination(Plan p, int type) {
         plan = p;
         heureDep = Calendar.getInstance();
-        Scanner sc = new Scanner(System.in);
 
-        boolean choixOk = false;
         Station dest;
-        do {
-            System.out.println("Entrez la station de destination : ");
+        System.out.println("Entrez la station de destination : ");
 
-            FavorisUtilisateur.afficheListeFavoris();
-            String choix = sc.next();
-
-            try {
-                dest = FavorisUtilisateur.getFavoris(Integer.parseInt(choix) - 1);
-                
-                if (dest != null) {
-                    choixOk = true;
-                }
-                else {
-                    System.out.println("Erreur : le favoris choisi n'existe pas.");
-                }
-            } catch (NumberFormatException e) {
-                dest = new Station(choix);
-
-                if (plan.getStations().contains(dest)) {
-                    dest = plan.getStations().get(plan.getStations().indexOf(dest));
-                    choixOk = true;
-                } else {
-                    System.out.println("Erreur : la station saisie n'existe pas.");
-                }
-            }
-        } while (!choixOk);
+        dest = FavorisUtilisateur.choixStation();
 
         //On lance la recherche d'itinéraire
         //1 : itinéraire rapide
         //2 : itinéraire moins de changement
         //3 : itinéraire avec étapes
         Itineraire itineraire = null;
+        
         System.out.println("Recherche en cours...");
         switch (type) {
             case 1:
@@ -282,9 +254,8 @@ public class RechercheItineraire {
                 }
                 ligne = plan.getLigneCommune(fDeb, fSuiv);
                 if (ligne == null) {
-                    ligne = lignesDeb.get(lignesDeb.size()-1);
-                }
-                else {
+                    ligne = lignesDeb.get(lignesDeb.size() - 1);
+                } else {
                     do {
                         sSuiv = itineraire.getStation(i);
                         i++;

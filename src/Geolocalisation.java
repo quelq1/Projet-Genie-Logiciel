@@ -20,8 +20,8 @@ public class Geolocalisation {
                 choixOk = true;
 
                 //Choix de la station parmis celles existantes
+                System.out.println("Quel est son nom ?");
                 util = FavorisUtilisateur.choixStation();
-//                util = choixStation();
                 
                 System.out.println("Vous êtes à la station " + util.getNom());
 
@@ -41,64 +41,12 @@ public class Geolocalisation {
         plan.setStationUtil(util);
     }
 
-    private static Station choixStation() {
-        //On affiche les stations dispo
-        int i = 1;
-        for (Station s : plan.getStations()) {
-            System.out.println(i + " - " + s.getNom());
-            i++;
-        }
-
-        boolean saisieOk = false;
-        int nStation = 0;
-        do {
-            System.out.print("Quel est son nom (tapez le numero correspondant à votre station) ? ");
-            try {
-                nStation = Integer.parseInt(sc.next());
-
-                if (nStation <= 0 || nStation > plan.getStations().size()) {
-                    throw new NumberFormatException();
-                }
-                saisieOk = true;
-            } catch (NumberFormatException e) {
-                System.out.println("\nChoix incorrect.");
-            }
-        } while (!saisieOk);
-
-        Station util = plan.getStations().get(nStation-1);
-
-        return util;
-    }
-
     private static Station rechercheStation() {
-        double lat = 0, lon = 0;
-
-        //Lecture de la latitude
-        boolean saisieOk = false;
-        do {
-            System.out.println("A quelle latitude vous trouvez-vous ?");
-            try {
-                lat = Double.parseDouble(sc.next());
-                saisieOk = true;
-            } catch (NumberFormatException e) {
-                System.out.println("\nChoix incorrect.");
-            }
-        } while (!saisieOk);
-
-        //Lecture de la longitude
-        saisieOk = false;
-        do {
-            System.out.println("A quelle longitude vous trouvez-vous ?");
-            try {
-                lon = Double.parseDouble(sc.next());
-                saisieOk = true;
-            } catch (NumberFormatException e) {
-                System.out.println("\nChoix incorrect.");
-            }
-        } while (!saisieOk);
+                
+        Coordonnee coord = Coordonnee.saisieCoord(plan);
 
         //Lance la recherche
-        return getStationProche(new Coordonnee(lat, lon));
+        return getStationProche(coord);
     }
 
     public static Station getStationProche(Coordonnee coord) {
