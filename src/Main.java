@@ -46,7 +46,7 @@ public class Main {
                     plan.ajoutLigne();
                     break;
                 case 4:
-                    plan.ajoutIncident();
+                    AjoutIncident.menuAjoutIncident(plan);
                     break;
                 case 5:
                     RechercheItineraire.menuChoixDestination(plan, 1);
