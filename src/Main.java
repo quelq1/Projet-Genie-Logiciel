@@ -93,15 +93,13 @@ public class Main {
         try {
             boolean trouve = false;
             FileInputStream fis = new FileInputStream(fichier);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    fis));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
             while ((line = reader.readLine()) != null && !trouve) {
-
-                System.out.println("Line : " + line);
                 if (!line.contains(new CharArrayString(s1)) || !line.contains(new CharArrayString(s2))) {
                     sb.append(line).append("\n");
                 }
             }
+            sb.replace(sb.lastIndexOf("\n"), sb.length(), "");
             reader.close();
             BufferedWriter out = new BufferedWriter(new FileWriter(fichier));
             out.write(sb.toString());

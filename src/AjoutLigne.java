@@ -1,5 +1,4 @@
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -148,7 +147,7 @@ public class AjoutLigne {
     }
 
     public static void ajoutLigne(Plan plan) {
-        System.out.println("Entrez le nom de la ligne à creer : ");
+        System.out.println("Entrez le nom de la ligne à créer : ");
         Ligne l = new Ligne(sc.next());
         if (plan.getLignes().contains(l)) {
             System.out.println("La ligne existe déjà!!");
@@ -170,8 +169,7 @@ public class AjoutLigne {
 
         ArrayList<Station> listStationTmp = new ArrayList();
 
-        //TODO Affiche les stations et favoris
-
+        boolean stationExistante = false;
         while (nbreStation != 0) {
             System.out.println("Entrer le nom de la station :");
             String s = sc.next();
@@ -182,18 +180,27 @@ public class AjoutLigne {
 
                 //Vérifie si la station n'existe pas déjà dans le plan
                 if (!plan.getStations().contains(stationTmp)) {
-                    System.out.println("La station n'existe pas, voulez vous la créer ? [O/N]");
-                    String choix = sc.next();
-                    if (choix.compareToIgnoreCase("o") == 0) {
-                        Coordonnee coord = Coordonnee.saisieCoord(plan, sc);
-                        stationTmp.setCoord(coord);
-                    } else {
+
+                    //Il faut une station existante, donc si c'est la dernière, on propose pas la création
+                    if (nbreStation == 1 && !stationExistante) {
+                        System.out.println("La station n'existe pas, voulez vous la créer ? [O/N]");
+                        String choix = sc.next();
+                        if (choix.compareToIgnoreCase("o") == 0) {
+                            Coordonnee coord = Coordonnee.saisieCoord(plan, sc);
+                            stationTmp.setCoord(coord);
+                        } else {
+                            //Passe à l'itération suivante
+                            continue;
+                        }
+                    }
+                    else {
                         //Passe à l'itération suivante
                         continue;
                     }
                 } else {
                     //On récupère la station existante dans le plan
                     stationTmp = plan.getStations().get(plan.getStations().indexOf(stationTmp));
+                    stationExistante = true;
                 }
 
                 listStationTmp.add(stationTmp);
