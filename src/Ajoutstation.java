@@ -25,7 +25,7 @@ public class AjoutStation {
         }
 
         //Coordonnée
-        Coordonnee c = Coordonnee.saisieCoord(plan);
+        Coordonnee c = Coordonnee.saisieCoord(plan, sc);
         aAjoute.setCoord(c);
 
         //Saisie ligne
@@ -72,28 +72,12 @@ public class AjoutStation {
         Station extremite = stationterminus.get(choix - 1);
 
         //Création du fragment
-        Fragment frag = saisieFragment(aAjoute, extremite);
+        Fragment frag = Fragment.saisieFragment(aAjoute, extremite);
         ligne.addFragment(frag);
         plan.addStation(aAjoute);
 
         //On écrit dans le fichier
         ecriturefichier(aAjoute, extremite, frag.getTempsDeParcours(), ligne);
-    }
-    
-    public static Fragment saisieFragment(Station s1, Station s2) {
-        System.out.println("Entrer le temps de parcours entre " + s1.getNom() + " et " + s2.getNom() + " :");
-        int tmpTrajet = 0;
-        boolean saisieOk = false;
-        do {
-            try {
-                tmpTrajet = Integer.parseInt(sc.next());
-                saisieOk = true;
-            } catch (NumberFormatException e) {
-                System.out.println("\nVeuillez saisir un entier.");
-            }
-        } while (!saisieOk);
-
-        return new Fragment(s1, s2, tmpTrajet);
     }
 
     public static void ecriturefichier(Station s1, Station s2, int temps, Ligne ligne) {

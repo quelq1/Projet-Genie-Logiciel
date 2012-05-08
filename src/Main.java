@@ -11,7 +11,7 @@ public class Main {
         System.out.println("   *********************");
         
         Plan plan = new Plan(fichier);
-        FavorisUtilisateur.chargerFavoris(plan);
+        FavorisUtilisateur.chargerFavoris();
         Geolocalisation.geolocalisation(plan);
 
         boolean fin = false;
@@ -61,7 +61,7 @@ public class Main {
                     RechercheItineraire.menuChoixDestination(plan, 3);
                     break;
                 case 8:
-                    FavorisUtilisateur.menuGestionFavoris();
+                    FavorisUtilisateur.menuGestionFavoris(plan);
                     break;
                 default:
                     System.out.println("Choix incorrect...");

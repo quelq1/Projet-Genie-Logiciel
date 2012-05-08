@@ -66,9 +66,7 @@ public class Coordonnee implements Serializable {
         return hash;
     }
     
-    public static Coordonnee saisieCoord(Plan plan) {
-        Scanner sc = new Scanner(System.in);
-        
+    public static Coordonnee saisieCoord(Plan plan, Scanner sc) {        
         //Saisie coord
         double[] coord = new double[2];
         String[] nomCoord = new String[]{"latitude", "longiture"};

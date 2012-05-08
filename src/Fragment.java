@@ -1,4 +1,7 @@
 
+import java.util.Scanner;
+
+
 public class Fragment {
 
     private Station depart, arrivee;
@@ -70,5 +73,23 @@ public class Fragment {
         } else {
             return depart;
         }
+    }
+    
+    public static Fragment saisieFragment(Station s1, Station s2) {
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.println("Entrer le temps de parcours entre " + s1.getNom() + " et " + s2.getNom() + " :");
+        int tmpTrajet = 0;
+        boolean saisieOk = false;
+        do {
+            try {
+                tmpTrajet = Integer.parseInt(sc.next());
+                saisieOk = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Veuillez saisir un entier.");
+            }
+        } while (!saisieOk);
+
+        return new Fragment(s1, s2, tmpTrajet);
     }
 }

@@ -13,14 +13,14 @@ public class AjoutLigne {
     public static void menuAjoutLigne(Plan plan) {
         sc = new Scanner(System.in);
 
-        System.out.println("Entrez le nom de la ligne à creer:");
+        System.out.println("Entrez le nom de la ligne à creer : ");
         Ligne l = new Ligne(sc.next());
         if (plan.getLignes().contains(l)) {
-            System.out.println("la ligne existe déjà!!");
+            System.out.println("La ligne existe déjà!!");
             return;
         }
 
-        System.out.println("Entrer le nombre de stations à ajouter:");
+        System.out.println("Entrer le nombre de stations à ajouter : ");
         int nbreStation;
 
         boolean saisieOk = false;
@@ -29,7 +29,7 @@ public class AjoutLigne {
             if (nbreStation >= 2) {
                 saisieOk = true;
             } else {
-                System.out.println("Il faut au moins deux stations pour creer la ligne!");
+                System.out.println("Il faut au moins deux stations pour creer la ligne !");
             }
         } while (!saisieOk);
 
@@ -47,7 +47,7 @@ public class AjoutLigne {
                     System.out.println("La station n'existe pas, voulez vous la créer ? [O/Y]");
                     String choix = sc.next();
                     if (choix.compareToIgnoreCase("o") == 0) {
-                        Coordonnee coord = Coordonnee.saisieCoord(plan);
+                        Coordonnee coord = Coordonnee.saisieCoord(plan, sc);
                         stationTmp.setCoord(coord);
                     } else {
                         //Passe à l'itération suivante
@@ -66,7 +66,7 @@ public class AjoutLigne {
         }
 
         for (int i = 0; i <= listStationTmp.size() - 2; i++) {
-            Fragment f = AjoutStation.saisieFragment(listStationTmp.get(i), listStationTmp.get(i+1));
+            Fragment f = Fragment.saisieFragment(listStationTmp.get(i), listStationTmp.get(i+1));
             l.addFragment(f);
         }
 

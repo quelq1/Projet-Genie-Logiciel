@@ -1,6 +1,7 @@
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,11 +16,10 @@ import java.util.Scanner;
 public class FavorisUtilisateur implements Serializable {
 
     private static final String nomFich = "favoris.config";
-    private static List<Station> favoris;
-    private static Plan plan;
+    private static List<Station> favoris = new ArrayList<>();
     private static Scanner sc;
 
-    public static void menuGestionFavoris() {
+    public static void menuGestionFavoris(Plan plan) {
         sc = new Scanner(System.in);
         boolean fin = false;
         while (!fin) {
@@ -34,15 +34,25 @@ public class FavorisUtilisateur implements Serializable {
             System.out.println("");
             System.out.println("Entrez votre choix : ");
 
-            Scanner sc = new Scanner(System.in);
-            int choix = sc.nextInt();
+            int choix = 0;
+            boolean saisieOk = false;
+            do {
+                try {
+                    choix = sc.nextInt();
+                    saisieOk = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Choix incorrect.");
+                    //Permet de lire, le reste de la ligne (nextInt ne lit pas le retour chariot)
+                    sc.nextLine();
+                }
+            } while (!saisieOk);
 
             switch (choix) {
                 case 0:
                     fin = true;
                     break;
                 case 1:
-                    addFavoris();
+                    addFavoris(plan);
                     break;
                 case 2:
                     supprimerFavoris();
@@ -54,7 +64,7 @@ public class FavorisUtilisateur implements Serializable {
         }
     }
 
-    public static void addFavoris() {
+    public static void addFavoris(Plan plan) {
         boolean choixOk = false;
         Station choixStation;
         String choix;
@@ -67,7 +77,7 @@ public class FavorisUtilisateur implements Serializable {
             if (choix.compareTo("0") == 0) {
                 return;
             }
-            
+
             choixStation = new Station(choix);
             if (plan.getStations().contains(choixStation)) {
                 choixStation = plan.getStations().get(plan.getStations().indexOf(choixStation));
@@ -83,7 +93,7 @@ public class FavorisUtilisateur implements Serializable {
     }
 
     public static void afficheListeFavoris() {
-        if (!favoris.isEmpty()) {
+        if (favoris != null && !favoris.isEmpty()) {
             System.out.println("Favoris :");
             int i = 1;
             for (Station s : favoris) {
@@ -94,22 +104,39 @@ public class FavorisUtilisateur implements Serializable {
     }
 
     public static void supprimerFavoris() {
-        if (favoris.size() <= 0) {
+        if (favoris == null || favoris.size() <= 0) {
             System.out.println("Vous n'avez aucun favoris d'enregistrer.");
             return;
         }
-        Scanner sc = new Scanner(System.in);
 
         afficheListeFavoris();
         System.out.println("");
         System.out.println("0 - Annuler");
 
         System.out.println("Entrez le numéro de la station a supprimer des favoris :");
-        int choix = sc.nextInt();
+        boolean saisieOk = false;
+        int choix;
+        do {
+            try {
+                choix = sc.nextInt();
 
-        if (choix != 0) {
-            favoris.remove(choix - 1);
-        }
+                if (choix == 0) {
+                    return;
+                }
+                
+                if (0 < choix && choix <= favoris.size()) {
+                    favoris.remove(choix - 1);
+                    saisieOk = true;
+                }
+                else {
+                    System.out.println("Choix incorrect.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Choix incorrect.");
+                //Permet de lire, le reste de la ligne (nextInt ne lit pas le retour chariot)
+                sc.nextLine();
+            }
+        } while (!saisieOk);
     }
 
     public static void sauvegarderFavoris() {
@@ -128,34 +155,34 @@ public class FavorisUtilisateur implements Serializable {
         }
     }
 
-    public static void chargerFavoris(Plan p) {
-        plan = p;
+    public static void chargerFavoris() {
         try {
             File f = new File(nomFich);
             FileInputStream fichier = new FileInputStream(nomFich);
             ObjectInputStream ois = new ObjectInputStream(fichier);
             favoris = (List<Station>) ois.readObject();
+            fichier.close();
+            ois.close();
         } catch (IOException | ClassNotFoundException e) {
             favoris = new ArrayList<>();
         }
     }
 
     public static Station getFavoris(int i) {
-        if (favoris.size() > i && i >= 0) {
+        if (favoris != null && favoris.size() > i && i >= 0) {
             return favoris.get(i);
         } else {
             return null;
         }
     }
 
-    public static Station choixStation() {
-        sc = new Scanner(System.in);
+    public static Station choixStation(Plan plan, Scanner sc) {
         Station station;
         String choix;
         boolean choixOk = false;
         afficheListeFavoris();
         do {
-            choix = sc.nextLine();
+            choix = sc.next();
 
             try {
                 station = FavorisUtilisateur.getFavoris(Integer.parseInt(choix) - 1);
@@ -178,5 +205,9 @@ public class FavorisUtilisateur implements Serializable {
         } while (!choixOk);
 
         return station;
+    }
+
+    public static List<Station> getListeFavoris() {
+        return favoris;
     }
 }

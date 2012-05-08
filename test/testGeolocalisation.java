@@ -47,7 +47,7 @@ public class testGeolocalisation extends TestCase {
         /*
          * Scénario 1 : Dans une station choix normal
          */
-        String data = "A\r\nO\r\np\r\n-1\r\n2\r\n1\r\n";
+        String data = "A\r\nO\r\np\r\n-1\r\n2\r\nCapucine\r\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Geolocalisation.geolocalisation(p);
         assertEquals(capucine, p.getStationUtil());
@@ -55,7 +55,7 @@ public class testGeolocalisation extends TestCase {
         /*
          * Scénario 2 : Dans une station choix O puis 1
          */
-        data = "A\r\nO\r\np\r\n0\r\n1\r\n";
+        data = "A\r\nO\r\np\r\n0\r\nsauge\r\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Geolocalisation.geolocalisation(p);
         assertEquals(sauge, p.getStationUtil());
@@ -63,7 +63,7 @@ public class testGeolocalisation extends TestCase {
         /*
          * Scénario 3 : Dans une station choix 4 puis 3 (dernier)
          */
-        data = "A\r\nO\r\np\r\n4\r\n3\r\n";
+        data = "A\r\nO\r\np\r\n4\r\nrose\r\n";
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         Geolocalisation.geolocalisation(p);
         assertEquals(rose, p.getStationUtil());

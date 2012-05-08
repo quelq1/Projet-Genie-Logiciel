@@ -28,7 +28,7 @@ public class RechercheItineraire {
         Station dest;
         System.out.println("Entrez la station de destination : ");
 
-        dest = FavorisUtilisateur.choixStation();
+        dest = FavorisUtilisateur.choixStation(plan, new Scanner(System.in));
 
         //On lance la recherche d'itinéraire
         //1 : itinéraire rapide

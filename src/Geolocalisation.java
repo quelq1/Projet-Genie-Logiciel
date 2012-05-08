@@ -21,7 +21,7 @@ public class Geolocalisation {
 
                 //Choix de la station parmis celles existantes
                 System.out.println("Quel est son nom ?");
-                util = FavorisUtilisateur.choixStation();
+                util = FavorisUtilisateur.choixStation(plan, sc);
                 
                 System.out.println("Vous êtes à la station " + util.getNom());
 
@@ -43,7 +43,7 @@ public class Geolocalisation {
 
     private static Station rechercheStation() {
                 
-        Coordonnee coord = Coordonnee.saisieCoord(plan);
+        Coordonnee coord = Coordonnee.saisieCoord(plan, sc);
 
         //Lance la recherche
         return getStationProche(coord);
