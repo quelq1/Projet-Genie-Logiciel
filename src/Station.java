@@ -1,25 +1,36 @@
 
-public class Station {
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Objects;
 
+public class Station implements Serializable {
+
+    private final int nbRameHeure = 12;
+    private final int tmpChgmt = 2;
+    private int tmpAttenteStation;
     private String nom;
     private Coordonnee coord;
-    private static int tps_darret = 2;
-    private Incident incident;
+    private transient Incident incident;
 
     public Station(String name) {
         nom = name;
+        incident = null;
+        coord = null;
+        tmpAttenteStation = 0;
     }
 
     public Station(String name, Coordonnee c) {
         nom = name;
         incident = null;
         coord = c;
+        tmpAttenteStation = 0;
     }
 
     public Station(String n, Coordonnee c, Incident inci) {
         nom = n;
         coord = c;
         incident = inci;
+        tmpAttenteStation = 0;
     }
 
     //nom
@@ -41,8 +52,19 @@ public class Station {
     }
 
     //tps darret
-    public int getTempsArret() {
-        return tps_darret;
+    public int getTempsAttenteStation(Calendar d) {
+        int minute = d.get(Calendar.MINUTE);
+        int attente = (60 / nbRameHeure) - minute % (60 / nbRameHeure);
+ 
+        if (attente < tmpChgmt) {
+            attente = (60 / nbRameHeure) + attente;
+        }
+        tmpAttenteStation = attente;
+        return attente;
+    }
+    
+    public void setTempsAttenteStation(int i) {
+        tmpAttenteStation = i;
     }
 
     //incident
@@ -52,6 +74,22 @@ public class Station {
 
     public void setIncident(Incident newinci) {
         incident = newinci;
+    }
+
+    public boolean equalsIncident(Object obj) {
+
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Station other = (Station) obj;
+        if (!Objects.equals(this.nom, other.nom)) {
+            return false;
+        }
+        return true;
+
     }
 
     @Override
@@ -83,5 +121,9 @@ public class Station {
             s += " - " + incident;
         }
         return s;
+    }
+    
+    public int getTmpArret() {
+        return tmpAttenteStation;
     }
 }

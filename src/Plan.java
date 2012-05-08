@@ -1,5 +1,4 @@
 
-import java.io.*;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -15,7 +14,6 @@ public class Plan {
     private List<Station> stations;
     private Set<Ligne> lignes;
     private Station util;
-    
 
     public Plan() {
         stations = new ArrayList<>();
@@ -53,7 +51,7 @@ public class Plan {
     }
 
     private void chargementPlan(String fichier) {
-        //lecture du fichier texte	
+        //lecture du fichier texte
         try {
             InputStream ips = new FileInputStream(fichier);
             InputStreamReader ipsr = new InputStreamReader(ips);
@@ -87,7 +85,7 @@ public class Plan {
         }
         return s;
     }
-    
+
     public Station getStationProche(Coordonnee coord) {
         Station res = null, tmp;
         double min, distance;
@@ -110,114 +108,27 @@ public class Plan {
         return res;
     }
 
-    public ArrayList<Fragment> getDirections(Station s) {
-        ArrayList<Fragment> res = new ArrayList<>();
-        Fragment f;
-
-        //Parcours des lignes
-        Iterator<Ligne> ligne = lignes.iterator();
-        Iterator<Fragment> frag;
-        while (ligne.hasNext()) {
-            //Parcours des fragments de la ligne
-            frag = ligne.next().getListeFragments().iterator();
-            while (frag.hasNext()) {
-                f = frag.next();
-
-                //Si le fragment contient la station et qu'elle n'est pas déjà dans la liste
-                //On ajoute si :
-                // - le fragment contient la station de départ
-                // - le fragment n'est pas déjà contenu
-                // - le fragment n'a pas d'incident
-                // - la station d'arrivée n'a pas d'incident
-
-                if (f.contientStation(s)
-                        && !res.contains(f)
-                        && f.getIncident() == null
-                        && f.getDestination(s).getIncident() == null) {
-                    res.add(f);
-                }
+    public Ligne getLigneCommune(Fragment f1, Fragment f2) {
+        if (f1 == null || f2 == null) {
+            return null;
+        }
+        for (Ligne l : lignes) {
+            if (l.getListeFragments().contains(f1) && l.getListeFragments().contains(f2)) {
+                return l;
             }
         }
-        return res;
-    }
-
-    public void rechercheItineraires(Itineraire itineraire, Station s, Fragment fragPrec, ArrayList<Itineraire> sol) {
-        if (itineraire.getArrivee().equals(s)) {
-            //On fait une copie pour éviter les effets de bords
-            Itineraire tmp = itineraire.clone();
-            //On ne compte pas le temps d'arrêt à la station d'arrivée.
-            tmp.rmDuree(s.getTempsArret());
-            //ajoute l'itinéraire à la liste des solutions
-            sol.add(tmp);
-        } else {
-            //On récupère les directions possibles
-            ArrayList<Fragment> directions = this.getDirections(s);
-            Station dest;
-
-            //On boucle sur les stations possibles
-            for (Fragment fragPossible : directions) {
-                //On récupère la destination du fragment
-                dest = fragPossible.getDestination(s);
-
-                //Vérifie que la station n'a jamais été emprunté
-                if (!itineraire.contains(dest)) {
-                    //enregistrement de la station
-                    itineraire.addStation(dest);
-                    //ajout du temps de trajet
-                    itineraire.addDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
-
-                    if (this.aChangement(fragPossible, fragPrec)) {
-                        //incrémente le nombre de changement
-                        itineraire.incrChangement();
-                    }
-                    //appel récursif
-                    this.rechercheItineraires(itineraire, dest, fragPossible, sol);
-
-                    //mise à jour des stations possibles
-                    directions = this.getDirections(dest);
-
-                    //décrémente le temps de parcours
-                    itineraire.rmDuree(fragPossible.getTempsDeParcours() + dest.getTempsArret());
-                    if (this.aChangement(fragPossible, fragPrec)) {
-                        //décrément le nombre de changement
-                        itineraire.decrChangement();
-                    }
-                    //suppression de la direction et le fragement précédent
-                    itineraire.rmLastStation();
-                }
-            }
-        }
-    }
-
-    public Itineraire getItinerairePlusRapide(Station dep, Station arr) {
-        Itineraire itineraire = new Itineraire(dep, arr);
-        ArrayList<Itineraire> solutions = new ArrayList<>();
-        this.rechercheItineraires(itineraire, dep, null, solutions);
-
-        //On parcours les chemins pour connaître le plus court
-        Itineraire res = null;
-        if (!solutions.isEmpty()) {
-            int min = solutions.get(0).getDuree();
-            for (Itineraire it : solutions) {
-                if (it.getDuree() < min) {
-                    res = it;
-                }
-            }
-        }
-        return res;
+        return null;
     }
 
     public boolean aChangement(Fragment fragPossible, Fragment prec) {
         if (prec == null || fragPossible == null) {
             return false;
         }
-
-        for (Ligne l : lignes) {
-            if (l.getListeFragments().contains(prec) && l.getListeFragments().contains(fragPossible)) {
-                return false;
-            }
+        if (this.getLigneCommune(fragPossible, prec) == null) {
+            return true;
+        } else {
+            return false;
         }
-        return true;
     }
 
     //Ajout ligne
@@ -301,13 +212,13 @@ public class Plan {
                     stations.add(sa);
                 }
 
-                // creation du fragment 
+                // creation du fragment
                 Fragment d = new Fragment(sd, sa, Integer.parseInt(ligne[4]));
 
-                //creation d'une ligne 
+                //creation d'une ligne
                 Ligne li = new Ligne(ligne[5].toUpperCase());
 
-                //verification de l'existence de la ligne 
+                //verification de l'existence de la ligne
                 if (lignes.contains(li)) {
                     Iterator<Ligne> it = lignes.iterator();
                     Ligne l;
@@ -326,49 +237,97 @@ public class Plan {
             }
         }
     }
-    
-    // ArrayList car station de début et station de fin       
-    public List<Station> getStationExtremite(Ligne lig) {
-        Station stationtmp = null ;
-        Station stationtmp2 = null ;
-        List<Station> lstationtmp = new ArrayList();
-        List<Station> lstationtmp1 = new ArrayList();
-        List<Station> lstationtmp2 = new ArrayList();
-        List<Station> stationextremite = new ArrayList() ; 
-        List<Station> stationimpossible = new ArrayList() ;
-        
-        // pour tous les fragments, on getStationDep et getStationArr qu'on stocke ds une variable dans 2 listes de stations temporaires
-        for (Fragment f:lig.getListeFragments()) {
-                lstationtmp1.add(f.getStationDep());
-                lstationtmp2.add(f.getStationArr());
-       }
-       // on concatène nos deux listes temporaires en une liste propre
-       lstationtmp.addAll(lstationtmp1) ; 
-       lstationtmp.addAll(lstationtmp2) ;
-       //pour toutes les stations appartenant à la liste, on regarde s'il y a des doublons -> si oui impossible que ça soit une extremité
-       for (int i = 0 ; i < lstationtmp.size() ; i++) {
-           for (int j=i+1 ; j < lstationtmp.size() ; j++) {
-               if (lstationtmp.get(i).getNom().compareTo(lstationtmp.get(j).getNom()) == 0){
-                   stationtmp = lstationtmp.get(j) ;
-                   stationimpossible.add(stationtmp);
-               }
-           }
-       }
-      
-      lstationtmp.removeAll(stationimpossible); 
-      // on compare notre liste impossible avec notre liste normale et la difference donne les extremités 
-      /*for (int k = 0 ; k < lstationtmp.size() ; k++) { 
-        for (int l = 0 ; l < stationimpossible.size() ; l++) {
-            if (!(lstationtmp.get(k).equals(stationimpossible.get(l)))) {
-                
-                stationtmp2 = lstationtmp.get(k) ;
-                stationextremite.add(stationtmp2);
+
+    public void ajoutIncident() {
+
+        System.out.println("Est-ce que l'incident a lieu sur une station ? (O : oui/N : non) ");
+        String reponse;
+        Scanner sc = new Scanner(System.in);
+        reponse = sc.next();
+
+        if (reponse.compareToIgnoreCase("O") == 0) {
+            int cpt = 1;
+            for (Station s : stations) {
+                System.out.println(cpt + " " + s.getNom());
+                cpt++;
+            }
+
+            int numstation;
+            System.out.println("Quelle station ?");
+            numstation = sc.nextInt();
+
+            System.out.println("Quel est la durée de ce nouvel incident ?\n");
+            int duree;
+            duree = sc.nextInt();
+
+            System.out.println("Ajoutez un commentaire : \n");
+            String commentaire;
+            commentaire = sc.next();
+
+            Incident inc = new Incident(duree, commentaire);
+            stations.get(numstation - 1).setIncident(inc);
+
+        } else {
+            int cpt = 1;
+            for (Station s : stations) {
+                System.out.println(cpt + " " + s.getNom());
+                cpt++;
+            }
+
+            int statdep;
+            int statarriv;
+            System.out.println("Quelles sont les stations?");
+            System.out.println("Donner la station de départ puis la station d'arrivée");
+            statdep = sc.nextInt();
+            statarriv = sc.nextInt();
+
+            System.out.println(statdep + " " + statarriv);
+            System.out.println(stations.get(statdep - 1) + " " + stations.get(statarriv - 1));
+
+            boolean ok = false;
+
+            for (Ligne l : lignes) {
+                for (Fragment f : l.getListeFragments()) {
+                    if (f.getStationDep() == stations.get(statdep - 1) && f.getStationArr() == stations.get(statarriv - 1)) {
+                        System.out.println("Quel est la durée de ce nouvel incident ?\n");
+                        int duree;
+                        duree = sc.nextInt();
+
+                        System.out.println("Ajoutez un commentaire : \n");
+                        String commentaire;
+                        commentaire = sc.next();
+
+                        Incident inc = new Incident(duree, commentaire);
+                        f.setIncident(inc);
+                        ok = true;
+                    }
+                }
+            }
+            if (ok == false) {
+                System.out.println("Il n'existe pas de fragment entre ces deux stations");
             }
         }
-      } */
-      stationextremite = lstationtmp ;
-        return stationextremite ;
-        
-    }    
-}
+    }
 
+    public Fragment getFragmentByStations(String s1, String s2) {
+        for (Ligne l : lignes) {
+            for (Fragment f : l.getListeFragments()) {
+                if ((f.getStationArr().getNom().compareTo(s1) == 0 || f.getStationArr().getNom().compareTo(s2) == 0)
+                        && ((f.getStationDep().getNom().compareTo(s1) == 0) || f.getStationDep().getNom().compareTo(s2) == 0)) {
+                    return f;
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<Ligne> getLigneByFragment(Fragment f) {
+        List<Ligne> res = new ArrayList<>();
+        for (Ligne l : lignes) {
+            if (l.getListeFragments().contains(f)) {
+                res.add(l);
+            }
+        }
+        return res;
+    }
+}

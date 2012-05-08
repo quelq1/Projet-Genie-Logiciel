@@ -1,11 +1,23 @@
 
-public class Coordonnee {
-    private double latitude;
+import java.io.Serializable;
+
+
+public class Coordonnee implements Serializable {
     private double longitude;
+    private double latitude;
     
-    public Coordonnee(double lat, double longi) {
-        latitude=lat;
+    public Coordonnee(double longi, double lat) {
         longitude=longi;
+        latitude=lat;
+    }
+    
+    //longitude
+    public double getLongitude(){
+        return longitude;
+    }
+
+    public void setLongitude(double nouveaulong) {
+        longitude=nouveaulong;
     }
     
     //latitude
@@ -17,16 +29,6 @@ public class Coordonnee {
         latitude=nouvellelat;
     }
     
-    
-    //longitude
-    public double getLongitude(){
-        return longitude;
-    }
-
-    public void setLongitude(double nouveaulong) {
-        longitude=nouveaulong;
-    }
-    
     public double distance(Coordonnee c) {
         double lat = (this.getLatitude()-c.getLatitude())*(this.getLatitude()-c.getLatitude());
         double lon = (this.getLongitude()-c.getLongitude())*(this.getLongitude()-c.getLongitude());
@@ -35,7 +37,6 @@ public class Coordonnee {
 
     @Override
     public String toString() {
-        return latitude + ":" + longitude;
+        return longitude + ":" + latitude;
     }
-
 }

@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 /*
@@ -15,16 +16,16 @@ public class Itineraire {
     private ArrayList<Station> trajet;
     private Station depart;
     private Station arrivee;
-    private int duree;
+    private Calendar dateArr;
     private int nbChangement;
 
-    public Itineraire(Station dep, Station arr) {
+    public Itineraire(Station dep, Station arr, Calendar date) {
         this.trajet = new ArrayList<>();
         //On ajoute la station de départ
         trajet.add(dep);
         depart = dep;
         arrivee = arr;
-        duree = 0;
+        dateArr = date;
         nbChangement = 0;
     }
 
@@ -32,20 +33,20 @@ public class Itineraire {
      * Constructeur pour la recherche d'itinéraire par étapes (sans ville
      * d'arrivée)
      */
-    public Itineraire(Station depart) {
+    public Itineraire(Station depart, Calendar date) {
         this.trajet = new ArrayList<>();
         this.depart = depart;
-        duree = 0;
+        dateArr = date;
         nbChangement = 0;
     }
 
-    public Itineraire(Station dep, Station arr, int lg, int nb) {
+    public Itineraire(Station dep, Station arr, Calendar date, int nb) {
         this.trajet = new ArrayList<>();
         //On ajoute la station de départ
         trajet.add(dep);
         depart = dep;
         arrivee = arr;
-        duree = lg;
+        dateArr = date;
         nbChangement = nb;
     }
 
@@ -55,9 +56,9 @@ public class Itineraire {
 
     @Override
     public Itineraire clone() {
-        Itineraire it = new Itineraire(depart, arrivee);
+        Itineraire it = new Itineraire(depart, arrivee, dateArr);
         it.trajet = (ArrayList<Station>) this.trajet.clone();
-        it.duree = this.duree;
+        it.dateArr = (Calendar) this.dateArr.clone();
         it.nbChangement = this.nbChangement;
         return it;
     }
@@ -96,7 +97,13 @@ public class Itineraire {
             return false;
         }
 
-        if (this.duree != other.duree) {
+        if (this.dateArr.get(Calendar.YEAR) != other.dateArr.get(Calendar.YEAR)
+                || this.dateArr.get(Calendar.MONTH) != other.dateArr.get(Calendar.MONTH)
+                || this.dateArr.get(Calendar.DAY_OF_MONTH) != other.dateArr.get(Calendar.DAY_OF_MONTH)
+                || this.dateArr.get(Calendar.HOUR) != other.dateArr.get(Calendar.HOUR)
+                || this.dateArr.get(Calendar.MINUTE) != other.dateArr.get(Calendar.MINUTE)
+                || this.dateArr.get(Calendar.SECOND) != other.dateArr.get(Calendar.SECOND)
+                ) {
             return false;
         }
 
@@ -117,13 +124,15 @@ public class Itineraire {
     }
 
     public void addDuree(int i) {
-        duree += i;
+        dateArr.add(Calendar.MINUTE, i);
     }
 
     @Override
     public String toString() {
-        String s = "De " + depart + " à " + arrivee + "[ durée : " + duree + " - Nombre de changement : " + nbChangement + "] :";
-        s += "\n" + trajet;
+        String s = "De " + depart + " à " + arrivee + "[ Arrivée : " + dateArr.getTime() + " - Nombre de changement : " + nbChangement + "] : ";
+        for (Station station : trajet) {
+            s += station.getNom() + ", ";
+        }
         return s;
     }
 
@@ -131,12 +140,8 @@ public class Itineraire {
         return arrivee;
     }
 
-    public void rmDuree(int i) {
-        duree -= i;
-    }
-
-    public int getDuree() {
-        return duree;
+    public Calendar getDateArrivee() {
+        return dateArr;
     }
 
     public int getNbChangement() {
@@ -151,18 +156,48 @@ public class Itineraire {
         nbChangement--;
     }
 
-    public void concatItineraire(Itineraire i) {
+    public void concatItineraire(Itineraire i, Plan p) {
         this.arrivee = i.arrivee;
-        this.duree += i.duree;
+        
+        this.dateArr = (Calendar) i.dateArr.clone();
+        
         this.nbChangement += i.nbChangement;
+        //Vérifie si y a un changement de ligne entre les 2 itinéraires
+        Fragment prec = p.getFragmentByStations(this.trajet.get(this.trajet.size() - 1).getNom(), this.trajet.get(this.trajet.size() - 2).getNom());
+        Fragment suiv = p.getFragmentByStations(i.trajet.get(0).getNom(), i.trajet.get(1).getNom());
+        if (p.aChangement(prec, suiv)) {
+            this.nbChangement++;
+        }
+        
+        i.trajet.remove(0);
         this.trajet.addAll(i.trajet);
+
+//        if (!this.trajet.contains(s)) {
+//            this.trajet.add(s);
+//        } else {
+//            this.duree += s.getTempsArret();
+//            Fragment prec = p.getFragmentByStations(s.getNom(), this.trajet.get(this.trajet.size() - 2).getNom());
+//            Fragment suiv = p.getFragmentByStations(s.getNom(), i.trajet.get(1).getNom());
+//            
+//            if (p.aChangement(prec, suiv)) {
+//                this.nbChangement++;
+//            }
+//        }
+
     }
 
     public Station getStation(int i) {
+        if (trajet.size() <= i) {
+            return null;
+        }
         return trajet.get(i);
     }
 
     public int getSize() {
         return trajet.size();
+    }
+
+    public ArrayList<Station> getTrajet() {
+        return trajet;
     }
 }
