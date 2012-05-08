@@ -23,13 +23,6 @@ public class AjoutIncident {
             System.out.println("Est-ce que l'incident a lieu sur une station ? (O : oui/N : non) ");
             reponse = sc.next();
 
-//            //Affiche les stations
-//            int cpt = 1;
-//            for (Station s : plan.getStations()) {
-//                System.out.println(cpt + " - " + s.getNom());
-//                cpt++;
-//            }
-
             if (reponse.compareToIgnoreCase("o") == 0) {
                 choixOk = true;
                 //Incident sur une station
@@ -52,6 +45,7 @@ public class AjoutIncident {
                 System.out.println("Quelles sont les stations ?");
                 System.out.println("- Donner la station de départ :");
                 Station statdep = FavorisUtilisateur.choixStation(plan, sc);
+                
                 System.out.println("- Donner la station d'arrivée :");
                 Station statarriv = FavorisUtilisateur.choixStation(plan, sc);
 

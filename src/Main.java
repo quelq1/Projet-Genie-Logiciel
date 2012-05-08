@@ -91,7 +91,7 @@ public class Main {
                     estInt = true;
                 }
             } catch (InputMismatchException e) {
-                System.out.print("Erreur de saisie.");
+                System.out.println("Erreur de saisie.");
                 //Permet de lire, le reste de la ligne (nextInt ne lit pas le retour chariot)
                 sc.nextLine();
             }

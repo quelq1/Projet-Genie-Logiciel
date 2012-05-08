@@ -57,10 +57,10 @@ public class Fragment {
     public void setIncident(Incident newinci) {
         incident = newinci;
     }
-    
+
     @Override
     public String toString() {
-        return "tempsParcours=" + tempsParcours + ", depart=" + depart + ", arrivee=" + arrivee;
+        return "Fragment{" + "depart=" + depart + ", arrivee=" + arrivee + ", tempsParcours=" + tempsParcours + ", incident=" + incident + '}';
     }    
    
     boolean contientStation(Station s) {
