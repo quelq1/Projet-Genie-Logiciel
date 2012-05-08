@@ -243,11 +243,10 @@ public class Plan {
     }
 
     public void ajoutIncident() {
-
-        System.out.println("Est-ce que l'incident a lieu sur une station ? (O : oui/N : non) ");
-        String reponse;
         Scanner sc = new Scanner(System.in);
-        reponse = sc.next();
+        
+        System.out.println("Est-ce que l'incident a lieu sur une station ? (O : oui/N : non) ");
+        String reponse = sc.next();
 
         if (reponse.compareToIgnoreCase("O") == 0) {
             int cpt = 1;

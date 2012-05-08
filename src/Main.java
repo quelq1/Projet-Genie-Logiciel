@@ -6,9 +6,9 @@ public class Main {
     private static String fichier = "plan.txt";
 
     public static void main(String[] args) {
-        System.out.println("   ******************");
-        System.out.println("     Machine à café");
-        System.out.println("   ******************");
+        System.out.println("   *********************");
+        System.out.println("     Application metro");
+        System.out.println("   *********************");
         
         Plan plan = new Plan(fichier);
         Geolocalisation.geolocalisation(plan);

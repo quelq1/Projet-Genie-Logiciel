@@ -5,8 +5,6 @@
 
 import java.io.ByteArrayInputStream;
 import junit.framework.TestCase;
-import org.junit.*;
-import static org.junit.Assert.*;
 
 /**
  *
