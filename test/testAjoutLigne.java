@@ -65,6 +65,8 @@ public class testAjoutLigne extends TestCase{
             Plan p4= new Plan();
             p4.addLignes(l);
             AjoutLigne.menuAjoutLigne(p4);
+            
+            assertEquals(p3.getLignes(),p4.getLignes());
       
          /*
           * Scenario 3: test de l'ajout d'une ligne contenant moins de 2 stations

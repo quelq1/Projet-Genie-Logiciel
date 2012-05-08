@@ -52,8 +52,6 @@ public class AjoutIncident {
             System.out.println(statdep + " " + statarriv);
             System.out.println(plan.getStations().get(statdep - 1) + " " + plan.getStations().get(statarriv - 1));
 
-            boolean ok = false;
-
             Fragment frag = plan.getFragmentByStations(plan.getStations().get(statdep - 1).getNom(), plan.getStations().get(statarriv - 1).getNom());
 
             if (frag == null) {
