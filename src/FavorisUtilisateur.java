@@ -17,8 +17,10 @@ public class FavorisUtilisateur implements Serializable {
     private static final String nomFich = "favoris.config";
     private static List<Station> favoris;
     private static Plan plan;
+    private static Scanner sc;
 
     public static void menuGestionFavoris() {
+        sc = new Scanner(System.in);
         boolean fin = false;
         while (!fin) {
             System.out.println("\t\t----------");
@@ -53,7 +55,6 @@ public class FavorisUtilisateur implements Serializable {
     }
 
     public static void addFavoris() {
-        Scanner sc = new Scanner(System.in);
         boolean choixOk = false;
         Station choixStation;
         do {
@@ -127,13 +128,45 @@ public class FavorisUtilisateur implements Serializable {
             favoris = new ArrayList<>();
         }
     }
-    
+
     public static Station getFavoris(int i) {
         if (favoris.size() > i && i > 0) {
             return favoris.get(i);
-        }
-        else {
+        } else {
             return null;
         }
+    }
+
+    public static Station choixStation() {
+        sc = new Scanner(System.in);
+        Station station;
+        boolean choixOk = false;
+        System.out.print("Quel est son nom (tapez le numero correspondant à votre station) ? ");
+        afficheListeFavoris();
+        do {
+            String choix = sc.next();
+
+
+            try {
+                station = FavorisUtilisateur.getFavoris(Integer.parseInt(choix) - 1);
+
+                if (station != null) {
+                    choixOk = true;
+                } else {
+                    System.out.println("Erreur : le favoris choisi n'existe pas.");
+                }
+            } catch (NumberFormatException e) {
+                station = new Station(choix);
+
+                if (plan.getStations().contains(station)) {
+                    station = plan.getStations().get(plan.getStations().indexOf(station));
+                    choixOk = true;
+                } else {
+                    System.out.println("Erreur : la station saisie n'existe pas.");
+                }
+            }
+        } while (!choixOk);
+
+        return station;
     }
 }

@@ -49,7 +49,7 @@ public class AjoutStation {
 
         //Crée le fragment
         List<Station> stationterminus = plan.getStationExtremite(ligne);
-        System.out.print("Vous avez la possibilite d'ajouter votre station :");
+        System.out.println("Vous avez la possibilite de lier votre station à :");
         System.out.println("\t1 - " + stationterminus.get(0).getNom());
         System.out.println("\t2 - " + stationterminus.get(1).getNom());
         System.out.println("Quel est votre choix ?");
@@ -59,8 +59,11 @@ public class AjoutStation {
             try {
                 choix = Integer.parseInt(sc.next());
 
-                if (0 < choix || choix < 3) {
+                if (0 < choix && choix < 3) {
                     saisieOk = true;
+                }
+                else {
+                    System.out.println("\nChoix incorrect.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("\nChoix incorrect.");
@@ -68,8 +71,19 @@ public class AjoutStation {
         } while (!saisieOk);
         Station extremite = stationterminus.get(choix - 1);
 
+        //Création du fragment
+        Fragment frag = saisieFragment(aAjoute, extremite);
+        ligne.addFragment(frag);
+        plan.addStation(aAjoute);
+
+        //On écrit dans le fichier
+        ecriturefichier(aAjoute, extremite, frag.getTempsDeParcours(), ligne);
+    }
+    
+    public static Fragment saisieFragment(Station s1, Station s2) {
+        System.out.println("Entrer le temps de parcours entre " + s1.getNom() + " et " + s2.getNom() + " :");
         int tmpTrajet = 0;
-        saisieOk = false;
+        boolean saisieOk = false;
         do {
             try {
                 tmpTrajet = Integer.parseInt(sc.next());
@@ -79,12 +93,7 @@ public class AjoutStation {
             }
         } while (!saisieOk);
 
-        Fragment frag = new Fragment(aAjoute, extremite, tmpTrajet);
-        ligne.addFragment(frag);
-        plan.addStation(aAjoute);
-
-        //On écrit dans le fichier
-        ecriturefichier(aAjoute, extremite, tmpTrajet, ligne);
+        return new Fragment(s1, s2, tmpTrajet);
     }
 
     public static Coordonnee saisieCoord(Plan plan) {
@@ -96,18 +105,21 @@ public class AjoutStation {
         boolean coordValide = false;
         do {
             boolean saisieOk;
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < nomCoord.length; i++) {
                 saisieOk = false;
                 do {
                     System.out.println("A quelle " + nomCoord[i] + " se trouve-t-elle ? ");
                     try {
                         coord[i] = Double.parseDouble(sc.next());
 
-                        if (0 < coord[i] || coord[i] < 90) {
+                        if (0. <= coord[i] && coord[i] <= 90.) {
                             saisieOk = true;
                         }
+                        else {
+                            System.out.println("Choix incorrect : la " + nomCoord[i] +  " doit être entre 0 et 90.");
+                        }
                     } catch (NumberFormatException e) {
-                        System.out.println("\nChoix incorrect.");
+                        System.out.println("Choix incorrect.");
                     }
                 } while (!saisieOk);
             }
@@ -118,6 +130,9 @@ public class AjoutStation {
             for (Station s : plan.getStations()) {
                 if (s.getCoord().equals(res)) {
                     System.out.println("Vous ne pouvez pas ajouter une nouvelle station avec les mêmes coordonnées qu'une déjà existante");
+                }
+                else {
+                    coordValide = true;
                 }
             }
 

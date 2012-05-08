@@ -70,9 +70,7 @@ public class AjoutLigne {
         }
 
         for (int i = 0; i <= listStationTmp.size() - 2; i++) {
-            System.out.println("Entrer le temps de parcours entre " + listStationTmp.get(i) + "et " + listStationTmp.get(i + 1) + ":");
-            int tempsTmp = sc.nextInt();
-            Fragment f = new Fragment(listStationTmp.get(i), listStationTmp.get(i + 1), tempsTmp);
+            Fragment f = AjoutStation.saisieFragment(listStationTmp.get(i), listStationTmp.get(i+1));
             l.addFragment(f);
         }
 

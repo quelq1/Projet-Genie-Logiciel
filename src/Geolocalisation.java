@@ -20,7 +20,8 @@ public class Geolocalisation {
                 choixOk = true;
 
                 //Choix de la station parmis celles existantes
-                util = choixStation();
+                util = FavorisUtilisateur.choixStation();
+//                util = choixStation();
                 
                 System.out.println("Vous êtes à la station " + util.getNom());
 

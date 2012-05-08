@@ -296,6 +296,6 @@ public class RechercheItineraire {
             }
         }
 
-        System.out.println("\t- Vous êtes arrivé à " + sSuiv.getNom());
+        System.out.println("\t- Vous êtes arrivé à " + sSuiv.getNom() + ".");
     }
 }

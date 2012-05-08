@@ -11,8 +11,8 @@ public class Main {
         System.out.println("   *********************");
         
         Plan plan = new Plan(fichier);
-        Geolocalisation.geolocalisation(plan);
         FavorisUtilisateur.chargerFavoris(plan);
+        Geolocalisation.geolocalisation(plan);
 
         boolean fin = false;
         
