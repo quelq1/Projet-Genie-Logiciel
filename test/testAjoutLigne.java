@@ -85,12 +85,4 @@ public class testAjoutLigne extends TestCase{
         attendu.addLignes(z);
         assertEquals(attendu.toString(), resultat.toString());
     }
-    
-    public void testAjoutLigneCreationStation() {
-        String data = "3\r\nZ\r\n2\r\ns1\r\ns6\r\no\r\n22.2\r\n33.3\r\n";
-        System.setIn(new ByteArrayInputStream(data.getBytes()));
-        
-        AjoutLigne.menuGestionLigne(resultat);
-        
-    }
 }
