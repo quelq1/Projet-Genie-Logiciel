@@ -1,5 +1,8 @@
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Scanner;
 
 /*
  * To change this template, choose Tools | Templates and open the template in
@@ -31,13 +34,28 @@ public class RechercheItineraire {
         Station dest;
         do {
             System.out.println("Entrez la station de destination : ");
-            dest = new Station(sc.next());
 
-            if (plan.getStations().contains(dest)) {
-                dest = plan.getStations().get(plan.getStations().indexOf(dest));
-                choixOk = true;
-            } else {
-                System.out.println("Erreur : la station saisie n'existe pas.");
+            FavorisUtilisateur.afficheListeFavoris();
+            String choix = sc.next();
+
+            try {
+                dest = FavorisUtilisateur.getFavoris(Integer.parseInt(choix) - 1);
+                
+                if (dest != null) {
+                    choixOk = true;
+                }
+                else {
+                    System.out.println("Erreur : le favoris choisi n'existe pas.");
+                }
+            } catch (NumberFormatException e) {
+                dest = new Station(choix);
+
+                if (plan.getStations().contains(dest)) {
+                    dest = plan.getStations().get(plan.getStations().indexOf(dest));
+                    choixOk = true;
+                } else {
+                    System.out.println("Erreur : la station saisie n'existe pas.");
+                }
             }
         } while (!choixOk);
 
@@ -274,20 +292,10 @@ public class RechercheItineraire {
                     i--;
                 }
 
-                
-
                 System.out.println("\t- A " + sDeb.getNom() + ", prendre la ligne " + ligne.getNom() + " jusqu'à " + sSuiv.getNom() + ".");
             }
         }
 
         System.out.println("\t- Vous êtes arrivé à " + sSuiv.getNom());
-
-
-//        System.out.println("* Itinéraire trouvé en " + itineraire.getDateArrivee() + "m et " + itineraire.getNbChangement() + " changement(s) : ");
-//        System.out.print("\t - ");
-//        for (Station station : itineraire.getTrajet()) {
-//            System.out.print(station.getNom() + ", ");
-//        }
-//        System.out.println("");
     }
 }

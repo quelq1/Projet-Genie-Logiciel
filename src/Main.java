@@ -12,8 +12,10 @@ public class Main {
         
         Plan plan = new Plan(fichier);
         Geolocalisation.geolocalisation(plan);
+        FavorisUtilisateur.chargerFavoris(plan);
 
         boolean fin = false;
+        
         do {
             System.out.println("\t\t------");
             System.out.println("\t\t MENU");
@@ -25,6 +27,7 @@ public class Main {
             System.out.println("5 - Itinéraire le plus rapide");
             System.out.println("6 - Itinéraire avec le moins de changements");
             System.out.println("7 - Itinéraire avec différentes etapes");
+            System.out.println("8 - Gestion des favoris");
             System.out.println("");
             System.out.println("0 - Quitter");
             int reponse;
@@ -57,11 +60,17 @@ public class Main {
                 case 7:
                     RechercheItineraire.menuChoixDestination(plan, 3);
                     break;
+                case 8:
+                    FavorisUtilisateur.menuGestionFavoris();
+                    break;
                 default:
                     System.out.println("Choix incorrect...");
                     break;
             }
         } while (!fin);
+        
+        //Sauvegarde des favoris
+        FavorisUtilisateur.sauvegarderFavoris();
     }
 
     public static String getFichierPlan() {

@@ -1,15 +1,16 @@
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class Station {
+public class Station implements Serializable {
 
     private final int nbRameHeure = 12;
     private final int tmpChgmt = 2;
-    private int tmpAttenteStation;
+    private transient int tmpAttenteStation;
     private String nom;
     private Coordonnee coord;
-    private Incident incident;
+    private transient Incident incident;
 
     public Station(String name) {
         nom = name;
@@ -88,7 +89,6 @@ public class Station {
             return false;
         }
         return true;
-
     }
 
     @Override

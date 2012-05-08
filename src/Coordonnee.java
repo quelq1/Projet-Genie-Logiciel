@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Coordonnee {
+public class Coordonnee implements Serializable {
 
     private double latitude;
     private double longitude;
@@ -17,7 +18,7 @@ public class Coordonnee {
     public void setLatitude(double nouvellelat) {
         latitude = nouvellelat;
     }
-
+    
     //longitude
     public double getLongitude() {
         return longitude;
@@ -26,7 +27,7 @@ public class Coordonnee {
     public void setLongitude(double nouveaulong) {
         longitude = nouveaulong;
     }
-
+    
     public double distance(Coordonnee c) {
         double lat = (this.getLatitude() - c.getLatitude()) * (this.getLatitude() - c.getLatitude());
         double lon = (this.getLongitude() - c.getLongitude()) * (this.getLongitude() - c.getLongitude());
@@ -35,7 +36,7 @@ public class Coordonnee {
 
     @Override
     public String toString() {
-        return latitude + ":" + longitude;
+        return longitude + ":" + latitude;
     }
 
     @Override
