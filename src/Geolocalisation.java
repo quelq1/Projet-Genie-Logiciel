@@ -10,11 +10,12 @@ public class Geolocalisation {
         plan = p;
         sc = new Scanner(System.in);
         Station util = null;
+        String rep;
 
         boolean choixOk = false;
         do {
             System.out.print("Vous trouvez-vous dans une station (O : oui/N : non) ? ");
-            String rep = sc.next();
+            rep = sc.next();
 
             if (rep.toUpperCase().compareToIgnoreCase("O") == 0) {
                 choixOk = true;

@@ -34,18 +34,7 @@ public class FavorisUtilisateur implements Serializable {
             System.out.println("");
             System.out.println("Entrez votre choix : ");
 
-            int choix = 0;
-            boolean saisieOk = false;
-            do {
-                try {
-                    choix = sc.nextInt();
-                    saisieOk = true;
-                } catch (InputMismatchException e) {
-                    System.out.println("Choix incorrect.");
-                    //Permet de lire, le reste de la ligne (nextInt ne lit pas le retour chariot)
-                    sc.nextLine();
-                }
-            } while (!saisieOk);
+            int choix = Main.saisieInt(sc);
 
             switch (choix) {
                 case 0:
@@ -117,24 +106,17 @@ public class FavorisUtilisateur implements Serializable {
         boolean saisieOk = false;
         int choix;
         do {
-            try {
-                choix = sc.nextInt();
+            choix = Main.saisieInt(sc);
 
-                if (choix == 0) {
-                    return;
-                }
-                
-                if (0 < choix && choix <= favoris.size()) {
-                    favoris.remove(choix - 1);
-                    saisieOk = true;
-                }
-                else {
-                    System.out.println("Choix incorrect.");
-                }
-            } catch (InputMismatchException e) {
+            if (choix == 0) {
+                return;
+            }
+
+            if (0 < choix && choix <= favoris.size()) {
+                favoris.remove(choix - 1);
+                saisieOk = true;
+            } else {
                 System.out.println("Choix incorrect.");
-                //Permet de lire, le reste de la ligne (nextInt ne lit pas le retour chariot)
-                sc.nextLine();
             }
         } while (!saisieOk);
     }

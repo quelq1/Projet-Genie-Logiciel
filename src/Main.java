@@ -1,4 +1,5 @@
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -9,13 +10,13 @@ public class Main {
         System.out.println("   *********************");
         System.out.println("     Application metro");
         System.out.println("   *********************");
-        
+
         Plan plan = new Plan(fichier);
         FavorisUtilisateur.chargerFavoris();
         Geolocalisation.geolocalisation(plan);
 
         boolean fin = false;
-        
+
         do {
             System.out.println("\t\t------");
             System.out.println("\t\t MENU");
@@ -32,7 +33,7 @@ public class Main {
             System.out.println("0 - Quitter");
             int reponse;
             Scanner sc = new Scanner(System.in);
-            reponse = sc.nextInt();
+            reponse = saisieInt(sc);
 
             switch (reponse) {
                 case 0:
@@ -68,12 +69,33 @@ public class Main {
                     break;
             }
         } while (!fin);
-        
+
         //Sauvegarde des favoris
         FavorisUtilisateur.sauvegarderFavoris();
     }
 
     public static String getFichierPlan() {
         return fichier;
+    }
+
+    public static int saisieInt(Scanner sc) {
+        int n = 0;
+        boolean estInt = false;
+        while (!estInt) {
+            try {
+                n = sc.nextInt();
+
+                if (n < 0) {
+                    System.out.print("Erreur de saisie.");
+                } else {
+                    estInt = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.print("Erreur de saisie.");
+                //Permet de lire, le reste de la ligne (nextInt ne lit pas le retour chariot)
+                sc.nextLine();
+            }
+        }
+        return n;
     }
 }
