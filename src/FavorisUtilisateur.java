@@ -30,7 +30,7 @@ public class FavorisUtilisateur implements Serializable {
             System.out.println("1 - Ajouter une station aux favoris");
             System.out.println("2 - Supprimer une station aux favoris");
             System.out.println("");
-            System.out.println("0 - Quitter");
+            System.out.println("0 - Retour");
             System.out.println("");
             System.out.println("Entrez votre choix : ");
 

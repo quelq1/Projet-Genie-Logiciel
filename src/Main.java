@@ -1,4 +1,6 @@
 
+import com.sun.xml.internal.fastinfoset.util.CharArrayString;
+import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -23,7 +25,7 @@ public class Main {
             System.out.println("\t\t------");
             System.out.println("1 - Actualiser ma position");
             System.out.println("2 - Ajouter une station");
-            System.out.println("3 - Ajouter une ligne");
+            System.out.println("3 - Gestion des lignes");
             System.out.println("4 - Signaler un incident");
             System.out.println("5 - Itinéraire le plus rapide");
             System.out.println("6 - Itinéraire avec le moins de changements");
@@ -74,8 +76,40 @@ public class Main {
         FavorisUtilisateur.sauvegarderFavoris();
     }
 
-    public static String getFichierPlan() {
-        return fichier;
+     public static void ecriturefichier(String texte) {
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(fichier, true);
+            writer.write(texte, 0, texte.length());
+            writer.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+     
+     public static void remplaceLigne(String s1, String s2) {
+        String line;
+        StringBuilder sb = new StringBuilder();
+        try {
+            boolean trouve = false;
+            FileInputStream fis = new FileInputStream(fichier);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    fis));
+            while ((line = reader.readLine()) != null && !trouve) {
+
+                System.out.println("Line : " + line);
+                if (!line.contains(new CharArrayString(s1)) || !line.contains(new CharArrayString(s2))) {
+                    sb.append(line).append("\n");
+                }
+            }
+            reader.close();
+            BufferedWriter out = new BufferedWriter(new FileWriter(fichier));
+            out.write(sb.toString());
+            out.close();
+
+        } catch (Exception e) {
+            System.out.println("Erreur lors du remplacement dans le fichier");
+        }
     }
 
     public static int saisieInt(Scanner sc) {

@@ -69,21 +69,9 @@ public class AjoutStation {
         System.out.println("La station " + aAjoute.getNom() + " a été ajoutée à ligne " + ligne.getNom() + ".");
 
         //On écrit dans le fichier
-        ecriturefichier(aAjoute, frag.getDestination(aAjoute), frag.getTempsDeParcours(), ligne);
+        String txt = plan.formatLigneFichier(aAjoute, frag.getDestination(aAjoute), frag.getTempsDeParcours(), ligne);
+        Main.ecriturefichier(txt);
     }
 
-    public static void ecriturefichier(Station s1, Station s2, int temps, Ligne ligne) {
-        String texte = "\n" + s1.getNom() + "\t" + s1.getCoord().getLatitude() + ":" + s1.getCoord().getLongitude();
-        texte += "\t" + s2.getNom() + "\t" + s2.getCoord().getLatitude() + ":" + s2.getCoord().getLongitude();
-        texte += "\t" + temps + "\t" + ligne.getNom();
-
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter(Main.getFichierPlan(), true);
-            writer.write(texte, 0, texte.length());
-            writer.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
+   
 }

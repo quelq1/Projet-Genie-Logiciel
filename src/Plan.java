@@ -235,4 +235,12 @@ public class Plan {
         }
         return res; 
     }
+    
+    public String formatLigneFichier(Station s1, Station s2, int temps, Ligne ligne) {
+        String texte = "\n" + s1.getNom() + "\t" + s1.getCoord().getLatitude() + ":" + s1.getCoord().getLongitude();
+        texte += "\t" + s2.getNom() + "\t" + s2.getCoord().getLatitude() + ":" + s2.getCoord().getLongitude();
+        texte += "\t" + temps + "\t" + ligne.getNom();
+        
+        return texte;
+    }
 }
