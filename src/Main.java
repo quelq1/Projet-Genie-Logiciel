@@ -34,7 +34,7 @@ public class Main {
                                 Geolocalisation.geolocalisation(plan);
 				break;
 			case 2:
-                                Ajoutstation.ajoutstation(plan) ;
+                                Ajoutstation.ajoutStation(plan) ;
 				break;
 			case 3:
                                 plan.ajoutLigne();

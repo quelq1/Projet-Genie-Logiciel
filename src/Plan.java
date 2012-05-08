@@ -63,6 +63,10 @@ public class Plan {
             while ((ligne = br.readLine()) != null) {
                 traitementLigne(ligne);
             }
+            
+            ips.close();
+            ipsr.close();
+            br.close();
         } catch (Exception e) {
             System.out.println(e.toString());
         }

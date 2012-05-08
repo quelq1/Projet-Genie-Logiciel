@@ -31,3 +31,7 @@ Geranium	48.82:2.26	Pissenlit	48.80:2.27	3	H
 Pissenlit	48.80:2.27	Orchidee	48.81:2.34	6	F
 Orchidee	48.81:2.34	Iris	48.81:2.37	4	A
 Iris	48.81:2.37	Tulipe	48.79:2.28	3	E
+C	0.0:1.0	B	0.0:2.0	2	ligne
+C	0.0:1.0	B	0.0:2.0	2	ligne
+C	0.0:1.0	B	0.0:2.0	2	ligne
+C	0.0:1.0	B	0.0:2.0	2	ligne

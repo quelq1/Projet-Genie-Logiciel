@@ -1,10 +1,7 @@
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.List;
 import junit.framework.TestCase;
-import org.junit.Test;
 
 /*
  * To change this template, choose Tools | Templates and open the template in
@@ -32,7 +29,7 @@ public class testAjoutStation extends TestCase {
         p1.addStation(s2);
         Fragment f = new Fragment(s1, s2, 2);
         l.addFragment(f);
-        Ajoutstation.ajoutstation(p1);
+        Ajoutstation.ajoutStation(p1);
         
         Plan p2 = new Plan();
         p2.addLignes(l);
@@ -64,50 +61,4 @@ public class testAjoutStation extends TestCase {
           * 
           */
     }
-    
-     /*public void testAjoutstation() {
-        System.out.println("ajoutstation");
-        Plan plan = null;
-        Ajoutstation.ajoutstation(plan);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }*/
-     
-    /**
-     * Test of equals method, of class Ajoutstation.
-     */
-  //  @Test
-   /* public void testEquals() {
-        System.out.println("equals");
-        Object obj = null;
-        Ajoutstation instance = new Ajoutstation();
-        boolean expResult = false;
-        boolean result = instance.equals(obj);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of hashCode method, of class Ajoutstation.
-     */
-    //@Test
-   /* public void testHashCode() {
-        System.out.println("hashCode");
-        Ajoutstation instance = new Ajoutstation();
-        int expResult = 0;
-        int result = instance.hashCode();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }*/
-    
-   /*  @Test
-    public void testEcriturefichier() {
-        System.out.println("ecriturefichier");
-        String texte = "";
-        Ajoutstation.ecriturefichier(texte);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }*/
 }

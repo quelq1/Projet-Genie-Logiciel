@@ -1,4 +1,7 @@
 
+import java.util.Objects;
+
+
 public class Station {
 
     private String nom;
