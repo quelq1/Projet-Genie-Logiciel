@@ -67,7 +67,10 @@ public class Main {
 			ok=true;
 		}
         }while (ok);
-        
+    }
+    
+    public static String getFichierPlan() {
+        return fichier;
     }
     
 }

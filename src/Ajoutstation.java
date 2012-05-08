@@ -1,63 +1,19 @@
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
+import java.util.Scanner;
 
-
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
 /**
  *
  * @author Elodie
  */
 public class Ajoutstation {
-
-    private static String fichier = "plan.txt";
-//    private int attribut1;
-//    private String attribut2;
-//    private boolean visible; // Attribut non-représentatif et donc ignoré
-//    public static double lati = -4;
-//    public static double longi = -4;
-//
-//    @Override
-//    public boolean equals(Object obj) {
-//        // Vérification de l'égalité des références
-//        if (obj == this) {
-//            return true;
-//        }
-//        // Vérification du type du paramètre
-//        if (obj instanceof Ajoutstation) {
-//            // Vérification des valeurs des attributs
-//            Ajoutstation other = (Ajoutstation) obj;
-//            // Pour les attributs de type primitif
-//            // on compare directement les valeurs :
-//            if (this.attribut1 != other.attribut1) {
-//                return false; // les attributs sont différents 
-//            }
-//            // Pour les attributs de type objets 
-//            // on compare dans un premier temps les références 
-//            if (this.attribut2 != other.attribut2) {
-//                // Si les références ne sont pas identiques
-//                // on doit en plus utiliser equals()
-//                if (this.attribut2 == null || !this.attribut2.equals(other.attribut2)) {
-//                    return false; // les attributs sont différents 
-//                }
-//            }
-//            // Si on arrive ici c'est que tous les attributs sont égaux :
-//            return true;
-//        }
-//        return false;
-//    }
+    private static Scanner sc = new Scanner(System.in);
 
     public static void ajoutStation(Plan plan) {
-        Scanner sc = new Scanner(System.in);
-
         //Saisie nom
-        System.out.print("Quel est le nom de la station que vous souhaitez ajouter ? ");
+        System.out.println("Quel est le nom de la station que vous souhaitez ajouter ? ");
         String nomStation = sc.next();
         Station aAjoute = new Station(nomStation);
 
@@ -79,7 +35,7 @@ public class Ajoutstation {
         aAjoute.setCoord(c);
 
         //Saisie ligne
-        System.out.print("Sur quelle ligne se trouve-t-elle ? (tapez son nom)");
+        System.out.println("Sur quelle ligne se trouve-t-elle ? (tapez son nom)");
         String nomLigne = sc.next();
         Ligne ligne = new Ligne(nomLigne);
 
@@ -138,15 +94,13 @@ public class Ajoutstation {
     }
 
     public static Coordonnee saisieCoord() {
-        Scanner sc = new Scanner(System.in);
-
         //Saisie coord
         boolean saisieOk = false;
         double[] coord = new double[2];
         String[] nomCoord = new String[]{"latitude", "longiture"};
         for (int i = 0; i < 2; i++) {
             do {
-                System.out.print("A quelle " + nomCoord[i] + " se trouve-t-elle ? ");
+                System.out.println("A quelle " + nomCoord[i] + " se trouve-t-elle ? ");
                 try {
                     coord[i] = Double.parseDouble(sc.next());
 
@@ -169,7 +123,7 @@ public class Ajoutstation {
         
         FileWriter writer = null;
         try {
-            writer = new FileWriter("fichier.txt", true);
+            writer = new FileWriter(Main.getFichierPlan(), true);
             writer.write(texte, 0, texte.length());
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -183,6 +137,43 @@ public class Ajoutstation {
             }
         }
     }
+    
+    //    private int attribut1;
+//    private String attribut2;
+//    private boolean visible; // Attribut non-représentatif et donc ignoré
+//    public static double lati = -4;
+//    public static double longi = -4;
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        // Vérification de l'égalité des références
+//        if (obj == this) {
+//            return true;
+//        }
+//        // Vérification du type du paramètre
+//        if (obj instanceof Ajoutstation) {
+//            // Vérification des valeurs des attributs
+//            Ajoutstation other = (Ajoutstation) obj;
+//            // Pour les attributs de type primitif
+//            // on compare directement les valeurs :
+//            if (this.attribut1 != other.attribut1) {
+//                return false; // les attributs sont différents 
+//            }
+//            // Pour les attributs de type objets 
+//            // on compare dans un premier temps les références 
+//            if (this.attribut2 != other.attribut2) {
+//                // Si les références ne sont pas identiques
+//                // on doit en plus utiliser equals()
+//                if (this.attribut2 == null || !this.attribut2.equals(other.attribut2)) {
+//                    return false; // les attributs sont différents 
+//                }
+//            }
+//            // Si on arrive ici c'est que tous les attributs sont égaux :
+//            return true;
+//        }
+//        return false;
+//    }
+    
 //    public static void ajoutstation(Plan plan) {
 //        Scanner sc = new Scanner(System.in);
 //        boolean saisieOk = false;
