@@ -61,6 +61,9 @@ public class Plan {
             while ((ligne = br.readLine()) != null) {
                 traitementLigne(ligne);
             }
+            ips.close();
+            ipsr.close();
+            br.close();
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -124,6 +127,7 @@ public class Plan {
         if (prec == null || fragPossible == null) {
             return false;
         }
+
         if (this.getLigneCommune(fragPossible, prec) == null) {
             return true;
         } else {
@@ -329,5 +333,65 @@ public class Plan {
             }
         }
         return res;
+    }
+
+    // ArrayList car station de début et station de fin       
+    public List<Station> getStationExtremite(Ligne lig) {
+        List<Station> tmp = new ArrayList<>();
+
+        //Ajoute toutes les stations
+        for (Fragment f : lig.getListeFragments()) {
+            tmp.add(f.getStationArr());
+            tmp.add(f.getStationDep());
+        }
+
+        //Supprime les stations contenues 2 fois
+        List<Station> res = new ArrayList<>(tmp);
+        for (Station s : tmp) {
+            if (tmp.indexOf(s) != tmp.lastIndexOf(s)) {
+                res.remove(s);
+            }
+        }
+        return res;
+//        Station stationtmp = null ;
+//        Station stationtmp2 = null ;
+//        List<Station> lstationtmp = new ArrayList();
+//        List<Station> lstationtmp1 = new ArrayList();
+//        List<Station> lstationtmp2 = new ArrayList();
+//        List<Station> stationextremite = new ArrayList() ; 
+//        List<Station> stationimpossible = new ArrayList() ;
+//        
+//        // pour tous les fragments, on getStationDep et getStationArr qu'on stocke ds une variable dans 2 listes de stations temporaires
+//        for (Fragment f:lig.getListeFragments()) {
+//                lstationtmp1.add(f.getStationDep());
+//                lstationtmp2.add(f.getStationArr());
+//       }
+//       // on concatène nos deux listes temporaires en une liste propre
+//       lstationtmp.addAll(lstationtmp1) ; 
+//       lstationtmp.addAll(lstationtmp2) ;
+//       //pour toutes les stations appartenant à la liste, on regarde s'il y a des doublons -> si oui impossible que ça soit une extremité
+//       for (int i = 0 ; i < lstationtmp.size() ; i++) {
+//           for (int j=i+1 ; j < lstationtmp.size() ; j++) {
+//               if (lstationtmp.get(i).getNom().compareTo(lstationtmp.get(j).getNom()) == 0){
+//                   stationtmp = lstationtmp.get(j) ;
+//                   stationimpossible.add(stationtmp);
+//               }
+//           }
+//       }
+//      
+//      lstationtmp.removeAll(stationimpossible); 
+//      // on compare notre liste impossible avec notre liste normale et la difference donne les extremités 
+//      /*for (int k = 0 ; k < lstationtmp.size() ; k++) { 
+//        for (int l = 0 ; l < stationimpossible.size() ; l++) {
+//            if (!(lstationtmp.get(k).equals(stationimpossible.get(l)))) {
+//                
+//                stationtmp2 = lstationtmp.get(k) ;
+//                stationextremite.add(stationtmp2);
+//            }
+//        }
+//      } */
+//      stationextremite = lstationtmp ;
+//        return stationextremite ;
+//        
     }
 }

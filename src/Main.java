@@ -6,14 +6,14 @@ public class Main {
     private static String fichier = "plan.txt";
 
     public static void main(String[] args) {
+        System.out.println("   ******************");
+        System.out.println("     Machine à café");
+        System.out.println("   ******************");
+        
         Plan plan = new Plan(fichier);
-        System.out.println(plan);
-
-        boolean fin = false;
-
-        System.out.println("Bienvenue...\n");
         Geolocalisation.geolocalisation(plan);
 
+        boolean fin = false;
         do {
             System.out.println("\t\t------");
             System.out.println("\t\t MENU");
@@ -40,7 +40,7 @@ public class Main {
                     Geolocalisation.geolocalisation(plan);
                     break;
                 case 2:
-                    plan.ajoutLigne();
+                    Ajoutstation.ajoutStation(plan);
                     break;
                 case 3:
                     plan.ajoutLigne();
@@ -62,5 +62,9 @@ public class Main {
                     break;
             }
         } while (!fin);
+    }
+
+    public static String getFichierPlan() {
+        return fichier;
     }
 }
