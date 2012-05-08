@@ -8,10 +8,12 @@ import java.util.Scanner;
  *
  * @author Elodie
  */
-public class Ajoutstation {
-    private static Scanner sc = new Scanner(System.in);
+public class AjoutStation {
 
-    public static void ajoutStation(Plan plan) {
+    private static Scanner sc;
+
+    public static void menuAjoutStation(Plan plan) {
+        sc = new Scanner(System.in);
         //Saisie nom
         System.out.println("Quel est le nom de la station que vous souhaitez ajouter ? ");
         String nomStation = sc.next();
@@ -23,15 +25,7 @@ public class Ajoutstation {
         }
 
         //Coordonnée
-        Coordonnee c = saisieCoord();
-
-        //Vérifie qu'une station n'a pas déjà ces coords
-        for (Station s : plan.getStations()) {
-            if (s.getCoord().equals(c)) {
-                System.out.println("Vous ne pouvez pas ajouter une nouvelle station avec les mêmes coordonnées qu'une déjà existante");
-                return;
-            }
-        }
+        Coordonnee c = saisieCoord(plan);
         aAjoute.setCoord(c);
 
         //Saisie ligne
@@ -88,39 +82,56 @@ public class Ajoutstation {
         Fragment frag = new Fragment(aAjoute, extremite, tmpTrajet);
         ligne.addFragment(frag);
         plan.addStation(aAjoute);
-        
+
         //On écrit dans le fichier
         ecriturefichier(aAjoute, extremite, tmpTrajet, ligne);
     }
 
-    public static Coordonnee saisieCoord() {
+    public static Coordonnee saisieCoord(Plan plan) {
         //Saisie coord
-        boolean saisieOk = false;
         double[] coord = new double[2];
         String[] nomCoord = new String[]{"latitude", "longiture"};
-        for (int i = 0; i < 2; i++) {
-            do {
-                System.out.println("A quelle " + nomCoord[i] + " se trouve-t-elle ? ");
-                try {
-                    coord[i] = Double.parseDouble(sc.next());
+        Coordonnee res;
 
-                    if (0 < coord[i] || coord[i] < 90) {
-                        saisieOk = true;
+        boolean coordValide = false;
+        do {
+            boolean saisieOk;
+            for (int i = 0; i < 2; i++) {
+                saisieOk = false;
+                do {
+                    System.out.println("A quelle " + nomCoord[i] + " se trouve-t-elle ? ");
+                    try {
+                        coord[i] = Double.parseDouble(sc.next());
+
+                        if (0 < coord[i] || coord[i] < 90) {
+                            saisieOk = true;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("\nChoix incorrect.");
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("\nChoix incorrect.");
+                } while (!saisieOk);
+            }
+            
+            res = new Coordonnee(coord[0], coord[1]);
+            
+            //Vérifie qu'aucune station n'a pas déjà ces coords
+            for (Station s : plan.getStations()) {
+                if (s.getCoord().equals(res)) {
+                    System.out.println("Vous ne pouvez pas ajouter une nouvelle station avec les mêmes coordonnées qu'une déjà existante");
                 }
-            } while (!saisieOk);
-        }
+            }
 
-        return new Coordonnee(coord[0], coord[1]);
+        } while (!coordValide);
+
+
+        return res;
     }
 
     public static void ecriturefichier(Station s1, Station s2, int temps, Ligne ligne) {
         String texte = "\n" + s1.getNom() + "\t" + s1.getCoord().getLatitude() + ":" + s1.getCoord().getLongitude();
         texte += "\t" + s2.getNom() + "\t" + s2.getCoord().getLatitude() + ":" + s2.getCoord().getLongitude();
         texte += "\t" + temps + "\t" + ligne.getNom();
-        
+
         FileWriter writer = null;
         try {
             writer = new FileWriter(Main.getFichierPlan(), true);
@@ -137,7 +148,6 @@ public class Ajoutstation {
             }
         }
     }
-    
     //    private int attribut1;
 //    private String attribut2;
 //    private boolean visible; // Attribut non-représentatif et donc ignoré
@@ -173,7 +183,6 @@ public class Ajoutstation {
 //        }
 //        return false;
 //    }
-    
 //    public static void ajoutstation(Plan plan) {
 //        Scanner sc = new Scanner(System.in);
 //        boolean saisieOk = false;

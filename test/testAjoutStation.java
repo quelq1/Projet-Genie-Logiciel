@@ -31,7 +31,7 @@ public class testAjoutStation extends TestCase {
         Fragment f = new Fragment(s1, s2, 2);
         l.addFragment(f);
         
-        Ajoutstation.ajoutStation(test);
+        AjoutStation.menuAjoutStation(test);
         
         //Solution attendu
         Plan attendu = new Plan();
@@ -55,7 +55,6 @@ public class testAjoutStation extends TestCase {
          p3.addLignes(l);
          Plan p4= new Plan();
          p4.addLignes(l);
-         p4.ajoutLigne();
          
          /*
           * Scénario 3 la latitude et la longitude existent déjà

@@ -40,10 +40,10 @@ public class Main {
                     Geolocalisation.geolocalisation(plan);
                     break;
                 case 2:
-                    Ajoutstation.ajoutStation(plan);
+                    AjoutStation.menuAjoutStation(plan);
                     break;
                 case 3:
-                    plan.ajoutLigne();
+                    AjoutLigne.menuAjoutLigne(plan);
                     break;
                 case 4:
                     AjoutIncident.menuAjoutIncident(plan);

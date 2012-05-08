@@ -10,9 +10,10 @@ import java.util.Scanner;
  * @author Loïc Cimon
  */
 public class AjoutIncident {
-    private static Scanner sc = new Scanner(System.in);
+    private static Scanner sc;
 
     public static void menuAjoutIncident(Plan plan) {
+        sc = new Scanner(System.in);
         Incident inc;
 
         System.out.println("Est-ce que l'incident a lieu sur une station ? (O : oui/N : non) ");

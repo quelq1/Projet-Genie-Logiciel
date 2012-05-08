@@ -135,54 +135,6 @@ public class Plan {
         }
     }
 
-    //Ajout ligne
-    public void ajoutLigne() {
-
-        Scanner sc1 = new Scanner(System.in);
-
-        System.out.println("Entrez le nom de la ligne à creer:");
-        Ligne l = new Ligne(sc1.next());
-        if (lignes.contains(l)) {
-            System.out.println("la ligne existe déjà!!");
-        } else {
-            System.out.println("Entrer le nombre de stations à ajouter:");
-            int nbreStation = sc1.nextInt();
-            if (nbreStation >= 2) {
-                ArrayList<Station> ListStationTmp = new ArrayList();
-                while (nbreStation != 0) {
-                    System.out.println("Entrer le nom de la station:");
-                    String s = sc1.next();
-                    Station stationTmp = new Station(s);
-                    if (!ListStationTmp.contains(stationTmp)) {
-                        if (this.stations.contains(stationTmp)) {
-                            System.out.println("Station existante...");
-                        }
-
-                        ListStationTmp.add(stationTmp);
-                        nbreStation--;
-                    } else {
-                        System.out.println("Vous avez déja saisi cette station!");
-                    }
-
-                }
-
-
-                for (int i = 0; i <= ListStationTmp.size() - 2; i++) {
-
-                    System.out.println("Entrer le temps de parcours entre " + ListStationTmp.get(i) + "et " + ListStationTmp.get(i + 1) + ":");
-                    int tempsTmp = sc1.nextInt();
-                    Fragment f = new Fragment(ListStationTmp.get(i), ListStationTmp.get(i + 1), tempsTmp);
-                    l.addFragment(f);
-                }
-                lignes.add(l);
-                System.out.println("La ligne a été ajoutée!");
-            } else {
-                System.out.println("Il faut au moins deux stations pour creer la ligne!");
-            }
-
-        }
-    }
-
     //Stations
     public List<Station> getStations() {
         return stations;
